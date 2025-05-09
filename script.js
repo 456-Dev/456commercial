@@ -169,9 +169,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const frameMessage = document.getElementById('frame-message');
     
     if (interactiveGif && frameMessage) {
-        let hasInteracted = false;
+        let isPlaying = false;
+        let hasStoppedOnce = false;
         let frameCount = 12;
-        let startTime = Date.now();
+        let startTime;
         let frameDuration = 500;
         
         const frameMessages = {
@@ -189,65 +190,64 @@ document.addEventListener('DOMContentLoaded', () => {
             12: "Frame 12: [Twelfth frame finale - e.g., 'The cycle completes!']"
         };
 
-        // Create a copy of the GIF that we'll use to track frames
-        const trackingGif = new Image();
-        trackingGif.src = interactiveGif.src;
-        let frameStartTime;
+        // Store the original animated and static sources
+        const animatedSrc = interactiveGif.dataset.animatedSrc;
+        const staticSrc = interactiveGif.dataset.staticSrc;
 
-        trackingGif.onload = () => {
-            frameStartTime = Date.now();
-            startTracking();
-        };
-
-        function startTracking() {
-            // Reset the GIF to ensure proper frame tracking
-            interactiveGif.src = interactiveGif.src;
-            startTime = Date.now();
-        }
-
+        // Start with static image
+        interactiveGif.src = staticSrc;
+        
         // Make sure the cursor shows this is clickable
         interactiveGif.style.cursor = 'pointer';
+
+        // Update the initial blurb
+        const gifBlurb = document.querySelector('.gif-blurb');
+        if (gifBlurb) {
+            gifBlurb.textContent = "Click to start animation";
+        }
 
         // Handle both click and touch events
         ['click', 'touchend'].forEach(eventType => {
             interactiveGif.addEventListener(eventType, (e) => {
-                e.preventDefault(); // Prevent any default touch/click behavior
-                
-                if (!hasInteracted) {
-                    // Calculate current frame
+                e.preventDefault();
+
+                if (!isPlaying) {
+                    // First click - start playing
+                    interactiveGif.src = animatedSrc;
+                    startTime = Date.now();
+                    isPlaying = true;
+                    
+                    if (gifBlurb) {
+                        gifBlurb.textContent = "Click again to capture a frame";
+                    }
+                } else if (!hasStoppedOnce) {
+                    // Second click - stop and show message
                     const timeElapsed = Date.now() - startTime;
                     const currentFrame = Math.floor((timeElapsed % (frameCount * frameDuration)) / frameDuration) + 1;
 
-                    // Create a copy of the current frame
-                    const img = new Image();
-                    img.src = interactiveGif.src;
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        canvas.width = interactiveGif.width;
-                        canvas.height = interactiveGif.height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                        
-                        // Replace the animated GIF with the static frame
-                        interactiveGif.src = canvas.toDataURL('image/png');
-                        
-                        // Show the frame message
-                        frameMessage.textContent = frameMessages[currentFrame] || "You caught an interesting moment!";
-                        frameMessage.classList.add('visible');
-                        
-                        // Update the blurb
-                        const gifBlurb = document.querySelector('.gif-blurb');
-                        if (gifBlurb) {
-                            gifBlurb.textContent = `Frame ${currentFrame} captured!`;
-                        }
-                    };
+                    // Create static image of current frame
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = interactiveGif.width;
+                    canvas.height = interactiveGif.height;
+                    ctx.drawImage(interactiveGif, 0, 0);
+                    interactiveGif.src = canvas.toDataURL('image/png');
 
-                    hasInteracted = true;
+                    // Show the frame message
+                    frameMessage.textContent = frameMessages[currentFrame] || "You caught an interesting moment!";
+                    frameMessage.classList.add('visible');
+
+                    if (gifBlurb) {
+                        gifBlurb.textContent = `Frame ${currentFrame} captured!`;
+                    }
+
+                    isPlaying = false;
+                    hasStoppedOnce = true;
                 }
             });
         });
 
-        // Prevent default touch behavior on the GIF to ensure smooth interaction
+        // Prevent default touch behavior
         interactiveGif.addEventListener('touchstart', (e) => {
             e.preventDefault();
         }, { passive: false });
