@@ -1,0 +1,451 @@
+:root {
+    --bg-color: #FFFFFF; /* White background */
+    --text-color: #000000; /* Black text */
+    --font-main: 'Times New Roman', Times, serif;
+
+    /* Saturated Pixel Colors */
+    --pixel-red: #FF0000;
+    --pixel-green: #00FF00;
+    --pixel-blue: #0000FF;
+    --pixel-yellow: #FFFF00;
+    --pixel-magenta: #FF00FF;
+    --pixel-cyan: #00FFFF;
+    --pixel-black: #000000;
+    --pixel-grey: #808080;
+
+    --border-thickness: 2px;
+    --pixel-block-size: 4px; /* For decorative elements */
+}
+
+/* Basic Reset & Globals */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.7;
+    font-size: 16px; /* Base for mobile */
+    -webkit-font-smoothing: antialiased; /* Crisper text on WebKit */
+    -moz-osx-font-smoothing: grayscale; /* Crisper text on Firefox */
+    image-rendering: pixelated; /* Attempt to keep images/borders sharp globally, though direct CSS pixels are better */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-main);
+    color: var(--text-color);
+    margin-bottom: 0.6em;
+    line-height: 1.2;
+}
+
+h1.book-title {
+    font-size: 2rem; /* 32px */
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: bold; /* Times New Roman bold is distinct */
+}
+h2 {
+    font-size: 1.6rem; /* 25.6px */
+    text-align: center;
+    margin-bottom: 20px;
+    padding-top: 10px; /* Spacing from divider */
+}
+h3 { font-size: 1.25rem; /* 20px */ }
+h4 { font-size: 1.1rem; /* 17.6px */ }
+
+p {
+    margin-bottom: 1em;
+}
+.section-intro, .tagline {
+    text-align: center;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 25px;
+    font-size: 1.05em;
+}
+.tagline { margin-bottom: 20px; font-style: italic; }
+
+a {
+    color: var(--pixel-blue); /* Saturated blue for links */
+    text-decoration: none; /* Cleaner look for TNR */
+}
+a:hover {
+    text-decoration: underline; /* Standard hover for TNR */
+    color: var(--pixel-red);
+}
+
+/* Header */
+.site-header {
+    padding: 15px;
+    border-bottom: var(--border-thickness) solid var(--pixel-black);
+}
+.book-options-nav {
+    display: flex;
+    flex-direction: column; /* Stack on mobile */
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+.book-option {
+    font-size: 1em;
+    padding: 5px 10px;
+    border: var(--border-thickness) dashed var(--pixel-grey);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.pixel-accent {
+    width: calc(var(--pixel-block-size) * 2);
+    height: calc(var(--pixel-block-size) * 2);
+    display: inline-block;
+    flex-shrink: 0;
+}
+.pixel-accent.red { background-color: var(--pixel-red); }
+.pixel-accent.green { background-color: var(--pixel-green); }
+.pixel-accent.blue { background-color: var(--pixel-blue); }
+
+
+/* Pixel Dividers */
+hr.pixel-divider {
+    border: 0;
+    height: var(--pixel-block-size);
+    background-image: linear-gradient(to right, 
+        var(--pixel-black) 50%, 
+        var(--bg-color) 50%);
+    background-size: calc(var(--pixel-block-size) * 2) 100%;
+    margin: 30px 0;
+}
+hr.pixel-divider.thick {
+    height: calc(var(--pixel-block-size) * 2);
+    background-size: calc(var(--pixel-block-size) * 4) 100%;
+}
+
+
+/* Main Content Sections */
+main section {
+    padding: 20px 15px; /* Mobile padding */
+}
+
+/* Events Section */
+.event-list {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+.event-card {
+    border: var(--border-thickness) solid var(--pixel-black);
+    padding: 15px;
+    background-color: var(--bg-color);
+    position: relative; /* For pseudo-elements if needed for more pixel effects */
+}
+.event-card.sold-out {
+    border-color: var(--pixel-grey);
+    color: var(--pixel-grey);
+}
+.event-card.sold-out .event-name,
+.event-card.sold-out .btn {
+    color: var(--pixel-grey);
+}
+.event-card.sold-out .btn {
+    background-color: #e0e0e0;
+    border-color: var(--pixel-grey);
+    cursor: not-allowed;
+}
+
+
+.event-name { margin-bottom: 5px; }
+.event-details, .event-location { font-size: 0.95em; margin-bottom: 8px; }
+.event-location { color: #555; } /* Slightly less prominent */
+
+.slots-tracker {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+}
+.slots-bar-container {
+    height: calc(var(--pixel-block-size) * 2);
+    background-color: #e0e0e0; /* Light grey for empty part */
+    border: 1px solid var(--pixel-black);
+    margin-top: 5px;
+    overflow: hidden; /* Keep filled bar inside */
+}
+.slots-bar-filled {
+    height: 100%;
+    background-color: var(--pixel-green); /* Default green */
+    transition: width 0.5s ease-out;
+}
+.event-card.sold-out .slots-bar-filled { background-color: var(--pixel-red); }
+/* Add JS to change color based on percentage, e.g. to yellow then red */
+
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    font-family: var(--font-main);
+    font-size: 1em;
+    font-weight: bold;
+    padding: 10px 18px;
+    color: var(--bg-color);
+    background-color: var(--pixel-black);
+    border: var(--border-thickness) solid var(--pixel-black);
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.2s, color 0.2s, transform 0.1s;
+    /* For a more "pixel button" feel: */
+    box-shadow: 
+        var(--pixel-block-size) 0 0 0 var(--pixel-grey), /* right */
+        calc(var(--pixel-block-size) * -1) 0 0 0 var(--pixel-grey), /* left */
+        0 var(--pixel-block-size) 0 0 var(--pixel-grey), /* bottom */
+        0 calc(var(--pixel-block-size) * -1) 0 0 var(--pixel-grey); /* top */
+    /* This creates a sort of "inset" look */
+}
+
+.btn:hover:not(:disabled) {
+    background-color: var(--pixel-magenta);
+    color: var(--pixel-yellow);
+    border-color: var(--pixel-black);
+    transform: translate(-1px, -1px);
+    box-shadow: 
+        calc(var(--pixel-block-size) + 1px) 1px 0 0 var(--pixel-grey),
+        calc(var(--pixel-block-size) * -1 - 1px) -1px 0 0 var(--pixel-grey),
+        1px calc(var(--pixel-block-size) + 1px) 0 0 var(--pixel-grey),
+        -1px calc(var(--pixel-block-size) * -1 - 1px) 0 0 var(--pixel-grey);
+}
+.btn:active:not(:disabled) {
+    transform: translate(1px, 1px);
+    background-color: var(--pixel-yellow);
+    color: var(--pixel-magenta);
+     box-shadow: 
+        calc(var(--pixel-block-size) - 1px) -1px 0 0 var(--pixel-grey), 
+        calc(var(--pixel-block-size) * -1 + 1px) 1px 0 0 var(--pixel-grey),
+        -1px calc(var(--pixel-block-size) - 1px) 0 0 var(--pixel-grey),
+        1px calc(var(--pixel-block-size) * -1 + 1px) 0 0 var(--pixel-grey);
+}
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* How it Works Section */
+.steps-list {
+    list-style: none;
+    padding-left: 0;
+}
+.steps-list li {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start; /* Align icon with first line of text */
+    gap: 10px;
+}
+.steps-list li span { /* Number styling */
+    display: inline-block;
+    font-weight: bold;
+    border: var(--border-thickness) solid var(--pixel-black);
+    background-color: var(--pixel-yellow);
+    color: var(--pixel-black);
+    min-width: 28px; /* Ensure circle for numbers */
+    height: 28px;
+    line-height: calc(28px - var(--border-thickness) * 2);
+    text-align: center;
+    font-size: 0.9em;
+    flex-shrink: 0;
+    /* For pixel circle, this is tricky without SVG/canvas. Let's make it square */
+    /* border-radius: 50%; */
+}
+
+/* Book Deep Dive Section */
+.edition-details-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.edition-detail-card {
+    border: var(--border-thickness) dashed var(--pixel-grey);
+    padding: 15px;
+}
+.edition-detail-card h4 {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.price-tag {
+    font-size: 0.9em;
+    font-weight: bold;
+    background-color: var(--pixel-cyan);
+    color: var(--pixel-black);
+    padding: 2px 6px;
+    border: 1px solid var(--pixel-black);
+}
+
+/* Footer */
+.site-footer-bottom {
+    padding: 25px 15px;
+    text-align: center;
+    border-top: var(--border-thickness) solid var(--pixel-black);
+    font-size: 0.9em;
+    color: #444;
+}
+.contact-info { margin-bottom: 8px; }
+.footer-pixel-decoration {
+    margin-top: 15px;
+    word-spacing: var(--pixel-block-size); /* Creates space between blocks */
+    line-height: var(--pixel-block-size);
+}
+.footer-pixel-decoration span {
+    display: inline-block;
+    width: calc(var(--pixel-block-size) * 2);
+    height: calc(var(--pixel-block-size) * 2);
+    background-color: var(--pixel-black);
+    margin: 0 1px; /* Tiny space, word-spacing handles more */
+}
+.footer-pixel-decoration span:nth-child(odd) { background-color: var(--pixel-cyan); }
+.footer-pixel-decoration span:nth-child(3n) { background-color: var(--pixel-magenta); }
+
+/* Modal Styling */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black overlay */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s 0.3s linear;
+}
+.modal-overlay[aria-hidden="false"] {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0s 0s linear;
+}
+.modal-content {
+    background-color: var(--bg-color);
+    padding: 25px;
+    border: var(--border-thickness) solid var(--pixel-black);
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: var(--pixel-block-size) var(--pixel-block-size) 0 var(--pixel-red),
+                calc(var(--pixel-block-size) * 2) calc(var(--pixel-block-size) * 2) 0 var(--pixel-blue);
+}
+.modal-close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 2.5rem; /* Larger 'x' */
+    font-family: Arial, sans-serif; /* Ensure 'x' is clear */
+    color: var(--pixel-black);
+    cursor: pointer;
+    line-height: 1;
+}
+.modal-close-btn:hover {
+    color: var(--pixel-red);
+}
+#modal-event-name { margin-bottom: 20px; }
+
+/* Form Styling */
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    font-family: var(--font-main);
+    font-size: 1em;
+    border: var(--border-thickness) solid var(--pixel-black);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    /* Pixelated look for inputs */
+    appearance: none; /* Removes default styling */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+.form-group input:focus, .form-group select:focus {
+    outline: none;
+    border-color: var(--pixel-blue);
+    box-shadow: 0 0 0 var(--border-thickness) var(--pixel-blue); /* Pixelated focus ring */
+}
+.form-note {
+    font-size: 0.85em;
+    color: #555;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.modal-submit-btn {
+    width: 100%;
+}
+
+
+/* Desktop / Larger Screen Adjustments */
+@media (min-width: 600px) {
+    body { font-size: 17px; }
+    h1.book-title { font-size: 2.5rem; margin-top: 30px; }
+    h2 { font-size: 2rem; margin-bottom: 30px;}
+    
+    .book-options-nav {
+        flex-direction: row; /* Horizontal on larger screens */
+        justify-content: center;
+        gap: 20px;
+    }
+    .book-option { font-size: 1.05em;}
+
+    main section { padding: 40px 20px; }
+    
+    .event-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+    
+    .edition-details-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+    }
+
+    .modal-content { padding: 30px; }
+}
+
+@media (min-width: 900px) {
+    body { font-size: 18px; }
+    h1.book-title { font-size: 3rem; }
+    .site-header, main, .site-footer-bottom {
+        max-width: 960px; /* Max width for content on large screens */
+        margin-left: auto;
+        margin-right: auto;
+    }
+    /* For full-width borders/dividers on contained layout: */
+    .site-header { border-bottom: none; } /* Remove from inner */
+    body::before { /* Top border visual */
+        content: '';
+        display: block;
+        width: 100%;
+        height: var(--border-thickness);
+        background-color: var(--pixel-black);
+        position: sticky; /* If you want it to stick, or just fixed */
+        top: 0;
+        z-index: 50;
+    }
+     hr.pixel-divider { width: 100vw; position: relative; left: 50%; transform: translateX(-50%);}
+
+    /* Or simply let the contained version look fine */
+}
