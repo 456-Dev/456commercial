@@ -166,20 +166,91 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- NEW: Interactive GIF Logic ---
     const interactiveGif = document.getElementById('interactive-gif');
-    if (interactiveGif) {
-        let isAnimated = true; // Assuming it starts animated
-        const animatedSrc = interactiveGif.dataset.animatedSrc;
-        const staticSrc = interactiveGif.dataset.staticSrc;
+    const frameMessage = document.getElementById('frame-message');
+    
+    if (interactiveGif && frameMessage) {
+        let hasInteracted = false;
+        let frameCount = 12;
+        let startTime = Date.now();
+        let frameDuration = 500;
+        
+        const frameMessages = {
+            1: "Frame 1: [Describe what's happening in first frame - e.g., 'The journey begins...']",
+            2: "Frame 2: [Second frame context - e.g., 'A subtle shift appears...']",
+            3: "Frame 3: [Third frame description - e.g., 'The transformation continues...']",
+            4: "Frame 4: [Fourth frame moment - e.g., 'Colors start to blend...']",
+            5: "Frame 5: [Fifth frame observation - e.g., 'A new pattern emerges...']",
+            6: "Frame 6: [Sixth frame highlight - e.g., 'Halfway through the cycle...']",
+            7: "Frame 7: [Seventh frame detail - e.g., 'The rhythm builds...']",
+            8: "Frame 8: [Eighth frame feature - e.g., 'A dramatic shift...']",
+            9: "Frame 9: [Ninth frame element - e.g., 'The pieces align...']",
+            10: "Frame 10: [Tenth frame moment - e.g., 'Almost complete...']",
+            11: "Frame 11: [Eleventh frame detail - e.g., 'The final transition...']",
+            12: "Frame 12: [Twelfth frame finale - e.g., 'The cycle completes!']"
+        };
 
-        interactiveGif.addEventListener('click', () => {
-            if (isAnimated) {
-                interactiveGif.src = staticSrc;
-                isAnimated = false;
-            } else {
-                interactiveGif.src = animatedSrc; // To make it play again, a common trick is to re-assign the src
-                isAnimated = true;
-            }
+        // Create a copy of the GIF that we'll use to track frames
+        const trackingGif = new Image();
+        trackingGif.src = interactiveGif.src;
+        let frameStartTime;
+
+        trackingGif.onload = () => {
+            frameStartTime = Date.now();
+            startTracking();
+        };
+
+        function startTracking() {
+            // Reset the GIF to ensure proper frame tracking
+            interactiveGif.src = interactiveGif.src;
+            startTime = Date.now();
+        }
+
+        // Make sure the cursor shows this is clickable
+        interactiveGif.style.cursor = 'pointer';
+
+        // Handle both click and touch events
+        ['click', 'touchend'].forEach(eventType => {
+            interactiveGif.addEventListener(eventType, (e) => {
+                e.preventDefault(); // Prevent any default touch/click behavior
+                
+                if (!hasInteracted) {
+                    // Calculate current frame
+                    const timeElapsed = Date.now() - startTime;
+                    const currentFrame = Math.floor((timeElapsed % (frameCount * frameDuration)) / frameDuration) + 1;
+
+                    // Create a copy of the current frame
+                    const img = new Image();
+                    img.src = interactiveGif.src;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = interactiveGif.width;
+                        canvas.height = interactiveGif.height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        
+                        // Replace the animated GIF with the static frame
+                        interactiveGif.src = canvas.toDataURL('image/png');
+                        
+                        // Show the frame message
+                        frameMessage.textContent = frameMessages[currentFrame] || "You caught an interesting moment!";
+                        frameMessage.classList.add('visible');
+                        
+                        // Update the blurb
+                        const gifBlurb = document.querySelector('.gif-blurb');
+                        if (gifBlurb) {
+                            gifBlurb.textContent = `Frame ${currentFrame} captured!`;
+                        }
+                    };
+
+                    hasInteracted = true;
+                }
+            });
         });
+
+        // Prevent default touch behavior on the GIF to ensure smooth interaction
+        interactiveGif.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+        }, { passive: false });
     }
 
 });

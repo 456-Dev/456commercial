@@ -136,6 +136,7 @@ body {
     padding: 15px;
     border: var(--border-thickness) solid var(--pixel-black);
     background-color: #eaeaea;
+    position: relative; /* Added for frame message positioning */
 }
 #interactive-gif {
     max-width: 100%;
@@ -149,6 +150,21 @@ body {
     font-size: 0.9em;
     color: var(--pixel-black);
     font-weight: bold;
+}
+
+.frame-message {
+    margin-top: 10px;
+    font-size: 0.95em;
+    color: var(--pixel-red);
+    font-weight: bold;
+    text-align: center;
+    min-height: 3em;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.frame-message.visible {
+    opacity: 1;
 }
 
 @media (min-width: 600px) { /* Apply side-by-side for slightly larger screens */
