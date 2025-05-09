@@ -1,451 +1,320 @@
+/* Keep all existing styles from the previous version */
+/* ... (all of your previous CSS) ... */
+
+/* ADDED/MODIFIED STYLES BELOW */
+
 :root {
-    --bg-color: #FFFFFF; /* White background */
-    --text-color: #000000; /* Black text */
-    --font-main: 'Times New Roman', Times, serif;
-
-    /* Saturated Pixel Colors */
-    --pixel-red: #FF0000;
-    --pixel-green: #00FF00;
-    --pixel-blue: #0000FF;
-    --pixel-yellow: #FFFF00;
-    --pixel-magenta: #FF00FF;
-    --pixel-cyan: #00FFFF;
-    --pixel-black: #000000;
-    --pixel-grey: #808080;
-
-    --border-thickness: 2px;
-    --pixel-block-size: 4px; /* For decorative elements */
+    /* ... existing vars ... */
+    --header-image-max-height-desktop: 33vh;
 }
 
-/* Basic Reset & Globals */
-*, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+/* Header Banner Image */
+.site-banner {
+    width: 100%;
+    max-height: var(--header-image-max-height-desktop); /* Max height for web */
+    overflow: hidden; /* Ensure image doesn't break layout */
+    line-height: 0; /* Removes potential space below img */
+}
+#banner-image {
+    width: 100%;
+    height: 100%; /* Fill the container */
+    object-fit: cover; /* Cover area, might crop */
+    /* object-fit: contain; /* Fit within, might have letterboxing */
+    display: block;
+}
+@media (max-width: 599px) {
+    .site-banner {
+        max-height: none; /* No max-height on mobile, let aspect ratio dictate */
+        height: auto; /* Let image dictate height on mobile for its full aspect */
+    }
+    #banner-image {
+       height: auto; /* For mobile, if aspect ratio needs to be fully preserved */
+    }
 }
 
-body {
-    font-family: var(--font-main);
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    line-height: 1.7;
-    font-size: 16px; /* Base for mobile */
-    -webkit-font-smoothing: antialiased; /* Crisper text on WebKit */
-    -moz-osx-font-smoothing: grayscale; /* Crisper text on Firefox */
-    image-rendering: pixelated; /* Attempt to keep images/borders sharp globally, though direct CSS pixels are better */
+.main-content-wrapper { /* Added to contain main content, useful for centering later if needed */
+    padding: 0 15px; /* Basic side padding for content */
+}
+@media (min-width: 900px) { /* Centering on larger screens */
+    .main-content-wrapper {
+        max-width: 960px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    body::before { /* Remove the full-width top border if we're containing now */
+       display: none;
+    }
+     hr.pixel-divider { /* Ensure dividers are contained too if needed */
+        /* If previously 100vw, adjust or make .main-content-wrapper have its own top/bottom border */
+        /* Let's assume they stay contained now within the wrapper's width */
+        width: auto; position: static; transform: none; 
+    }
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-main);
-    color: var(--text-color);
-    margin-bottom: 0.6em;
-    line-height: 1.2;
-}
 
-h1.book-title {
-    font-size: 2rem; /* 32px */
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    font-weight: bold; /* Times New Roman bold is distinct */
+/* Book Intro Section */
+.intro-section {
+    padding-top: 25px;
+    text-align: center; /* Center title and tagline */
 }
-h2 {
-    font-size: 1.6rem; /* 25.6px */
-    text-align: center;
-    margin-bottom: 20px;
-    padding-top: 10px; /* Spacing from divider */
+.book-title-main { /* Main h1 */
+    font-size: 2.2rem; /* Adjust as needed */
+    margin-bottom: 8px;
 }
-h3 { font-size: 1.25rem; /* 20px */ }
-h4 { font-size: 1.1rem; /* 17.6px */ }
-
-p {
-    margin-bottom: 1em;
-}
-.section-intro, .tagline {
-    text-align: center;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+.tagline-main {
+    font-size: 1.1em;
     margin-bottom: 25px;
-    font-size: 1.05em;
-}
-.tagline { margin-bottom: 20px; font-style: italic; }
-
-a {
-    color: var(--pixel-blue); /* Saturated blue for links */
-    text-decoration: none; /* Cleaner look for TNR */
-}
-a:hover {
-    text-decoration: underline; /* Standard hover for TNR */
-    color: var(--pixel-red);
+    font-style: italic;
+    color: #333;
 }
 
-/* Header */
-.site-header {
-    padding: 15px;
-    border-bottom: var(--border-thickness) solid var(--pixel-black);
-}
-.book-options-nav {
+.description-photos-container {
     display: flex;
     flex-direction: column; /* Stack on mobile */
-    align-items: center;
+    gap: 30px;
+    text-align: left; /* Align text to left for readability */
+    margin-bottom: 30px;
+}
+.book-description {
+    flex: 2; /* Take more space if side-by-side */
+}
+.book-description p {
+    font-size: 1.05em;
+    line-height: 1.8;
+}
+
+.photo-sampler {
+    flex: 1; /* Take less space if side-by-side */
+    text-align: center; /* Center the "Sample Visuals" heading */
+}
+.photo-sampler h3 {
+    margin-bottom: 15px;
+    font-size: 1.3em;
+}
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Responsive grid for thumbs */
     gap: 10px;
-    margin-top: 15px;
 }
-.book-option {
-    font-size: 1em;
-    padding: 5px 10px;
-    border: var(--border-thickness) dashed var(--pixel-grey);
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.photo-item {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden; /* For pixel overlay effect */
+    border: var(--border-thickness) solid var(--pixel-black);
 }
-.pixel-accent {
-    width: calc(var(--pixel-block-size) * 2);
-    height: calc(var(--pixel-block-size) * 2);
-    display: inline-block;
-    flex-shrink: 0;
+.photo-thumb {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
 }
-.pixel-accent.red { background-color: var(--pixel-red); }
-.pixel-accent.green { background-color: var(--pixel-green); }
-.pixel-accent.blue { background-color: var(--pixel-blue); }
-
-
-/* Pixel Dividers */
-hr.pixel-divider {
-    border: 0;
-    height: var(--pixel-block-size);
-    background-image: linear-gradient(to right, 
-        var(--pixel-black) 50%, 
-        var(--bg-color) 50%);
-    background-size: calc(var(--pixel-block-size) * 2) 100%;
-    margin: 30px 0;
-}
-hr.pixel-divider.thick {
-    height: calc(var(--pixel-block-size) * 2);
-    background-size: calc(var(--pixel-block-size) * 4) 100%;
+.photo-item:hover .photo-thumb {
+    transform: scale(1.1);
 }
 
+/* Unique Photo Reveal - Pixel Overlay (Simple Version) */
+.photo-item .pixel-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* Start somewhat transparent */
+    /* For a more pixelated start, you could use a low-res version of the image as background with image-rendering: pixelated;
+       Or use JS to draw actual pixels. This is a simpler CSS opacity hover. */
+    backdrop-filter: blur(3px) contrast(1.5); /* Example for a distorted start */
+    opacity: 1;
+    transition: opacity 0.4s ease, backdrop-filter 0.4s ease;
+    pointer-events: none; /* Allows clicks to go to parent */
+}
+.photo-item:hover .pixel-overlay {
+    opacity: 0;
+    backdrop-filter: blur(0px) contrast(1);
+}
+/* Or for a checkerboard pixel effect on hover out (more complex) */
+/* .photo-item .pixel-overlay::before { 
+    content: '';
+    position: absolute;
+    width: 100%; height: 100%;
+    background-image: linear-gradient(45deg, #808080 25%, transparent 25%), 
+                      linear-gradient(-45deg, #808080 25%, transparent 25%),
+                      linear-gradient(45deg, transparent 75%, #808080 75%),
+                      linear-gradient(-45deg, transparent 75%, #808080 75%);
+    background-size: var(--pixel-block-size) var(--pixel-block-size);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.photo-item:not(:hover) .pixel-overlay::before { opacity: 0.5; } */
 
-/* Main Content Sections */
-main section {
-    padding: 20px 15px; /* Mobile padding */
+@media (min-width: 768px) {
+    .intro-section { text-align: left; } /* Only h1/tagline center on desktop */
+     .book-title-main, .tagline-main { text-align: center; }
+
+    .description-photos-container {
+        flex-direction: row; /* Side-by-side on larger screens */
+        align-items: flex-start;
+    }
+    .photo-sampler {
+        max-width: 300px; /* Limit width of photo section */
+        text-align: left;
+    }
+     .photo-sampler h3 { text-align: left;}
 }
 
-/* Events Section */
-.event-list {
-    display: flex;
-    flex-direction: column;
+
+/* Editions Selection Section */
+.editions-selection-section h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.editions-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Stack on mobile */
     gap: 25px;
 }
-.event-card {
+.edition-card {
     border: var(--border-thickness) solid var(--pixel-black);
-    padding: 15px;
-    background-color: var(--bg-color);
-    position: relative; /* For pseudo-elements if needed for more pixel effects */
+    padding: 20px;
+    text-align: center; /* Center card content initially */
 }
-.event-card.sold-out {
-    border-color: var(--pixel-grey);
-    color: var(--pixel-grey);
+.edition-name { font-size: 1.5em; margin-bottom: 5px;}
+.edition-price {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: var(--pixel-green); /* Or specific colors per edition */
+    margin-bottom: 10px;
 }
-.event-card.sold-out .event-name,
-.event-card.sold-out .btn {
-    color: var(--pixel-grey);
-}
-.event-card.sold-out .btn {
-    background-color: #e0e0e0;
-    border-color: var(--pixel-grey);
-    cursor: not-allowed;
-}
+.digital .edition-price { color: var(--pixel-cyan); }
+.deluxe .edition-price { color: var(--pixel-magenta); }
 
-
-.event-name { margin-bottom: 5px; }
-.event-details, .event-location { font-size: 0.95em; margin-bottom: 8px; }
-.event-location { color: #555; } /* Slightly less prominent */
-
-.slots-tracker {
-    margin-top: 10px;
-    margin-bottom: 15px;
-    font-size: 0.9em;
-}
-.slots-bar-container {
-    height: calc(var(--pixel-block-size) * 2);
-    background-color: #e0e0e0; /* Light grey for empty part */
-    border: 1px solid var(--pixel-black);
-    margin-top: 5px;
-    overflow: hidden; /* Keep filled bar inside */
-}
-.slots-bar-filled {
-    height: 100%;
-    background-color: var(--pixel-green); /* Default green */
-    transition: width 0.5s ease-out;
-}
-.event-card.sold-out .slots-bar-filled { background-color: var(--pixel-red); }
-/* Add JS to change color based on percentage, e.g. to yellow then red */
-
-
-/* Buttons */
-.btn {
-    display: inline-block;
-    font-family: var(--font-main);
+.edition-short-desc {
     font-size: 1em;
-    font-weight: bold;
-    padding: 10px 18px;
-    color: var(--bg-color);
-    background-color: var(--pixel-black);
-    border: var(--border-thickness) solid var(--pixel-black);
-    cursor: pointer;
-    text-align: center;
-    transition: background-color 0.2s, color 0.2s, transform 0.1s;
-    /* For a more "pixel button" feel: */
-    box-shadow: 
-        var(--pixel-block-size) 0 0 0 var(--pixel-grey), /* right */
-        calc(var(--pixel-block-size) * -1) 0 0 0 var(--pixel-grey), /* left */
-        0 var(--pixel-block-size) 0 0 var(--pixel-grey), /* bottom */
-        0 calc(var(--pixel-block-size) * -1) 0 0 var(--pixel-grey); /* top */
-    /* This creates a sort of "inset" look */
-}
-
-.btn:hover:not(:disabled) {
-    background-color: var(--pixel-magenta);
-    color: var(--pixel-yellow);
-    border-color: var(--pixel-black);
-    transform: translate(-1px, -1px);
-    box-shadow: 
-        calc(var(--pixel-block-size) + 1px) 1px 0 0 var(--pixel-grey),
-        calc(var(--pixel-block-size) * -1 - 1px) -1px 0 0 var(--pixel-grey),
-        1px calc(var(--pixel-block-size) + 1px) 0 0 var(--pixel-grey),
-        -1px calc(var(--pixel-block-size) * -1 - 1px) 0 0 var(--pixel-grey);
-}
-.btn:active:not(:disabled) {
-    transform: translate(1px, 1px);
-    background-color: var(--pixel-yellow);
-    color: var(--pixel-magenta);
-     box-shadow: 
-        calc(var(--pixel-block-size) - 1px) -1px 0 0 var(--pixel-grey), 
-        calc(var(--pixel-block-size) * -1 + 1px) 1px 0 0 var(--pixel-grey),
-        -1px calc(var(--pixel-block-size) - 1px) 0 0 var(--pixel-grey),
-        1px calc(var(--pixel-block-size) * -1 + 1px) 0 0 var(--pixel-grey);
-}
-.btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-/* How it Works Section */
-.steps-list {
-    list-style: none;
-    padding-left: 0;
-}
-.steps-list li {
+    color: #333;
     margin-bottom: 15px;
-    display: flex;
-    align-items: flex-start; /* Align icon with first line of text */
-    gap: 10px;
-}
-.steps-list li span { /* Number styling */
-    display: inline-block;
-    font-weight: bold;
-    border: var(--border-thickness) solid var(--pixel-black);
-    background-color: var(--pixel-yellow);
-    color: var(--pixel-black);
-    min-width: 28px; /* Ensure circle for numbers */
-    height: 28px;
-    line-height: calc(28px - var(--border-thickness) * 2);
-    text-align: center;
-    font-size: 0.9em;
-    flex-shrink: 0;
-    /* For pixel circle, this is tricky without SVG/canvas. Let's make it square */
-    /* border-radius: 50%; */
+    min-height: 40px; /* Ensure some space even for short desc */
 }
 
-/* Book Deep Dive Section */
-.edition-details-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.edition-details-dropdown {
+    margin-bottom: 20px;
+    border: 1px dashed var(--pixel-grey);
+    text-align: left; /* Details are better left-aligned */
 }
-.edition-detail-card {
-    border: var(--border-thickness) dashed var(--pixel-grey);
-    padding: 15px;
-}
-.edition-detail-card h4 {
+.edition-details-dropdown summary {
+    font-weight: bold;
+    padding: 8px 12px;
+    cursor: pointer;
+    background-color: #f0f0f0; /* Light background for summary */
+    color: var(--pixel-black);
+    list-style: none; /* Remove default marker if any */
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
 }
-.price-tag {
-    font-size: 0.9em;
-    font-weight: bold;
+.edition-details-dropdown summary::-webkit-details-marker { display: none; } /* Chrome/Safari marker */
+.edition-details-dropdown summary .arrow {
+    display: inline-block;
+    transition: transform 0.2s ease-in-out;
+}
+.edition-details-dropdown[open] summary .arrow {
+    transform: rotate(180deg);
+}
+.edition-details-dropdown .details-content {
+    padding: 15px;
+    font-size: 0.95em;
+    line-height: 1.7;
+    border-top: 1px dashed var(--pixel-grey);
+}
+.edition-details-dropdown .details-content p {
+    margin-bottom: 10px;
+}
+.edition-details-dropdown .details-content strong {
+    color: var(--pixel-red); /* Or another accent */
+}
+
+.action-btn {
+    width: 100%; /* Make buttons full width within card */
+    margin-top: auto; /* Pushes button to bottom if card heights vary */
+}
+.buy-digital-btn { /* Slightly different style for digital */
+    background-color: var(--pixel-blue);
+}
+.buy-digital-btn:hover {
     background-color: var(--pixel-cyan);
     color: var(--pixel-black);
-    padding: 2px 6px;
-    border: 1px solid var(--pixel-black);
 }
 
-/* Footer */
-.site-footer-bottom {
-    padding: 25px 15px;
-    text-align: center;
-    border-top: var(--border-thickness) solid var(--pixel-black);
-    font-size: 0.9em;
-    color: #444;
-}
-.contact-info { margin-bottom: 8px; }
-.footer-pixel-decoration {
-    margin-top: 15px;
-    word-spacing: var(--pixel-block-size); /* Creates space between blocks */
-    line-height: var(--pixel-block-size);
-}
-.footer-pixel-decoration span {
-    display: inline-block;
-    width: calc(var(--pixel-block-size) * 2);
-    height: calc(var(--pixel-block-size) * 2);
-    background-color: var(--pixel-black);
-    margin: 0 1px; /* Tiny space, word-spacing handles more */
-}
-.footer-pixel-decoration span:nth-child(odd) { background-color: var(--pixel-cyan); }
-.footer-pixel-decoration span:nth-child(3n) { background-color: var(--pixel-magenta); }
 
-/* Modal Styling */
-.modal-overlay {
+@media (min-width: 768px) {
+    .editions-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns on desktop */
+        gap: 30px;
+    }
+    .edition-card {
+        display: flex;
+        flex-direction: column; /* Align items vertically within card */
+    }
+}
+
+/* Lightbox Styling (Similar to Booking Modal) */
+.lightbox-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black overlay */
+    background-color: rgba(0, 0, 0, 0.85); /* Darker for photos */
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: 1001; /* Higher than booking modal if both could be open */
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0s 0.3s linear;
 }
-.modal-overlay[aria-hidden="false"] {
+.lightbox-overlay[aria-hidden="false"] {
     opacity: 1;
     visibility: visible;
     transition: opacity 0.3s ease, visibility 0s 0s linear;
 }
-.modal-content {
+.lightbox-content {
     background-color: var(--bg-color);
-    padding: 25px;
+    padding: 10px; /* Minimal padding around image */
     border: var(--border-thickness) solid var(--pixel-black);
-    width: 90%;
-    max-width: 500px;
+    max-width: 90vw; /* Responsive max width */
+    max-height: 90vh; /* Responsive max height */
     position: relative;
-    box-shadow: var(--pixel-block-size) var(--pixel-block-size) 0 var(--pixel-red),
-                calc(var(--pixel-block-size) * 2) calc(var(--pixel-block-size) * 2) 0 var(--pixel-blue);
+    box-shadow: var(--pixel-block-size) var(--pixel-block-size) 0 var(--pixel-red);
 }
-.modal-close-btn {
+.lightbox-close-btn {
     position: absolute;
-    top: 5px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 2.5rem; /* Larger 'x' */
-    font-family: Arial, sans-serif; /* Ensure 'x' is clear */
-    color: var(--pixel-black);
-    cursor: pointer;
-    line-height: 1;
-}
-.modal-close-btn:hover {
-    color: var(--pixel-red);
-}
-#modal-event-name { margin-bottom: 20px; }
-
-/* Form Styling */
-.form-group {
-    margin-bottom: 15px;
-}
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="tel"],
-.form-group select {
-    width: 100%;
-    padding: 10px;
-    font-family: var(--font-main);
-    font-size: 1em;
+    top: -15px; /* Position outside image box for clarity */
+    right: -15px;
+    background: var(--pixel-red);
     border: var(--border-thickness) solid var(--pixel-black);
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    /* Pixelated look for inputs */
-    appearance: none; /* Removes default styling */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-}
-.form-group input:focus, .form-group select:focus {
-    outline: none;
-    border-color: var(--pixel-blue);
-    box-shadow: 0 0 0 var(--border-thickness) var(--pixel-blue); /* Pixelated focus ring */
-}
-.form-note {
-    font-size: 0.85em;
-    color: #555;
-    margin-bottom: 20px;
+    color: var(--bg-color);
+    width: 30px;
+    height: 30px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 26px; /* Adjust for border */
     text-align: center;
+    padding: 0; /* Remove default button padding */
 }
-.modal-submit-btn {
-    width: 100%;
-}
-
-
-/* Desktop / Larger Screen Adjustments */
-@media (min-width: 600px) {
-    body { font-size: 17px; }
-    h1.book-title { font-size: 2.5rem; margin-top: 30px; }
-    h2 { font-size: 2rem; margin-bottom: 30px;}
-    
-    .book-options-nav {
-        flex-direction: row; /* Horizontal on larger screens */
-        justify-content: center;
-        gap: 20px;
-    }
-    .book-option { font-size: 1.05em;}
-
-    main section { padding: 40px 20px; }
-    
-    .event-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 30px;
-    }
-    
-    .edition-details-grid {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 25px;
-    }
-
-    .modal-content { padding: 30px; }
+.lightbox-close-btn:hover { background-color: var(--pixel-magenta); }
+#lightbox-image {
+    display: block;
+    max-width: 100%;
+    max-height: calc(90vh - 20px - (2 * var(--border-thickness))); /* Adjust for padding/border */
+    object-fit: contain;
 }
 
-@media (min-width: 900px) {
-    body { font-size: 18px; }
-    h1.book-title { font-size: 3rem; }
-    .site-header, main, .site-footer-bottom {
-        max-width: 960px; /* Max width for content on large screens */
-        margin-left: auto;
-        margin-right: auto;
-    }
-    /* For full-width borders/dividers on contained layout: */
-    .site-header { border-bottom: none; } /* Remove from inner */
-    body::before { /* Top border visual */
-        content: '';
-        display: block;
-        width: 100%;
-        height: var(--border-thickness);
-        background-color: var(--pixel-black);
-        position: sticky; /* If you want it to stick, or just fixed */
-        top: 0;
-        z-index: 50;
-    }
-     hr.pixel-divider { width: 100vw; position: relative; left: 50%; transform: translateX(-50%);}
+/* Make sure #events section has a distinct top margin or padding */
+#events {
+    padding-top: 40px; /* Or use margin-top */
+}
 
-    /* Or simply let the contained version look fine */
+/* Update book choice in modal if different editions trigger it */
+/* This part depends on your final logic. The current modal assumes Standard/Deluxe only */
+#booking-modal #book-choice option[value="Digital - $5"] {
+    /* display: none; /* If digital doesn't use this modal */
 }

@@ -3,37 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Book Title - NYC Pop-Ups</title>
+    <title>Your Book Title - Editions & NYC Pop-Ups</title>
     <link rel="stylesheet" href="style.css">
-    <!-- No external font needed if relying on system's Times New Roman -->
 </head>
 <body>
 
-    <header class="site-header">
-        <h1 class="book-title">YOUR INCREDIBLE BOOK TITLE</h1>
-        <p class="tagline">Limited Editions. Exclusive NYC Pop-Up Events.</p>
-        
-        <nav class="book-options-nav">
-            <div class="book-option" data-price="5">
-                <span class="pixel-accent red"></span>Digital Edition - $5
-            </div>
-            <div class="book-option" data-price="20">
-                <span class="pixel-accent green"></span>Standard Edition - $20
-            </div>
-            <div class="book-option" data-price="50">
-                <span class="pixel-accent blue"></span>Deluxe Edition - $50
-            </div>
-        </nav>
-        <hr class="pixel-divider">
+    <header class="site-banner">
+        <img src="https://via.placeholder.com/1200x400/CCCCCC/000000?text=Your+Book+Banner+Image" alt="Banner image for the book" id="banner-image">
     </header>
 
-    <main>
-        <section id="events" class="events-section">
-            <h2>Reserve Your Copy & Pickup Slot</h2>
-            <p class="section-intro">Select an upcoming event below to book your slot. Only 25 slots per event!</p>
+    <div class="main-content-wrapper">
+        <section id="book-intro" class="intro-section">
+            <h1 class="book-title-main">YOUR INCREDIBLE BOOK TITLE</h1>
+            <p class="tagline-main">Limited Editions. Exclusive NYC Pop-Up Events.</p>
+            
+            <div class="description-photos-container">
+                <div class="book-description">
+                    <p>This is a captivating journey into [briefly describe your book's theme or world in 1-2 sentences]. Explore unforgettable characters and a plot that will keep you on the edge of your seat. Discover the meticulously crafted world and the secrets it holds. This book is more than a story; it's an experience waiting to unfold. [Add one more intriguing sentence].</p>
+                </div>
+                <div class="photo-sampler">
+                    <h3>Sample Visuals</h3>
+                    <div class="photo-grid">
+                        <div class="photo-item" data-full="https://via.placeholder.com/800x600/FF0000/FFFFFF?text=Sample+Image+1">
+                            <img src="https://via.placeholder.com/150x100/FF0000/FFFFFF?text=Thumb+1" alt="Sample book visual 1" class="photo-thumb">
+                            <div class="pixel-overlay"></div>
+                        </div>
+                        <div class="photo-item" data-full="https://via.placeholder.com/800x600/00FF00/000000?text=Sample+Image+2">
+                            <img src="https://via.placeholder.com/150x100/00FF00/000000?text=Thumb+2" alt="Sample book visual 2" class="photo-thumb">
+                             <div class="pixel-overlay"></div>
+                        </div>
+                        <div class="photo-item" data-full="https://via.placeholder.com/800x600/0000FF/FFFFFF?text=Sample+Image+3">
+                             <img src="https://via.placeholder.com/150x100/0000FF/FFFFFF?text=Thumb+3" alt="Sample book visual 3" class="photo-thumb">
+                             <div class="pixel-overlay"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <hr class="pixel-divider">
+        </section>
 
+        <section id="editions" class="editions-selection-section">
+            <h2>Choose Your Edition</h2>
+            <div class="editions-grid">
+                <!-- Digital Edition -->
+                <article class="edition-card digital">
+                    <h3 class="edition-name">Digital Edition</h3>
+                    <p class="edition-price">$5</p>
+                    <p class="edition-short-desc">The complete story, instantly readable on any device.</p>
+                    <details class="edition-details-dropdown">
+                        <summary>More Info <span class="arrow">▼</span></summary>
+                        <div class="details-content">
+                            <p>Get the full, unabridged book as a high-quality PDF and EPUB file. Perfect for your e-reader, tablet, phone, or computer. Accessible anywhere, anytime after purchase.</p>
+                            <p><strong>Includes:</strong> PDF, EPUB formats.</p>
+                        </div>
+                    </details>
+                    <a href="#digital-payment-link" class="btn action-btn buy-digital-btn" target="_blank" rel="noopener noreferrer">Buy Digital Copy</a>
+                </article>
+
+                <!-- Standard Edition -->
+                <article class="edition-card standard">
+                    <h3 class="edition-name">Standard Edition</h3>
+                    <p class="edition-price">$20</p>
+                    <p class="edition-short-desc">A beautifully printed paperback for your collection.</p>
+                    <details class="edition-details-dropdown">
+                        <summary>More Info <span class="arrow">▼</span></summary>
+                        <div class="details-content">
+                            <p>Hold the story in your hands. This edition features a high-quality print, a durable matte cover with [mention cover artist if applicable], and professionally typeset pages for an optimal reading experience. Pickup at an NYC event.</p>
+                            <p><strong>Features:</strong> Quality paperback, [e.g., specific paper type], collectible cover.</p>
+                        </div>
+                    </details>
+                    <a href="#events" class="btn action-btn reserve-physical-btn">Reserve for Event Pickup</a>
+                </article>
+
+                <!-- Deluxe Edition -->
+                <article class="edition-card deluxe">
+                    <h3 class="edition-name">Deluxe Edition</h3>
+                    <p class="edition-price">$50</p>
+                    <p class="edition-short-desc">The ultimate signed collector's item, limited run.</p>
+                    <details class="edition-details-dropdown">
+                        <summary>More Info <span class="arrow">▼</span></summary>
+                        <div class="details-content">
+                            <p>The premium experience for true fans. This limited hardcover edition is hand-signed by the author and includes exclusive bonus content such as [mention 1-2 concrete deluxe features: e.g., 'author commentary notes', 'a bonus short story', 'original concept art print']. Pickup at an NYC event.</p>
+                            <p><strong>Exclusive:</strong> Signed, Hardcover, [Bonus Feature 1], [Bonus Feature 2]. Very limited quantities.</p>
+                        </div>
+                    </details>
+                    <a href="#events" class="btn action-btn reserve-physical-btn">Reserve for Event Pickup</a>
+                </article>
+            </div>
+        </section>
+
+        <hr class="pixel-divider thick">
+
+        <section id="events" class="events-section">
+            <h2>Upcoming NYC Pickup Events</h2>
+            <p class="section-intro">Select an upcoming event below to book your pickup slot for Standard or Deluxe editions. Only 25 slots per event!</p>
             <div class="event-list">
-                <!-- Event 1 -->
+                <!-- Event cards like before, e.g. -->
                 <article class="event-card" data-event-name="Union Square Park Pop-Up" data-event-slots-total="25" data-event-slots-booked="5">
                     <h3 class="event-name">Union Square Park Pop-Up</h3>
                     <p class="event-details">Sat, November 9th, 2024 | 11:00 AM - 3:00 PM</p>
@@ -41,75 +106,28 @@
                     <div class="slots-tracker">
                         Slots Remaining: <span class="slots-available">20</span>/25
                         <div class="slots-bar-container">
-                            <div class="slots-bar-filled" style="width: 20%;"></div> {/* (5/25)*100 = 20% booked */}
+                            <div class="slots-bar-filled" style="width: 20%;"></div>
                         </div>
                     </div>
-                    <button class="btn book-slot-btn">Book a Slot</button>
+                    <button class="btn book-slot-btn">Book Pickup Slot</button>
                 </article>
-
-                <!-- Event 2 -->
-                <article class="event-card" data-event-name="Williamsburg Flea Market Table" data-event-slots-total="25" data-event-slots-booked="18">
-                    <h3 class="event-name">Williamsburg Flea Appearance</h3>
-                    <p class="event-details">Sun, November 17th, 2024 | 1:00 PM - 5:00 PM</p>
-                    <p class="event-location">Specific table number TBA via confirmation email.</p>
-                     <div class="slots-tracker">
-                        Slots Remaining: <span class="slots-available">7</span>/25
-                        <div class="slots-bar-container">
-                            <div class="slots-bar-filled" style="width: 72%;"></div> {/* (18/25)*100 = 72% booked */}
-                        </div>
-                    </div>
-                    <button class="btn book-slot-btn">Book a Slot</button>
-                </article>
-
-                 <!-- Event 3 (Example: Sold Out) -->
-                 <article class="event-card sold-out" data-event-name="Previous Event - Sold Out" data-event-slots-total="25" data-event-slots-booked="25">
-                    <h3 class="event-name">Midtown Comics Fest (SOLD OUT)</h3>
-                    <p class="event-details">Sat, October 26th, 2024 | 10:00 AM - 2:00 PM</p>
-                    <p class="event-location">Thanks for your interest!</p>
-                     <div class="slots-tracker">
-                        Slots Remaining: <span class="slots-available">0</span>/25
-                        <div class="slots-bar-container">
-                            <div class="slots-bar-filled" style="width: 100%;"></div>
-                        </div>
-                    </div>
-                    <button class="btn book-slot-btn" disabled>Sold Out</button>
-                </article>
+                 <!-- Add more event cards here -->
             </div>
         </section>
 
-        <hr class="pixel-divider thick">
-
-        <section id="how-it-works" class="how-it-works-section">
-            <h2>How It Works</h2>
+        <hr class="pixel-divider">
+         <section id="how-it-works" class="how-it-works-section">
+            <h2>How Event Pickup Works</h2>
             <ol class="steps-list">
-                <li><span>1</span>Browse upcoming pop-up events and choose one.</li>
-                <li><span>2</span>Click "Book a Slot" & fill in your details (email is key!).</li>
-                <li><span>3</span>Select which edition of the book you'd like to reserve.</li>
-                <li><span>4</span>Receive an email confirmation for your slot.</li>
-                <li><span>5</span>Meet us at the event, pay (Cash/Venmo/etc.), and collect your book!</li>
+                <li><span>1</span>Choose Standard or Deluxe Edition & click "Reserve for Event Pickup".</li>
+                <li><span>2</span>You'll be scrolled to the "Upcoming Events" section.</li>
+                <li><span>3</span>Select an event and click "Book Pickup Slot".</li>
+                <li><span>4</span>Fill in your details (email is key!) in the popup form.</li>
+                <li><span>5</span>Receive an email confirmation for your slot.</li>
+                <li><span>6</span>Meet us at the event, pay (Cash/Venmo/etc.), and collect your reserved book!</li>
             </ol>
         </section>
-        
-        <hr class="pixel-divider">
-
-        <section id="book-deep-dive" class="book-deep-dive-section">
-            <h2>A Closer Look at the Editions</h2>
-            <div class="edition-details-grid">
-                <div class="edition-detail-card">
-                    <h4>Digital Edition <span class="price-tag">$5</span></h4>
-                    <p>The complete, engrossing story in a convenient digital format (PDF/EPUB). Perfect for reading on any device. Receive download link details at pickup.</p>
-                </div>
-                <div class="edition-detail-card">
-                    <h4>Standard Edition <span class="price-tag">$20</span></h4>
-                    <p>A beautifully printed paperback, designed to be a joy to hold and read. The classic book experience. Cover art by [Artist Name if any].</p>
-                </div>
-                <div class="edition-detail-card">
-                    <h4>Deluxe Edition <span class="price-tag">$50</span></h4>
-                    <p>The ultimate collector's piece. A signed hardcover edition with [mention 1-2 specific deluxe features, e.g., 'an exclusive short story', 'author-annotated chapter', 'behind-the-scenes concept art print']. Strictly limited print run.</p>
-                </div>
-            </div>
-        </section>
-    </main>
+    </div>
 
     <footer class="site-footer-bottom">
         <p class="contact-info">Questions? Email: <a href="mailto:your-email@example.com">your-email@example.com</a></p>
@@ -119,21 +137,18 @@
         </div>
     </footer>
 
-    <!-- Booking Modal -->
+    <!-- Booking Modal (Same as before) -->
     <div id="booking-modal" class="modal-overlay" aria-hidden="true">
         <div class="modal-content">
             <button class="modal-close-btn" aria-label="Close modal">×</button>
             <h3 id="modal-event-name">Book Slot for [Event Name]</h3>
             <form id="booking-form" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
-                 {/* Hidden field for event name */}
                 <input type="hidden" name="event_name" id="form-event-name-hidden" value="">
-                
                 <div class="form-group">
-                    <label for="book-choice">Which book edition?</label>
-                    <select id="book-choice" name="book_edition" required>
-                        <option value="Digital - $5">Digital Edition - $5</option>
-                        <option value="Standard - $20">Standard Edition - $20</option>
-                        <option value="Deluxe - $50">Deluxe Edition - $50</option>
+                    <label for="book-choice">Which book edition are you reserving?</label>
+                    <select id="book-choice" name="book_edition_reserved" required>
+                        <option value="Standard Edition - $20">Standard Edition - $20</option>
+                        <option value="Deluxe Edition - $50">Deluxe Edition - $50</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -148,9 +163,17 @@
                     <label for="instagram">Instagram (Optional, include @)</label>
                     <input type="text" id="instagram" name="instagram">
                 </div>
-                <p class="form-note">A confirmation will be sent to your email. Payment due at pickup.</p>
+                <p class="form-note">Confirmation sent to email. Payment due at pickup.</p>
                 <button type="submit" class="btn modal-submit-btn">Submit Reservation</button>
             </form>
+        </div>
+    </div>
+
+    <!-- Lightbox Modal for Photos -->
+    <div id="photo-lightbox" class="lightbox-overlay" aria-hidden="true">
+        <div class="lightbox-content">
+            <button class="lightbox-close-btn" aria-label="Close lightbox">×</button>
+            <img src="" alt="Enlarged sample visual" id="lightbox-image">
         </div>
     </div>
 

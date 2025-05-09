@@ -1,108 +1,92 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Dynamic Year for Footer ---
-    const currentYearSpan = document.getElementById('currentYear');
-    if (currentYearSpan) {
-        currentYearSpan.textContent = new Date().getFullYear();
-    }
+    // ... (existing: currentYear, bookingModal logic, slotsTracker) ...
 
-    // --- Modal Functionality ---
-    const modal = document.getElementById('booking-modal');
-    const modalEventNameDisplay = document.getElementById('modal-event-name');
-    const formEventNameHiddenInput = document.getElementById('form-event-name-hidden');
-    const bookSlotButtons = document.querySelectorAll('.book-slot-btn');
-    const closeModalButton = document.querySelector('.modal-close-btn');
+    // --- Smooth Scroll for "Reserve for Event Pickup" buttons ---
+    const reserveButtons = document.querySelectorAll('.reserve-physical-btn');
+    const eventsSection = document.getElementById('events');
 
-    bookSlotButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            if (button.disabled) return; // Don't open modal for sold out events
-
-            const eventCard = button.closest('.event-card');
-            const eventName = eventCard.dataset.eventName;
-            
-            modalEventNameDisplay.textContent = `Book Slot for: ${eventName}`;
-            if (formEventNameHiddenInput) { // Check if element exists
-                formEventNameHiddenInput.value = eventName;
-            }
-            
-            modal.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        });
-    });
-
-    function closeModal() {
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = ''; // Restore background scrolling
-    }
-
-    if(closeModalButton) closeModalButton.addEventListener('click', closeModal);
-
-    // Close modal if overlay is clicked
-    if (modal) {
-        modal.addEventListener('click', (event) => {
-            if (event.target === modal) { // Clicked on the overlay itself
-                closeModal();
+    reserveButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (eventsSection) {
+                eventsSection.scrollIntoView({
+                    behavior: 'smooth'
+                });
+                // Optional: Pre-select edition in modal based on which card was clicked
+                const card = button.closest('.edition-card');
+                const editionName = card.querySelector('.edition-name').textContent;
+                const price = card.querySelector('.edition-price').textContent;
+                const bookingModalSelect = document.getElementById('book-choice');
+                if (bookingModalSelect) {
+                   const optionToSelect = Array.from(bookingModalSelect.options).find(opt => opt.text.includes(editionName));
+                   if(optionToSelect) {
+                       optionToSelect.selected = true;
+                   } else { // If card text doesn't exactly match option text
+                        if (card.classList.contains('standard')) {
+                           bookingModalSelect.value = "Standard Edition - $20";
+                       } else if (card.classList.contains('deluxe')) {
+                           bookingModalSelect.value = "Deluxe Edition - $50";
+                       }
+                   }
+                }
             }
         });
-    }
-
-    // Close modal with Escape key
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') {
-            closeModal();
-        }
     });
     
-    // --- Formspree Thank You (Basic) ---
-    // If you want a custom thank you page/message, Formspree allows redirecting.
-    // This basic JS is just to clear the form after an assumed successful submission.
-    const bookingForm = document.getElementById('booking-form');
-    if (bookingForm) {
-        bookingForm.addEventListener('submit', function(e) {
-            // You might want to disable the submit button here to prevent multiple submissions
-            // e.target.querySelector('button[type="submit"]').disabled = true;
+    // --- Lightbox for Photo Sampler ---
+    const photoItems = document.querySelectorAll('.photo-item');
+    const lightbox = document.getElementById('photo-lightbox');
+    const lightboxImage = document.getElementById('lightbox-image');
+    const lightboxCloseBtn = document.querySelector('.lightbox-close-btn');
 
-            // After submission (Formspree handles the actual send)
-            // To give a visual cue - you could replace this with a redirect or more complex UI update.
-            setTimeout(() => {
-                // e.target.reset(); // Clears the form
-                // closeModal(); // Close modal
-                // alert("Thanks for your reservation! We'll email you confirmation."); // Basic alert
-                // Better to handle this on Formspree redirect if possible for UX.
-            }, 500); // Small delay
+    if (lightbox && lightboxImage && lightboxCloseBtn) { // Check if elements exist
+        photoItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const fullImageSrc = item.dataset.full;
+                if (fullImageSrc) {
+                    lightboxImage.src = fullImageSrc;
+                    lightbox.setAttribute('aria-hidden', 'false');
+                    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                }
+            });
+        });
+
+        function closeLightbox() {
+            lightbox.setAttribute('aria-hidden', 'true');
+            lightboxImage.src = ""; // Clear image src
+            document.body.style.overflow = '';
+        }
+
+        lightboxCloseBtn.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (event) => { // Close if overlay is clicked
+            if (event.target === lightbox) {
+                closeLightbox();
+            }
+        });
+         document.addEventListener('keydown', (event) => { // Close with Escape key
+            if (event.key === 'Escape' && lightbox.getAttribute('aria-hidden') === 'false') {
+                closeLightbox();
+            }
         });
     }
 
-    // --- Slots Tracker Update (Client-side visual update) ---
-    // This is just for VISUAL representation. Actual slot tracking is backend/manual.
-    document.querySelectorAll('.event-card').forEach(card => {
-        const totalSlots = parseInt(card.dataset.eventSlotsTotal, 10);
-        const bookedSlots = parseInt(card.dataset.eventSlotsBooked, 10);
-        const availableSlots = totalSlots - bookedSlots;
-        
-        const slotsAvailableDisplay = card.querySelector('.slots-available');
-        if (slotsAvailableDisplay) {
-            slotsAvailableDisplay.textContent = availableSlots;
-        }
 
-        const slotsBarFilled = card.querySelector('.slots-bar-filled');
-        if (slotsBarFilled && totalSlots > 0) {
-            const percentageBooked = (bookedSlots / totalSlots) * 100;
-            slotsBarFilled.style.width = `${percentageBooked}%`;
+    // --- <details> dropdown accessibility improvements (optional visual cues) ---
+    // The <details> element is natively accessible. This is just for styling the arrow.
+    // CSS handles the arrow rotation now. JS is not strictly needed for basic open/close arrow state.
 
-            if (availableSlots === 0) {
-                card.classList.add('sold-out');
-                slotsBarFilled.style.backgroundColor = 'var(--pixel-red)';
-                const button = card.querySelector('.book-slot-btn');
-                if(button) {
-                    button.disabled = true;
-                    button.textContent = 'Sold Out';
-                }
-            } else if (percentageBooked > 75) {
-                slotsBarFilled.style.backgroundColor = 'var(--pixel-yellow)';
-            } else {
-                slotsBarFilled.style.backgroundColor = 'var(--pixel-green)';
-            }
-        }
-    });
-
+    // --- Digital Purchase Link ---
+    // Placeholder for #digital-payment-link
+    // Ensure any link with `target="_blank"` has `rel="noopener noreferrer"` for security.
+    const digitalBuyButton = document.querySelector('.buy-digital-btn');
+    if (digitalBuyButton && digitalBuyButton.getAttribute('href') === '#digital-payment-link') {
+        console.warn("Digital payment link is a placeholder. Please update with your actual payment gateway URL.");
+        // You could even prevent default and show a message if it's not configured:
+        // digitalBuyButton.addEventListener('click', (e) => {
+        // if (digitalBuyButton.getAttribute('href') === '#digital-payment-link') {
+        // e.preventDefault();
+        // alert("Digital payment coming soon!");
+        // }
+        // });
+    }
 });
