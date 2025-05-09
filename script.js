@@ -175,6 +175,22 @@ document.addEventListener('DOMContentLoaded', () => {
         let startTime;
         let frameDuration = 500;
         
+        // Frame image URLs - update these with your GitHub frame image URLs
+        const frameImages = {
+            1: "https://github.com/456-Dev/456commercial/blob/main/frame1.png?raw=true",
+            2: "https://github.com/456-Dev/456commercial/blob/main/frame2.png?raw=true",
+            3: "https://github.com/456-Dev/456commercial/blob/main/frame3.png?raw=true",
+            4: "https://github.com/456-Dev/456commercial/blob/main/frame4.png?raw=true",
+            5: "https://github.com/456-Dev/456commercial/blob/main/frame5.png?raw=true",
+            6: "https://github.com/456-Dev/456commercial/blob/main/frame6.png?raw=true",
+            7: "https://github.com/456-Dev/456commercial/blob/main/frame7.png?raw=true",
+            8: "https://github.com/456-Dev/456commercial/blob/main/frame8.png?raw=true",
+            9: "https://github.com/456-Dev/456commercial/blob/main/frame9.png?raw=true",
+            10: "https://github.com/456-Dev/456commercial/blob/main/frame10.png?raw=true",
+            11: "https://github.com/456-Dev/456commercial/blob/main/frame11.png?raw=true",
+            12: "https://github.com/456-Dev/456commercial/blob/main/frame12.png?raw=true"
+        };
+        
         const frameMessages = {
             1: "Frame 1: [Describe what's happening in first frame - e.g., 'The journey begins...']",
             2: "Frame 2: [Second frame context - e.g., 'A subtle shift appears...']",
@@ -221,18 +237,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         gifBlurb.textContent = "Click again to capture a frame";
                     }
                 } else if (!hasStoppedOnce) {
-                    // Second click - stop and show message
+                    // Second click - stop and show specific frame
                     const timeElapsed = Date.now() - startTime;
                     const currentFrame = Math.floor((timeElapsed % (frameCount * frameDuration)) / frameDuration) + 1;
-
-                    // Create static image of current frame
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    canvas.width = interactiveGif.width;
-                    canvas.height = interactiveGif.height;
-                    ctx.drawImage(interactiveGif, 0, 0);
-                    interactiveGif.src = canvas.toDataURL('image/png');
-
+                    
+                    // Use the specific frame image instead of trying to capture from GIF
+                    interactiveGif.src = frameImages[currentFrame];
+                    
                     // Show the frame message
                     frameMessage.textContent = frameMessages[currentFrame] || "You caught an interesting moment!";
                     frameMessage.classList.add('visible');
