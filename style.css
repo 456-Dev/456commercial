@@ -52,13 +52,28 @@ body {
 } */
 
 /* Header Banner Image */
+.banner-wrapper {
+    width: 100%;
+    background-color: var(--bg-color);
+    border-bottom: var(--border-thickness) solid var(--pixel-black);
+}
+
 .site-banner {
     width: 100%;
     max-height: var(--header-image-max-height-desktop);
     overflow: hidden;
     line-height: 0;
-    border-bottom: var(--border-thickness) solid var(--pixel-black);
 }
+
+@media (min-width: 900px) {
+    .site-banner {
+        max-width: 960px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0 15px;
+    }
+}
+
 #banner-image {
     width: 100%;
     height: 100%;
@@ -110,10 +125,17 @@ body {
 
 .info-tiles-container {
     display: flex;
-    flex-direction: column; /* Stack on mobile by default */
+    flex-direction: row; /* Always horizontal */
     gap: 20px;
     text-align: left;
-    align-items: center; /* Center items when stacked */
+    align-items: stretch; /* Make tiles same height */
+    margin: 0 -15px; /* Compensate for padding on very small screens */
+    padding: 0 15px;
+}
+
+.text-tile, .gif-tile {
+    width: 50%; /* Equal width */
+    min-width: 0; /* Allow shrinking below content size */
 }
 
 .text-tile {
@@ -122,9 +144,11 @@ body {
     border: var(--border-thickness) dashed var(--pixel-grey);
     background-color: #f9f9f9;
 }
+
 .text-tile p {
     font-size: 0.95em;
     line-height: 1.7;
+    word-wrap: break-word; /* Ensure text wraps on small screens */
 }
 
 .gif-tile {
@@ -136,15 +160,17 @@ body {
     padding: 15px;
     border: var(--border-thickness) solid var(--pixel-black);
     background-color: #eaeaea;
-    position: relative; /* Added for frame message positioning */
+    position: relative;
 }
+
 #interactive-gif {
     max-width: 100%;
     height: auto;
     margin-bottom: 10px;
     cursor: pointer;
-    min-height: 150px; /* Ensure space even if image fails to load quickly */
+    min-height: 150px;
 }
+
 .gif-blurb {
     font-size: 0.9em;
     color: var(--pixel-black);
@@ -164,19 +190,6 @@ body {
 
 .frame-message.visible {
     opacity: 1;
-}
-
-@media (min-width: 600px) { /* Apply side-by-side for slightly larger screens */
-    .info-tiles-container {
-        flex-direction: row;
-        align-items: stretch; /* Make tiles same height */
-    }
-    .text-tile, .gif-tile {
-        width: 50%; /* Equal width */
-    }
-    .main-book-title {
-        font-size: 2.2rem;
-    }
 }
 
 /* Pixel Divider */
@@ -536,3 +549,19 @@ body {
 
 /* Helper classes (if needed) */
 .text-center { text-align: center; }
+
+/* Add some responsive adjustments for very small screens */
+@media (max-width: 400px) {
+    .info-tiles-container {
+        gap: 10px; /* Slightly smaller gap on very small screens */
+    }
+    
+    .text-tile p {
+        font-size: 0.9em; /* Slightly smaller text */
+        line-height: 1.6;
+    }
+    
+    .text-tile, .gif-tile {
+        padding: 10px; /* Slightly less padding */
+    }
+}
