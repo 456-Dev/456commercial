@@ -2,11 +2,12 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
     --pixel-black: #080808;
+    --pixel-dark: #393939;
     --pixel-white: #f0f0f0;
     --pixel-grey: #7a7a7a;
-    --pixel-red: #ff0000;
-    --pixel-green: #00ff00;
-    --pixel-blue: #0000FF;
+    --pixel-red: #ff4e4e;
+    --pixel-green: #37fb37;
+    --pixel-blue: #4747ff;
     --pixel-yellow: #f8b400;
     --pixel-cyan: #00bcf2;
     --pixel-magenta: #c30052;
@@ -107,7 +108,7 @@ body {
 
 /* NEW BOOK INTRO SECTION */
 .new-intro-section {
-    margin: 40px 0;
+    margin: 15px 0;
     text-align: center;
 }
 .main-book-title {
@@ -276,23 +277,23 @@ body {
 
 /* Animated Barbershop Pole Divider */
 .pixel-divider {
-    height: 20px;
-    margin: 20px 0; /* Reduced from 40px to 20px */
+    height: 10px;
+    margin: 10px 0; /* Reduced from 40px to 20px */
     border: none;
     width: 100%;
     background: repeating-linear-gradient(
         45deg,
         var(--pixel-red),
         var(--pixel-red) 10px,
-        var(--pixel-white) 10px,
-        var(--pixel-white) 20px,
+        var(--pixel-green) 10px,
+        var(--pixel-green) 20px,
         var(--pixel-blue) 20px,
         var(--pixel-blue) 30px,
         var(--pixel-white) 30px,
         var(--pixel-white) 40px
     );
     background-size: 200% 200%;
-    animation: barberpole 30s linear infinite;
+    animation: barberpole 800s linear infinite;
 }
 
 @keyframes barberpole {
@@ -315,7 +316,7 @@ body {
 
 /* Editions Selection Section */
 .editions-selection-section {
-    margin-bottom: 40px;
+    margin-bottom: 15px;
 }
 .editions-selection-section h2 {
     text-align: center;
@@ -351,14 +352,14 @@ body {
 }
 
 .edition-price {
-    font-size: 1.2em;
+    font-size: 1.4em;
     font-weight: bold;
     margin: 0;
 }
 
-.digital .edition-price { color: var(--pixel-cyan); }
-.standard .edition-price { color: var(--pixel-green); }
-.deluxe .edition-price { color: var(--pixel-magenta); }
+.digital .edition-price { background-color: var(--pixel-dark); color: var(--pixel-blue); }
+.standard .edition-price { background-color: var(--pixel-dark); color: var(--pixel-green); }
+.deluxe .edition-price { background-color: var(--pixel-dark); color: var(--pixel-red); }
 
 .edition-buttons {
     display: flex;
@@ -378,9 +379,9 @@ body {
 }
 
 /* Match button colors with price colors */
-.digital .action-btn { background-color: var(--pixel-cyan); color: var(--pixel-black); }
-.standard .action-btn { background-color: var(--pixel-green); color: var(--pixel-white); }
-.deluxe .action-btn { background-color: var(--pixel-magenta); color: var(--pixel-white); }
+.digital .action-btn { background-color: var(--pixel-blue); color: var(--pixel-black); }
+.standard .action-btn { background-color: var(--pixel-green); color: var(--pixel-black); }
+.deluxe .action-btn { background-color: var(--pixel-red); color: var(--pixel-black); }
 
 /* Make all info buttons white with black text */
 .info-btn { 
@@ -420,7 +421,7 @@ body {
 
 .edition-card.show-info .edition-name,
 .edition-card.show-info .edition-price {
-    position: relative;
+    position: sabs;
     z-index: 4; /* Above the ::after content */
     margin-top: 10px;
     text-align: center;
@@ -586,7 +587,7 @@ body {
 
 /* Events Section */
 .events-section {
-    margin: 40px 0;
+    margin: 10px 0;
 }
 #events {
     padding-top: 30px;
@@ -821,11 +822,137 @@ body {
 
 .bottom-banner-wrapper {
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
-@media (max-width: 599px) {
+@media (max-width: 1000px) {
     .bottom-banner-wrapper .banner-image {
-        max-height: 40vh;
+        max-height: 100vh;
     }
+}
+
+/* Digital Purchase Modal Styles */
+.digital-purchase-info {
+    margin-bottom: 20px;
+    text-align: left;
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    border-radius: 4px;
+}
+
+.digital-purchase-info p {
+    margin: 10px 0;
+}
+
+.payment-options {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+}
+
+.payment-option {
+    display: block;
+    padding: 10px 15px;
+    border-radius: 4px;
+    color: var(--pixel-white);
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    flex: 1;
+    margin: 0 5px;
+    border: 2px solid var(--pixel-black);
+}
+
+.payment-option:first-child {
+    margin-left: 0;
+}
+
+.payment-option:last-child {
+    margin-right: 0;
+}
+
+.venmo {
+    background-color: #3D95CE;
+}
+
+.cashapp {
+    background-color: #00D632;
+}
+
+.zelle {
+    background-color: #6C1CD3;
+}
+
+.promo-area {
+    margin: 15px 0;
+}
+
+.promo-area .form-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.promo-area label {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.promo-area input {
+    flex: 1;
+    padding: 8px;
+    border: 2px solid var(--pixel-grey);
+    margin-right: 10px;
+}
+
+#apply-promo-btn {
+    background-color: var(--pixel-grey);
+    color: var(--pixel-white);
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+.honor-system {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.honor-system p {
+    margin-bottom: 10px;
+}
+
+#paid-confirmation-btn {
+    background-color: var(--pixel-green);
+    color: var(--pixel-black);
+    padding: 12px 24px;
+    font-weight: bold;
+    margin: 0 auto;
+    display: block;
+    width: 100%;
+}
+
+#download-section {
+    background-color: var(--pixel-green);
+    color: var(--pixel-black);
+    padding: 15px;
+    border-radius: 4px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+#download-section h4 {
+    margin-top: 0;
+    font-size: 1.2em;
+}
+
+.download-btn {
+    background-color: var(--pixel-blue);
+    color: var(--pixel-white);
+    padding: 10px 20px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 10px;
+    border: 2px solid var(--pixel-black);
+    font-weight: bold;
 }

@@ -156,12 +156,84 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Digital Purchase Link Placeholder Check ---
     const digitalBuyButton = document.querySelector('.buy-digital-btn');
-    if (digitalBuyButton && digitalBuyButton.getAttribute('href') === '#digital-purchase-form') {
-        console.warn("Digital payment link is a placeholder. Update with your payment gateway URL or form.");
-        // digitalBuyButton.addEventListener('click', (e) => {
-        //     e.preventDefault();
-        //     alert("Digital purchase form/link coming soon!");
-        // });
+    if (digitalBuyButton) {
+        // Replace the placeholder link with a functioning modal trigger
+        digitalBuyButton.setAttribute('href', '#');
+        digitalBuyButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            openDigitalPurchaseModal();
+        });
+    }
+
+    // --- Digital Purchase Modal Logic ---
+    const digitalPurchaseModal = document.getElementById('digital-purchase-modal');
+    const digitalModalCloseBtn = digitalPurchaseModal ? digitalPurchaseModal.querySelector('.modal-close-btn') : null;
+    const promoCodeInput = document.getElementById('promo-code');
+    const applyPromoBtn = document.getElementById('apply-promo-btn');
+    const paidConfirmationBtn = document.getElementById('paid-confirmation-btn');
+    const downloadSection = document.getElementById('download-section');
+    
+    // Promo code that gives free access
+    const validPromoCodes = ['456'];
+
+    function openDigitalPurchaseModal() {
+        if (digitalPurchaseModal) {
+            digitalPurchaseModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden'; // Prevent background scroll
+            
+            // Reset the modal state
+            if (downloadSection) downloadSection.style.display = 'none';
+            if (promoCodeInput) promoCodeInput.value = '';
+        }
+    }
+
+    function closeDigitalPurchaseModal() {
+        if (digitalPurchaseModal) {
+            digitalPurchaseModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+    }
+
+    if (digitalModalCloseBtn) {
+        digitalModalCloseBtn.addEventListener('click', closeDigitalPurchaseModal);
+    }
+
+    if (digitalPurchaseModal) {
+        digitalPurchaseModal.addEventListener('click', (event) => {
+            if (event.target === digitalPurchaseModal) { // Click on overlay itself
+                closeDigitalPurchaseModal();
+            }
+        });
+    }
+
+    // Handle promo code
+    if (applyPromoBtn && promoCodeInput) {
+        applyPromoBtn.addEventListener('click', () => {
+            const code = promoCodeInput.value.trim();
+            if (validPromoCodes.includes(code)) {
+                // Valid promo code - show download
+                if (downloadSection) {
+                    downloadSection.style.display = 'block';
+                    // Hide the payment sections
+                    document.querySelector('.honor-system').style.display = 'none';
+                    document.querySelector('.promo-area').style.display = 'none';
+                }
+            } else {
+                // Invalid promo code
+                alert('Invalid promo code. Please try again or proceed with payment.');
+            }
+        });
+    }
+
+    // Handle "I Swear I Paid" button
+    if (paidConfirmationBtn) {
+        paidConfirmationBtn.addEventListener('click', () => {
+            if (downloadSection) {
+                downloadSection.style.display = 'block';
+                // Hide the payment sections
+                document.querySelector('.honor-system').style.display = 'none';
+            }
+        });
     }
 
     // --- NEW: Interactive GIF Logic ---

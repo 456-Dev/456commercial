@@ -15,7 +15,7 @@
 
     <div class="main-content-wrapper">
         <!-- Author Line -->
-        <p class="author-tagline"><em>A new photography book by bignosemichael</em></p>
+        <p class="author-tagline"><em>the new photography book by <b>bignosemichael</b></em></p>
         
         <!-- Editions Section -->
         <section id="editions" class="editions-selection-section">
@@ -139,7 +139,7 @@
 
     <div class="banner-wrapper bottom-banner-wrapper">
         <div class="site-banner">
-            <img src="https://github.com/456-Dev/456commercial/blob/main/websiteBANNER.png?raw=true" alt="Book Cover Image: THEY SAID YOU CAN'T" class="banner-image">
+            <img src="https://github.com/456-Dev/456commercial/blob/main/footer.png?raw=true" alt="Book Cover Image: THEY SAID YOU CAN'T" class="banner-image">
         </div>
     </div>
 
@@ -180,6 +180,39 @@
                 <p class="form-note">Confirmation sent to email. Payment due at pickup.</p>
                 <button type="submit" class="btn modal-submit-btn">Submit Reservation</button>
             </form>
+        </div>
+    </div>
+
+    <!-- Digital Purchase Modal -->
+    <div id="digital-purchase-modal" class="modal-overlay" aria-hidden="true">
+        <div class="modal-content">
+            <button class="modal-close-btn" aria-label="Close modal">×</button>
+            <h3>Purchase Digital Edition - $5</h3>
+            <div class="digital-purchase-info">
+                <p>Get immediate access to the full book as a high-quality PDF after payment.</p>
+                <p>Please pay $5 using one of these methods:</p>
+                <div class="payment-options">
+                    <a href="https://venmo.com/yourusername" target="_blank" class="payment-option venmo">Venmo</a>
+                    <a href="https://cash.app/$yourusername" target="_blank" class="payment-option cashapp">Cash App</a>
+                    <a href="#" class="payment-option zelle" onclick="alert('Send $5 to your-email@example.com via Zelle'); return false;">Zelle</a>
+                </div>
+            </div>
+            <div class="promo-area">
+                <div class="form-group">
+                    <label for="promo-code">Have a promo code?</label>
+                    <input type="text" id="promo-code" placeholder="Enter promo code">
+                    <button id="apply-promo-btn" class="btn">Apply</button>
+                </div>
+            </div>
+            <div class="honor-system">
+                <p>After paying, click the button below:</p>
+                <button id="paid-confirmation-btn" class="btn modal-submit-btn">I Swear I Paid $5</button>
+            </div>
+            <div id="download-section" style="display: none;">
+                <h4>Thank you for your support!</h4>
+                <p>Click below to download your digital copy:</p>
+                <a href="assets/they-said-you-cant-digital.pdf" download="THEY_SAID_YOU_CANT.pdf" class="btn download-btn">Download PDF</a>
+            </div>
         </div>
     </div>
 
