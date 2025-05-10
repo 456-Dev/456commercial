@@ -170,40 +170,40 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (interactiveGif && frameMessage) {
         let isPlaying = false;
-        let hasStoppedOnce = false;
+        let gameEnded = false;
         let frameCount = 12;
         let startTime;
         let frameDuration = 500;
         
-        // Frame image URLs - update these with your GitHub frame image URLs
+        // Frame image URLs - updated to use image_lottery folder
         const frameImages = {
-            1: "https://github.com/456-Dev/456commercial/blob/main/frame1.png?raw=true",
-            2: "https://github.com/456-Dev/456commercial/blob/main/frame2.png?raw=true",
-            3: "https://github.com/456-Dev/456commercial/blob/main/frame3.png?raw=true",
-            4: "https://github.com/456-Dev/456commercial/blob/main/frame4.png?raw=true",
-            5: "https://github.com/456-Dev/456commercial/blob/main/frame5.png?raw=true",
-            6: "https://github.com/456-Dev/456commercial/blob/main/frame6.png?raw=true",
-            7: "https://github.com/456-Dev/456commercial/blob/main/frame7.png?raw=true",
-            8: "https://github.com/456-Dev/456commercial/blob/main/frame8.png?raw=true",
-            9: "https://github.com/456-Dev/456commercial/blob/main/frame9.png?raw=true",
-            10: "https://github.com/456-Dev/456commercial/blob/main/frame10.png?raw=true",
-            11: "https://github.com/456-Dev/456commercial/blob/main/frame11.png?raw=true",
-            12: "https://github.com/456-Dev/456commercial/blob/main/frame12.png?raw=true"
+            1: "https://github.com/456-Dev/456commercial/blob/main/image_lottery/frame1.png?raw=true",
+            2: "https://github.com/456-Dev/456commercial/blob/main/image_lottery/frame2.png?raw=true",
+            3: "https://github.com/456-Dev/456commercial/blob/main/image_lottery/frame3.png?raw=true",
+            4: "https://github.com/456-Dev/456commercial/blob/main/image_lottery/frame4.png?raw=true",
+            5: "https://github.com/456-Dev/456commercial/blob/main/image_lottery/frame5.png?raw=true",
+            6: "https://github.com/456-Dev/456commercial/blob/main/image_lottery/frame6.png?raw=true",
+            7: "https://github.com/456-Dev/456commercial/blob/main/image_lottery/frame7.png?raw=true",
+            8: "https://github.com/456-Dev/456commercial/blob/main/image_lottery/frame8.png?raw=true",
+            9: "https://github.com/456-Dev/456commercial/blob/main/image_lottery/frame9.png?raw=true",
+            10: "https://github.com/456-Dev/456commercial/blob/main/image_lottery/frame10.png?raw=true",
+            11: "https://github.com/456-Dev/456commercial/blob/main/image_lottery/frame11.png?raw=true",
+            12: "https://github.com/456-Dev/456commercial/blob/main/image_lottery/frame12.png?raw=true"
         };
         
         const frameMessages = {
-            1: "Frame 1: [Describe what's happening in first frame - e.g., 'The journey begins...']",
-            2: "Frame 2: [Second frame context - e.g., 'A subtle shift appears...']",
-            3: "Frame 3: [Third frame description - e.g., 'The transformation continues...']",
-            4: "Frame 4: [Fourth frame moment - e.g., 'Colors start to blend...']",
-            5: "Frame 5: [Fifth frame observation - e.g., 'A new pattern emerges...']",
-            6: "Frame 6: [Sixth frame highlight - e.g., 'Halfway through the cycle...']",
-            7: "Frame 7: [Seventh frame detail - e.g., 'The rhythm builds...']",
-            8: "Frame 8: [Eighth frame feature - e.g., 'A dramatic shift...']",
-            9: "Frame 9: [Ninth frame element - e.g., 'The pieces align...']",
-            10: "Frame 10: [Tenth frame moment - e.g., 'Almost complete...']",
-            11: "Frame 11: [Eleventh frame detail - e.g., 'The final transition...']",
-            12: "Frame 12: [Twelfth frame finale - e.g., 'The cycle completes!']"
+            1: "Diego Sanchez's Page from the section [Meditations]",
+            2: "Untitled Photo from the section [Don't play water]",
+            3: "λ = NotMYdog from the section [HFIλ]",
+            4: "Untitled Photo from the section [Don't play water]",
+            5: "why? GOD. from the section [odds & ends pt.17]",
+            6: "Untitled Photo from the section [ROAD KILL]",
+            7: "Untitled Photo from the section [ROAD KILL]",
+            8: "5G from the section [Video Screenshots of America]",
+            9: "λ = inverted from the section [HFIλ]",
+            10: "Untitled Photo from the section [DOUBLE UP!!]",
+            11: "Elvis's Jet from the section [Video Screenshots of America]",
+            12: "Untitled Photo from the section [DOUBLE UP!!]"
         };
 
         // Store the original animated and static sources
@@ -227,6 +227,10 @@ document.addEventListener('DOMContentLoaded', () => {
             interactiveGif.addEventListener(eventType, (e) => {
                 e.preventDefault();
 
+                if (gameEnded) {
+                    return; // Do nothing if game has ended
+                }
+
                 if (!isPlaying) {
                     // First click - start playing
                     interactiveGif.src = animatedSrc;
@@ -236,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (gifBlurb) {
                         gifBlurb.textContent = "Click again to capture a frame";
                     }
-                } else if (!hasStoppedOnce) {
+                } else {
                     // Second click - stop and show specific frame
                     const timeElapsed = Date.now() - startTime;
                     const currentFrame = Math.floor((timeElapsed % (frameCount * frameDuration)) / frameDuration) + 1;
@@ -253,7 +257,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     isPlaying = false;
-                    hasStoppedOnce = true;
+                    gameEnded = true; // End the game
+                    interactiveGif.style.cursor = 'default'; // Remove pointer cursor
                 }
             });
         });
