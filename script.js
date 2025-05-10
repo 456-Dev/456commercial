@@ -5,6 +5,95 @@ document.addEventListener('DOMContentLoaded', () => {
         currentYearSpan.textContent = new Date().getFullYear();
     }
 
+    // --- Load Events from Firebase ---
+    const eventList = document.querySelector('.event-list');
+    
+    function loadEvents() {
+        if (!eventList || !window.db) return;
+        
+        // Clear existing events
+        eventList.innerHTML = '<div class="loading-events">Loading events...</div>';
+        
+        db.collection("events")
+            .orderBy("date", "asc")
+            .get()
+            .then((querySnapshot) => {
+                eventList.innerHTML = ''; // Clear loading message
+                
+                if (querySnapshot.empty) {
+                    eventList.innerHTML = '<p class="no-events">No upcoming events scheduled. Check back soon!</p>';
+                    return;
+                }
+                
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const eventId = doc.id;
+                    const availableSlots = data.totalSlots - data.bookedSlots;
+                    const percentageBooked = (data.bookedSlots / data.totalSlots) * 100;
+                    
+                    const eventCard = document.createElement('article');
+                    eventCard.className = 'event-card';
+                    eventCard.dataset.eventName = data.name;
+                    eventCard.dataset.eventSlotsTotal = data.totalSlots;
+                    eventCard.dataset.eventSlotsBooked = data.bookedSlots;
+                    
+                    eventCard.innerHTML = `
+                        <h3 class="event-name">${data.name}</h3>
+                        <p class="event-details">${data.date}</p>
+                        <p class="event-location">${data.location}</p>
+                        <div class="slots-tracker">
+                            Slots Remaining: <span class="slots-available">${availableSlots}</span>/${data.totalSlots}
+                            <div class="slots-bar-container">
+                                <div class="slots-bar-filled" style="width: ${percentageBooked}%;"></div>
+                            </div>
+                        </div>
+                        <button class="btn book-slot-btn" ${availableSlots <= 0 ? 'disabled' : ''}>
+                            ${availableSlots <= 0 ? 'Fully Booked' : 'Book Pickup Slot'}
+                        </button>
+                    `;
+                    
+                    if (availableSlots <= 0) {
+                        const bookButton = eventCard.querySelector('.book-slot-btn');
+                        if (bookButton) {
+                            bookButton.style.backgroundColor = 'var(--pixel-grey)';
+                        }
+                    }
+                    
+                    eventList.appendChild(eventCard);
+                });
+                
+                // Reattach event listeners
+                attachBookButtonListeners();
+            })
+            .catch((error) => {
+                console.error("Error loading events: ", error);
+                eventList.innerHTML = '<p class="error-message">Error loading events. Please refresh the page to try again.</p>';
+            });
+    }
+    
+    function attachBookButtonListeners() {
+        document.querySelectorAll('.book-slot-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const eventCard = button.closest('.event-card');
+                const eventName = eventCard.dataset.eventName;
+                const slotsAvailable = parseInt(eventCard.querySelector('.slots-available').textContent, 10);
+                if (slotsAvailable > 0) {
+                    openModal(eventName);
+                } else {
+                    alert("Sorry, all slots for this event are booked!");
+                }
+            });
+        });
+    }
+    
+    // Load events if Firebase is available
+    if (window.db) {
+        loadEvents();
+    } else {
+        // If Firebase isn't loaded yet, wait for it
+        window.addEventListener('firebase-ready', loadEvents);
+    }
+
     // --- Booking Modal Logic ---
     const bookingModal = document.getElementById('booking-modal');
     const modalCloseBtn = bookingModal ? bookingModal.querySelector('.modal-close-btn') : null;
@@ -57,10 +146,100 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (bookingForm) {
         bookingForm.addEventListener('submit', function(e) {
-            // Formspree will handle the submission.
-            // You might want to add a delay and then show a "thank you" message or close the modal.
-            // For now, we'll just let it submit.
-            // Example: setTimeout(closeModal, 500); after validation if not using AJAX
+            e.preventDefault(); // Prevent default form submission
+            
+            const eventName = formEventNameHiddenInput.value;
+            const bookChoice = document.getElementById('book-choice').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value || '';
+            const instagram = document.getElementById('instagram').value || '';
+            
+            // Find the event card to update slots
+            const eventCard = document.querySelector(`.event-card[data-event-name="${eventName}"]`);
+            if (!eventCard) {
+                alert("Error: Event not found.");
+                return;
+            }
+            
+            const totalSlots = parseInt(eventCard.dataset.eventSlotsTotal, 10);
+            const bookedSlots = parseInt(eventCard.dataset.eventSlotsBooked, 10);
+            const availableSlots = totalSlots - bookedSlots;
+            
+            if (availableSlots <= 0) {
+                alert("Sorry, all slots for this event are booked!");
+                return;
+            }
+            
+            // Save the booking to Firebase
+            db.collection("bookings").add({
+                eventName: eventName,
+                bookEdition: bookChoice,
+                email: email,
+                phone: phone,
+                instagram: instagram,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                console.log("Booking saved to Firebase!");
+                
+                // Update the event's booked slots in Firebase
+                const eventRef = db.collection("events").doc(eventName.replace(/\s+/g, '_').toLowerCase());
+                
+                return db.runTransaction((transaction) => {
+                    return transaction.get(eventRef).then((eventDoc) => {
+                        if (!eventDoc.exists) {
+                            // Create the event document if it doesn't exist
+                            transaction.set(eventRef, {
+                                name: eventName,
+                                totalSlots: totalSlots,
+                                bookedSlots: bookedSlots + 1,
+                                date: eventCard.querySelector('.event-details').textContent,
+                                location: eventCard.querySelector('.event-location').textContent
+                            });
+                        } else {
+                            // Update the existing event document
+                            const newBookedSlots = eventDoc.data().bookedSlots + 1;
+                            transaction.update(eventRef, { bookedSlots: newBookedSlots });
+                        }
+                    });
+                });
+            })
+            .then(() => {
+                // Update UI
+                const newBookedSlots = bookedSlots + 1;
+                eventCard.dataset.eventSlotsBooked = newBookedSlots;
+                
+                const availableSlotSpan = eventCard.querySelector('.slots-available');
+                if (availableSlotSpan) {
+                    availableSlotSpan.textContent = totalSlots - newBookedSlots;
+                }
+                
+                const barFilled = eventCard.querySelector('.slots-bar-filled');
+                if (barFilled) {
+                    const percentageBooked = (newBookedSlots / totalSlots) * 100;
+                    barFilled.style.width = `${percentageBooked}%`;
+                }
+                
+                // Disable the book button if all slots are now booked
+                if (newBookedSlots >= totalSlots) {
+                    const bookButton = eventCard.querySelector('.book-slot-btn');
+                    if (bookButton) {
+                        bookButton.disabled = true;
+                        bookButton.textContent = "Fully Booked";
+                        bookButton.style.backgroundColor = 'var(--pixel-grey)';
+                    }
+                }
+                
+                // Show a success message
+                alert("Your slot has been reserved! Check your email for confirmation details.");
+                
+                // Close the modal and reset form
+                closeModal();
+            })
+            .catch((error) => {
+                console.error("Error saving booking: ", error);
+                alert("There was an error saving your booking. Please try again.");
+            });
         });
     }
 
@@ -173,6 +352,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const paidConfirmationBtn = document.getElementById('paid-confirmation-btn');
     const downloadSection = document.getElementById('download-section');
     
+    // --- Delivery Modal Logic ---
+    const orderDeliveryBtn = document.querySelector('.order-delivery-btn');
+    const deliveryModal = document.getElementById('delivery-modal');
+    const deliveryModalCloseBtn = deliveryModal ? deliveryModal.querySelector('.modal-close-btn') : null;
+    const deliveryForm = document.getElementById('delivery-form');
+    const orderSuccessDiv = document.getElementById('order-success');
+    
     // Promo code that gives free access
     const validPromoCodes = ['456'];
 
@@ -232,6 +418,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 downloadSection.style.display = 'block';
                 // Hide the payment sections
                 document.querySelector('.honor-system').style.display = 'none';
+                document.querySelector('.promo-area').style.display = 'none';
+                
+                // Update the download link to the Google Drive URL
+                const downloadBtn = downloadSection.querySelector('.download-btn');
+                if (downloadBtn) {
+                    downloadBtn.href = 'https://drive.google.com/file/d/10boEgUUNLs96TlAIJUo1b_UqRFqnkahN/view?usp=sharing';
+                    downloadBtn.target = '_blank'; // Open in new tab
+                    downloadBtn.textContent = 'Access Digital Book';
+                }
             }
         });
     }
@@ -370,5 +565,99 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
+
+    // Order delivery functionality
+    if (orderDeliveryBtn) {
+        orderDeliveryBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openDeliveryModal();
+        });
+    }
+
+    function openDeliveryModal() {
+        if (deliveryModal) {
+            deliveryModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden'; // Prevent background scroll
+            
+            // Reset the form
+            if (deliveryForm) deliveryForm.reset();
+            if (orderSuccessDiv) orderSuccessDiv.style.display = 'none';
+        }
+    }
+
+    function closeDeliveryModal() {
+        if (deliveryModal) {
+            deliveryModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+    }
+
+    if (deliveryModalCloseBtn) {
+        deliveryModalCloseBtn.addEventListener('click', closeDeliveryModal);
+    }
+
+    if (deliveryModal) {
+        deliveryModal.addEventListener('click', (event) => {
+            if (event.target === deliveryModal) { // Click on overlay itself
+                closeDeliveryModal();
+            }
+        });
+    }
+
+    // Handle delivery form submission
+    if (deliveryForm) {
+        deliveryForm.addEventListener('submit', function(e) {
+            // Only prevent the form submission if we're in demo mode
+            // In a real implementation, we would let Formspree handle the submission
+            // Comment out the next line to enable actual form submission:
+            // e.preventDefault();
+            
+            // Check if payment confirmation checkbox is checked
+            const paymentConfirmed = document.getElementById('payment-confirmation').checked;
+            if (!paymentConfirmed) {
+                e.preventDefault();
+                alert("Please confirm you've completed the payment before submitting.");
+                return false;
+            }
+            
+            // Store a reference to the form
+            const form = this;
+            
+            // Show a submitting status if desired
+            // form.querySelector('button[type="submit"]').textContent = "Submitting...";
+            
+            // If using Formspree with AJAX (uncommenting below would prevent the default form submission)
+            /*
+            e.preventDefault();
+            
+            const formData = new FormData(form);
+            
+            fetch(form.action, {
+                method: form.method,
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error("Form submission failed");
+            })
+            .then(data => {
+                // Show success message
+                if (orderSuccessDiv) {
+                    orderSuccessDiv.style.display = 'block';
+                    form.style.display = 'none';
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("There was a problem submitting your form. Please try again.");
+            });
+            */
+        });
+    }
 
 });

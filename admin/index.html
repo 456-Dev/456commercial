@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - THEY SAID YOU CAN'T</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .admin-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 3px solid var(--pixel-black);
+            background-color: #f9f9f9;
+        }
+        
+        .admin-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .admin-login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .login-btn {
+            background-color: var(--pixel-blue);
+            color: var(--pixel-white);
+            padding: 10px;
+            font-weight: bold;
+            border: 2px solid var(--pixel-black);
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .error-message {
+            color: var(--pixel-red);
+            margin-top: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <h1 class="admin-title">THEY SAID YOU CAN'T - Admin</h1>
+        
+        <div id="login-section">
+            <h2>Login</h2>
+            <div id="error-message" class="error-message hidden"></div>
+            
+            <form id="login-form" class="admin-login-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    
+    <!-- Firebase Config -->
+    <script>
+        // Your web app's Firebase configuration
+        // Replace with your actual Firebase project config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAu02LnKKYtuOC7omUFUEHY5tyFPR9MPaw",
+            authDomain: "books-bookings.firebaseapp.com",
+            projectId: "books-bookings",
+            storageBucket: "books-bookings.firebasestorage.app",
+            messagingSenderId: "704734229089",
+            appId: "1:704734229089:web:acd4877e3d11ad24503020"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+            
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Redirect to admin dashboard
+                    window.location.href = 'dashboard.html';
+                })
+                .catch((error) => {
+                    errorMessage.textContent = error.message;
+                    errorMessage.classList.remove('hidden');
+                });
+        });
+        
+        // Check if user is already logged in
+        auth.onAuthStateChanged(function(user) {
+            if (user) {
+                window.location.href = 'dashboard.html';
+            }
+        });
+    </script>
+</body>
+</html> 

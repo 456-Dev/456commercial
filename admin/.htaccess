@@ -1,0 +1,14 @@
+# Disable directory browsing
+Options -Indexes
+
+# Protect against unauthorized direct access to the dashboard
+<Files "dashboard.html">
+  Order allow,deny
+  Deny from all
+  <FilesMatch "^dashboard\.html$">
+    Deny from all
+  </FilesMatch>
+</Files>
+
+# Redirect to index.html if trying to access admin folder directly
+DirectoryIndex index.html 
