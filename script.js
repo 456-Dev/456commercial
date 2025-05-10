@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update the initial blurb
         const gifBlurb = document.querySelector('.gif-blurb');
         if (gifBlurb) {
-            gifBlurb.textContent = "Click to start animation";
+            gifBlurb.textContent = " ";
         }
 
         // Handle both click and touch events
@@ -238,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     isPlaying = true;
                     
                     if (gifBlurb) {
-                        gifBlurb.textContent = "Click again to capture a frame";
+                        gifBlurb.textContent = "Click again to select a photo from the book";
                     }
                 } else {
                     // Second click - stop and show specific frame

@@ -141,7 +141,6 @@ body {
 #interactive-gif {
     max-width: 100%;
     height: auto;
-    border: var(--border-thickness) solid var(--pixel-red);
     margin-bottom: 10px;
     cursor: pointer;
     min-height: 150px; /* Ensure space even if image fails to load quickly */
@@ -155,7 +154,7 @@ body {
 .frame-message {
     margin-top: 10px;
     font-size: 0.95em;
-    color: var(--pixel-red);
+    color: var(--pixel-black);
     font-weight: bold;
     text-align: center;
     min-height: 3em;
