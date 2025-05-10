@@ -167,6 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- NEW: Interactive GIF Logic ---
     const interactiveGif = document.getElementById('interactive-gif');
     const frameMessage = document.getElementById('frame-message');
+    const clickMessage = document.getElementById('click-message');
     
     if (interactiveGif && frameMessage) {
         let isPlaying = false;
@@ -216,12 +217,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Make sure the cursor shows this is clickable
         interactiveGif.style.cursor = 'pointer';
 
-        // Update the initial blurb
-        const gifBlurb = document.querySelector('.gif-blurb');
-        if (gifBlurb) {
-            gifBlurb.textContent = " ";
-        }
-
         // Handle both click and touch events
         ['click', 'touchend'].forEach(eventType => {
             interactiveGif.addEventListener(eventType, (e) => {
@@ -237,8 +232,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     startTime = Date.now();
                     isPlaying = true;
                     
-                    if (gifBlurb) {
-                        gifBlurb.textContent = "Click again to select a photo from the book";
+                    // Show click message
+                    if (clickMessage) {
+                        clickMessage.textContent = "Click again to select a photo from the book!";
+                        clickMessage.classList.add('visible');
                     }
                 } else {
                     // Second click - stop and show specific frame
@@ -248,13 +245,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Use the specific frame image instead of trying to capture from GIF
                     interactiveGif.src = frameImages[currentFrame];
                     
+                    // Hide click message and show frame message
+                    if (clickMessage) {
+                        clickMessage.classList.remove('visible');
+                    }
+                    
                     // Show the frame message
                     frameMessage.textContent = frameMessages[currentFrame] || "You caught an interesting moment!";
                     frameMessage.classList.add('visible');
-
-                    if (gifBlurb) {
-                        gifBlurb.textContent = `Frame ${currentFrame} captured!`;
-                    }
 
                     isPlaying = false;
                     gameEnded = true; // End the game
@@ -268,5 +266,37 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
         }, { passive: false });
     }
+
+    // --- Edition cards info behavior ---
+    document.querySelectorAll('.info-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const card = btn.closest('.edition-card');
+            const info = btn.getAttribute('data-info');
+            
+            // Hide any currently shown info
+            document.querySelectorAll('.edition-card').forEach(c => {
+                c.classList.remove('show-info', 'hide');
+            });
+            
+            // Show this card's info
+            card.classList.add('show-info');
+            card.setAttribute('data-info', info);
+            
+            // Hide other cards
+            const otherCards = Array.from(document.querySelectorAll('.edition-card')).filter(c => c !== card);
+            otherCards.forEach(c => c.classList.add('hide'));
+        });
+    });
+
+    // Close button behavior
+    document.querySelectorAll('.close-info').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const card = btn.closest('.edition-card');
+            card.classList.remove('show-info');
+            document.querySelectorAll('.edition-card').forEach(c => {
+                c.classList.remove('hide');
+            });
+        });
+    });
 
 });
