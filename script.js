@@ -501,7 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Show click message
                     if (clickMessage) {
-                        clickMessage.textContent = "Click again to select a photo from the book!";
+                        clickMessage.textContent = "Click again to stop!";
                         clickMessage.classList.add('visible');
                     }
                 } else {

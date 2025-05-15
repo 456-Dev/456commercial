@@ -5,9 +5,9 @@
     --pixel-dark: #393939;
     --pixel-white: #f0f0f0;
     --pixel-grey: #7a7a7a;
-    --pixel-red: #ff4e4e;
-    --pixel-green: #37fb37;
-    --pixel-blue: #4747ff;
+    --pixel-red: #ff0000;
+    --pixel-green: #00ff00;
+    --pixel-blue: #0000ff;
     --pixel-yellow: #f8b400;
     --pixel-cyan: #00bcf2;
     --pixel-magenta: #c30052;
@@ -124,7 +124,7 @@ body {
 
 /* NEW BOOK INTRO SECTION */
 .new-intro-section {
-    margin: 15px 0;
+    margin: 10px 0;
     text-align: center;
 }
 .main-book-title {
@@ -147,7 +147,7 @@ body {
 .info-tiles-container {
     display: flex;
     flex-direction: row; /* Always horizontal */
-    gap: 30px; /* Increased gap */
+    gap: 15px; /* Reduced from 30px to 15px */
     text-align: left;
     align-items: flex-start; /* Align to top */
     margin: 0 -15px; /* Compensate for padding on very small screens */
@@ -173,11 +173,11 @@ body {
 .about-title {
     font-size: 1.4em;
     font-weight: bold;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     color: var(--pixel-black);
     text-align: center;
     border-bottom: 2px solid var(--pixel-grey);
-    padding-bottom: 10px;
+    padding-bottom: 5px;
     letter-spacing: 1px;
 }
 
@@ -250,7 +250,7 @@ body {
     align-items: center;
     justify-content: flex-start; /* Align content to top */
     padding: 0 0 10px 0; /* Add some padding at bottom */
-    background-color: #f9f9f9;
+    background-color: #F0F0F0;
     position: relative;
     min-width: 0; /* Allow shrinking */
     overflow: hidden; /* Prevent content from overflowing */
@@ -265,23 +265,6 @@ body {
     object-fit: contain;
 }
 
-.frame-message, .click-message {
-    font-size: 0.95em;
-    color: var(--pixel-black);
-    font-weight: bold;
-    text-align: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    position: relative;
-    background-color: transparent;
-    padding: 5px 10px;
-    margin: 0;
-    z-index: 10;
-    border-top: none;
-    width: 100%;
-    box-sizing: border-box; /* Include padding in width calculation */
-    overflow-wrap: break-word; /* Allow long words to break */
-}
 
 .frame-message.visible {
     opacity: 1;
@@ -293,8 +276,8 @@ body {
 
 /* Animated Barbershop Pole Divider */
 .pixel-divider {
-    height: 10px;
-    margin: 10px 0; /* Reduced from 40px to 20px */
+    height: 8px;
+    margin: 5px 0;
     border: none;
     width: 100%;
     background: repeating-linear-gradient(
@@ -393,7 +376,7 @@ body {
 /* Button styles - more compact */
 .btn {
     padding: 8px 5px; /* Reduced padding */
-    font-size: 0.85em; /* Smaller font */
+    font-size: 1em; /* Smaller font */
     font-weight: bold;
     text-align: center;
     border: 2px solid var(--pixel-black);
@@ -407,9 +390,9 @@ body {
     color: var(--pixel-black);
 }
 
-.digital .action-btn { background-color: var(--pixel-blue); color: var(--pixel-black); }
+.digital .action-btn { background-color: var(--pixel-blue); color: var(--pixel-white); }
 .standard .action-btn { background-color: var(--pixel-green); color: var(--pixel-black); }
-.deluxe .action-btn { background-color: var(--pixel-red); color: var(--pixel-black); }
+.deluxe .action-btn { background-color: var(--pixel-red); color: var(--pixel-white); }
 
 /* Expanded view container */
 .expanded-view {
@@ -484,6 +467,26 @@ body {
     color: inherit;
 }
 
+/* Sub bullet points */
+.edition-info-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 5px 0 0 15px;
+}
+
+.edition-info-list ul li {
+    padding-left: 15px;
+    margin-bottom: 5px;
+    font-size: 0.85em;
+}
+
+.edition-info-list ul li::before {
+    content: "◦";
+    position: absolute;
+    left: 0;
+    color: inherit;
+}
+
 /* Small image */
 .edition-image {
     width: 80px;
@@ -500,7 +503,7 @@ body {
     left: 0;
     z-index: 10;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    padding-bottom: 20px; /* Reduce padding */
+    padding-bottom: 25px; /* Increased padding */
 }
 
 .edition-card.expanded .normal-view {
@@ -519,7 +522,7 @@ body {
 
 /* Ensure grid has proper height when expanded */
 .editions-grid.has-expanded-card {
-    min-height: 250px;
+    min-height: 350px; /* Increase min-height to accommodate sub-bullet points */
 }
 
 /* Larger screens - more spacing */
@@ -562,18 +565,20 @@ body {
     
     .expanded-view .action-btn {
         width: calc(100% - 130px);
-        font-size: 0.9em;
+        font-size: 1.6em;
+        font-weight: bold;
         padding: 10px;
+        margin-top: 15px; /* Add more space above button */
     }
 }
 
 /* Events Section */
 .events-section {
-    margin: 10px 0;
+    margin: 5px 0;
 }
 #events {
-    padding-top: 30px;
-    margin-bottom: 20px;
+    padding-top: 15px;
+    margin-bottom: 15px;
 }
 #events h2, #how-it-works h2 {
     text-align: center;
@@ -793,7 +798,7 @@ body {
 /* Add some responsive adjustments for very small screens */
 @media (max-width: 400px) {
     .info-tiles-container {
-        gap: 10px;
+        gap: 0px;
     }
     
     .text-tile p {
@@ -802,7 +807,7 @@ body {
     }
     
     .text-tile, .gif-tile {
-        padding: 10px;
+        padding: 2px;
     }
     
     #interactive-gif {
