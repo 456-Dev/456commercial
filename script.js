@@ -535,35 +535,54 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Edition cards info behavior ---
+    const editionsGrid = document.querySelector('.editions-grid');
+    const modalOverlay = document.querySelector('.modal-overlay');
+    const isMobile = window.innerWidth <= 768;
+    
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        isMobile = window.innerWidth <= 768;
+    });
+    
+    // Info button click handler
     document.querySelectorAll('.info-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default action
             const card = btn.closest('.edition-card');
-            const info = btn.getAttribute('data-info');
             
-            // Hide any currently shown info
-            document.querySelectorAll('.edition-card').forEach(c => {
-                c.classList.remove('show-info', 'hide');
+            // First hide all other cards
+            document.querySelectorAll('.edition-card').forEach(otherCard => {
+                if (otherCard !== card) {
+                    otherCard.classList.add('hide');
+                }
             });
             
-            // Show this card's info
-            card.classList.add('show-info');
-            card.setAttribute('data-info', info);
+            // Then expand this card and add class to grid
+            card.classList.add('expanded');
+            editionsGrid.classList.add('has-expanded-card');
+        });
+    });
+    
+    // Close button click handler
+    document.querySelectorAll('.close-info-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove expanded class from current card
+            const card = btn.closest('.edition-card');
+            card.classList.remove('expanded');
             
-            // Hide other cards
-            const otherCards = Array.from(document.querySelectorAll('.edition-card')).filter(c => c !== card);
-            otherCards.forEach(c => c.classList.add('hide'));
+            // Remove class from grid
+            editionsGrid.classList.remove('has-expanded-card');
+            
+            // Show all cards again
+            document.querySelectorAll('.edition-card').forEach(card => {
+                card.classList.remove('hide');
+            });
         });
     });
 
-    // Close button behavior
-    document.querySelectorAll('.close-info').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const card = btn.closest('.edition-card');
-            card.classList.remove('show-info');
-            document.querySelectorAll('.edition-card').forEach(c => {
-                c.classList.remove('hide');
-            });
-        });
+    // Also close when clicking on overlay
+    modalOverlay.addEventListener('click', () => {
+        document.querySelector('.edition-card.expanded .close-info-btn').click();
     });
 
     // Order delivery functionality

@@ -22,35 +22,94 @@
             <div class="editions-grid">
                 <!-- Digital Edition -->
                 <article class="edition-card digital">
-                    <button class="close-info">×</button>
                     <h3 class="edition-name">Digital<br>Edition</h3>
                     <p class="edition-price">$5</p>
-                    <div class="edition-buttons">
-                        <button class="btn info-btn" data-info="Get the full book as a high-quality PDF & EPUB. Perfect for your e-reader, tablet, or computer.">More Info</button>
-                        <a href="#digital-purchase-form" class="btn action-btn buy-digital-btn" target="_blank" rel="noopener noreferrer">Buy Digital</a>
+                    
+                    <!-- Normal View Buttons -->
+                    <div class="normal-view">
+                        <div class="edition-buttons">
+                            <button class="btn info-btn">More Info</button>
+                            <a href="#digital-purchase-form" class="btn action-btn buy-digital-btn">Buy Digital</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Expanded View Content -->
+                    <div class="expanded-view">
+                        <div class="expanded-header">
+                            <h4>Digital Edition ($5)</h4>
+                            <button class="close-info-btn">×</button>
+                        </div>
+                        <div class="expanded-info-container">
+                            <ul class="edition-info-list">
+                                <li>Just a pdf of the deluxe edition</li>
+                                <li>PRINT THE BOOK YOURSELF!</li>
+                                <li>Free with any physical copy</li>
+                            </ul>
+                            <img src="https://via.placeholder.com/80x100" alt="Digital Edition" class="edition-image">
+                        </div>
+                        <a href="#digital-purchase-form" class="btn action-btn buy-digital-btn">Buy Digital</a>
                     </div>
                 </article>
 
                 <!-- Standard Edition -->
                 <article class="edition-card standard">
-                    <button class="close-info">×</button>
                     <h3 class="edition-name">Standard<br>Edition</h3>
                     <p class="edition-price">$20</p>
-                    <div class="edition-buttons">
-                        <button class="btn info-btn" data-info="High-quality paperback with matte cover. Pickup at NYC pop-up event.">More Info</button>
+                    
+                    <!-- Normal View Buttons -->
+                    <div class="normal-view">
+                        <div class="edition-buttons">
+                            <button class="btn info-btn">More Info</button>
+                            <a href="#events" class="btn action-btn reserve-physical-btn">Reserve Pickup</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Expanded View Content -->
+                    <div class="expanded-view">
+                        <div class="expanded-header">
+                            <h4>Standard Edition ($20)</h4>
+                            <button class="close-info-btn">×</button>
+                        </div>
+                        <div class="expanded-info-container">
+                            <ul class="edition-info-list">
+                                <li>High-quality paperback</li>
+                                <li>BEST DEAL, physical art!</li>
+                                <li>Free DIY poster included</li>
+                            </ul>
+                            <img src="https://via.placeholder.com/80x100" alt="Standard Edition" class="edition-image">
+                        </div>
                         <a href="#events" class="btn action-btn reserve-physical-btn">Reserve Pickup</a>
                     </div>
                 </article>
 
                 <!-- Deluxe Edition -->
                 <article class="edition-card deluxe">
-                    <button class="close-info">×</button>
                     <h3 class="edition-name">Deluxe<br>Edition</h3>
                     <p class="edition-price">$50</p>
-                    <div class="edition-buttons">
-                        <button class="btn info-btn" data-info="Limited hardcover, hand-signed by bignosemichael. Includes a 'unique' sticker. Available for pickup at NYC pop-up events or delivery ($8 shipping).">More Info</button>
+                    
+                    <!-- Normal View Buttons -->
+                    <div class="normal-view">
+                        <div class="edition-buttons">
+                            <button class="btn info-btn">More Info</button>
+                            <a href="#events" class="btn action-btn reserve-physical-btn">Reserve Pickup</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Expanded View Content -->
+                    <div class="expanded-view">
+                        <div class="expanded-header">
+                            <h4>Deluxe Edition ($50)</h4>
+                            <button class="close-info-btn">×</button>
+                        </div>
+                        <div class="expanded-info-container">
+                            <ul class="edition-info-list">
+                                <li>Unique front/back cover, signed by bignosemichael [an unknown 25 year old]</li>
+                                <li>Extra 16-page section [MAKING CHOICES while...DRUNK? and HIGH! aka TEXT]</li>
+                                <li>Intentionally overpriced</li>
+                            </ul>
+                            <img src="https://via.placeholder.com/80x100" alt="Deluxe Edition" class="edition-image">
+                        </div>
                         <a href="#events" class="btn action-btn reserve-physical-btn">Reserve Pickup</a>
-
                     </div>
                 </article>
             </div>
@@ -66,7 +125,7 @@
                     <ul class="about-list">
                         <li>
                             <span class="bulletr">●</span>
-                            <span class="item-content"><strong>160 full color pages</strong> of <em>photograghy</em> broken into 7 <u>unique</u> sections</span>
+                            <span class="item-content"><strong>160 full color pages]</strong> [8.5" by 11"] of <em>photograghy</em> broken into 7 <u>unique</u> sections</span>
                         </li>
                         <li>
                             <span class="bulletg">■</span>
@@ -74,7 +133,7 @@
                         </li>
                         <li>
                             <span class="bulletb">▲</span>
-                            <span class="item-content">This book may [or may not] contain: <strong>blood</strong>, <em>sexy humans</em> and <u>nonsense</u>. 
+                            <span class="item-content">This book may [or may not] contain: <strong>sexy humans</strong>, <em>dead rats</em> and <u>general non-sense</u>. 
                                                         <p>Enjoy at your own risk!</p></span>
                         </li>
                     </ul>
@@ -289,6 +348,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Add this overlay div at the bottom of the body -->
+    <div class="modal-overlay"></div>
 
     <script src="script.js"></script>
     

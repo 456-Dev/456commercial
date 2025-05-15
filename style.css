@@ -332,352 +332,238 @@ body {
 
 /* Editions Selection Section */
 .editions-selection-section {
-    margin-bottom: 15px;
+    margin-bottom: 30px;
+    position: relative;
 }
-.editions-selection-section h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    font-family: var(--font-pixel), var(--font-main);
-    font-size: 1.5rem;
-}
+
+/* Editions grid - compact to fit mobile */
 .editions-grid {
     display: flex;
-    flex-direction: row;
-    gap: 10px;
-    padding: 0 10px;
+    justify-content: center;
+    gap: 5px; /* Very small gap to fit on mobile */
     position: relative;
-    min-height: 200px; /* Ensure there's space for the expanded card */
 }
+
+/* Base card styles - smaller and more compact */
 .edition-card {
     flex: 1;
     border: var(--border-thickness) solid var(--pixel-black);
-    padding: 20px;
-    text-align: left;
+    padding: 12px; /* Reduced padding */
     background-color: var(--pixel-white);
-    min-width: 0;
+    position: relative;
+    transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    position: relative;
-    min-height: 200px;
+    min-width: 0; /* Allow text to wrap/compress */
 }
 
+/* Edition name styles - smaller on mobile */
 .edition-name {
-    font-size: 1.3em;
-    margin: 0;
-    line-height: 1.2;
+    font-size: 1.2em; /* Smaller font */
+    line-height: 1.1;
     font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    width: 100%;
-    padding-top: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    margin: 0 0 12px 0;
+    padding-right: 45px; /* Make room for price tag */
 }
 
-.edition-name br {
-    content: "";
-    display: block;
-    margin: 0.2em 0;
-}
-
+/* Price tag styles - smaller on mobile */
 .edition-price {
     position: absolute;
-    top: 20px;
-    right:-15px;
-    font-size: clamp(1.2em, 4vw, 1.6em); /* Responsive font size */
+    top: 0px;
+    right: 0px;
+    font-size: 1.3em;
     font-weight: bold;
-    margin: 0;
-    padding: clamp(4px, 2vw, 8px) clamp(8px, 3vw, 12px);
-    border-radius: 4px;
-    min-width: clamp(45px, 15vw, 60px);
-    text-align: center;
-    background-color: var(--pixel-dark);
-    z-index: 1;
-    transform: translateY(-50%); /* Center vertically with the title */
+    padding: 3px 10px;
+    background-color: var(--pixel-black);
 }
 
-.digital .edition-price { 
-    background-color: var(--pixel-dark); 
-    color: var(--pixel-blue); 
-}
-.standard .edition-price { 
-    background-color: var(--pixel-dark); 
-    color: var(--pixel-green); 
-}
-.deluxe .edition-price { 
-    background-color: var(--pixel-dark); 
-    color: var(--pixel-red); 
-}
+.digital .edition-price { color: var(--pixel-white); }
+.standard .edition-price { color: var(--pixel-white); }
+.deluxe .edition-price { color: var(--pixel-white); }
 
+/* Buttons container */
 .edition-buttons {
-    margin-top: auto; /* Push buttons to bottom */
+    margin-top: auto;
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
-.deluxe .edition-buttons {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
-    gap: 5px;
-}
-
-.deluxe .info-btn {
-    grid-column: 1 / -1;
-}
-
-.action-btn, .info-btn {
-    width: 100%;
-    padding: 8px;
-    font-size: 0.85em;
+/* Button styles - more compact */
+.btn {
+    padding: 8px 5px; /* Reduced padding */
+    font-size: 0.85em; /* Smaller font */
+    font-weight: bold;
+    text-align: center;
     border: 2px solid var(--pixel-black);
     cursor: pointer;
-    font-weight: bold;
     text-decoration: none;
-    text-align: center;
+    font-family: 'Times New Roman', serif;
 }
 
-/* Match button colors with price colors */
+.info-btn { 
+    background-color: var(--pixel-white);
+    color: var(--pixel-black);
+}
+
 .digital .action-btn { background-color: var(--pixel-blue); color: var(--pixel-black); }
 .standard .action-btn { background-color: var(--pixel-green); color: var(--pixel-black); }
 .deluxe .action-btn { background-color: var(--pixel-red); color: var(--pixel-black); }
 
-.order-delivery-btn {
-    background-color: var(--pixel-yellow) !important;
-    color: var(--pixel-black) !important;
-}
-
-/* Make all info buttons white with black text */
-.info-btn { 
-    background-color: var(--pixel-white) !important; 
-    color: var(--pixel-black) !important; 
-}
-
-/* Info expansion behavior */
-.edition-card.show-info {
-    position: absolute;
-    z-index: 2;
-    width: 300%; /* Make it 3x wider */
-    left: 50%;
-    transform: translateX(-50%); /* Center horizontally */
-    background-color: var(--pixel-white);
-    border: var(--border-thickness) solid var(--pixel-black);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
-.edition-card.show-info::after {
-    content: attr(data-info);
-    position: absolute;
-    left: 0;
-    top: 0;
+/* Expanded view container */
+.expanded-view {
+    display: none;
     width: 100%;
-    height: 100%;
-    background-color: var(--pixel-white);
-    border: var(--border-thickness) solid var(--pixel-black);
-    padding: 60px 15px 15px; /* Increased top padding to make room for title/price */
-    text-align: left;
-    font-size: 0.9em;
-    line-height: 1.4;
+    padding: 5px 0;
+}
+
+/* Expanded view header */
+.expanded-header {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--pixel-grey);
+    padding-bottom: 8px;
+    margin-bottom: 10px;
 }
 
-.edition-card.show-info .edition-name,
-.edition-card.show-info .edition-price {
-    position: sabs;
-    z-index: 4; /* Above the ::after content */
-    margin-top: 10px;
-    text-align: center;
+.expanded-header h4 {
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: bold;
+    font-family: 'Times New Roman', serif;
 }
 
-.close-info {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    width: 24px;
-    height: 24px;
+/* We're keeping the expanded price integrated with the title */
+.expanded-price {
+    font-weight: bold;
+}
+
+/* Close button */
+.close-info-btn {
     background-color: var(--pixel-black);
     color: var(--pixel-white);
     border: none;
-    cursor: pointer;
-    font-size: 18px;
-    line-height: 24px;
+    width: 25px;
+    height: 25px;
+    font-size: 16px;
+    line-height: 25px;
     text-align: center;
-    z-index: 5; /* Make sure it's above everything */
+    cursor: pointer;
+}
+
+/* Content container with image */
+.expanded-info-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 0;
+    align-items: flex-start; /* Align items to the top */
+}
+
+/* Bullet point list */
+.edition-info-list {
+    flex: 1;
+    list-style-type: none;
+    padding: 0;
+    margin: 0 0 10px 0; /* Add bottom margin for spacing above button */
+}
+
+.edition-info-list li {
+    position: relative;
+    padding-left: 15px;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+    line-height: 1.2;
+}
+
+.edition-info-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: inherit;
+}
+
+/* Small image */
+.edition-image {
+    width: 80px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid var(--pixel-black);
+    margin-bottom: 0; /* Remove any bottom margin */
+}
+
+/* Expanded card state */
+.edition-card.expanded {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    z-index: 10;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    padding-bottom: 20px; /* Reduce padding */
+}
+
+.edition-card.expanded .normal-view {
     display: none;
 }
 
-.edition-card.show-info .close-info {
+.edition-card.expanded .expanded-view {
     display: block;
 }
 
+/* Hide other cards when one is expanded */
 .edition-card.hide {
-    opacity: 0; /* Make them invisible */
-    pointer-events: none; /* Disable interaction */
+    opacity: 0;
+    pointer-events: none;
 }
 
-/* Adjust mobile styles */
-@media (max-width: 400px) {
-    .edition-card {
-        padding: 12px;
-        min-height: 180px;
-    }
-    
-    .edition-name {
-        font-size: 1.1em;
-        line-height: 1.1;
-    }
-    
-    .edition-name br {
-        margin: 0.1em 0;
-    }
-    
-    .edition-price {
-        font-size: 1.2em;
-        top: 12px;
-        right: 12px;
-        padding: 4px 8px;
-        min-width: 45px;
-    }
-    
-    .action-btn, .info-btn {
-        padding: 6px;
-        font-size: 0.8em;
-    }
+/* Ensure grid has proper height when expanded */
+.editions-grid.has-expanded-card {
+    min-height: 250px;
 }
 
-/* Adjust for medium screens */
-@media (min-width: 401px) and (max-width: 768px) {
-    .edition-card {
-        padding: 15px;
-    }
-    
-    .edition-name {
-        font-size: 1.2em;
-    }
-}
-
-/* Desktop styles */
+/* Larger screens - more spacing */
 @media (min-width: 769px) {
+    .editions-grid {
+        gap: 15px;
+    }
+    
     .edition-card {
         padding: 20px;
     }
     
     .edition-name {
-        font-size: 1.3em;
-    }
-}
-
-@media (min-width: 768px) { /* Desktop styles for editions */
-    .editions-grid {
-        overflow-x: visible; /* No scroll on desktop, cards will fit or wrap */
-        flex-wrap: nowrap; /* Ensure they stay in one line if space */
-        justify-content: space-around; /* Distribute cards */
-    }
-    .edition-card {
-        flex: 1 1 280px; /* Allow growth and shrinkage, with a basis */
-        min-width: 0; /* Override mobile min-width if flex basis is smaller */
-        max-width: 300px; /* Prevent cards from becoming too wide */
-    }
-    .main-book-title {
-        font-size: 2.5rem;
-    }
-    .author-tagline {
-        font-size: 1.3em;
-    }
-}
-@media (min-width: 900px) {
-     .editions-grid {
-        gap: 20px; /* More space on larger screens */
-    }
-}
-
-/* Adjust for mobile */
-@media (max-width: 600px) {
-    .edition-card.show-info {
-        width: calc(100% - 20px); /* Full width minus padding */
-        left: 10px;
-        transform: none; /* Don't use transform on mobile */
-        margin: 0 auto;
+        font-size: 1.6em;
+        line-height: 1.2;
     }
     
-    .info-tiles-container {
-        flex-direction: row; /* Keep horizontal */
-        gap: 15px; /* Reduce gap on small screens */
+    .edition-price {
+        font-size: 1.4em;
     }
     
-    .text-tile, .gif-tile {
-        width: auto; /* Let flex handle the width */
-        margin-bottom: 0;
+    .btn {
+        padding: 10px;
+        font-size: 0.9em;
     }
     
-    .text-tile {
-        padding: 15px;
+    .expanded-header h4 {
+        font-size: 1.4em;
     }
     
-    .about-title {
-        font-size: 1.1em; /* Smaller title on mobile */
-        margin-bottom: 15px;
-        padding-bottom: 8px;
-    }
-    
-    .about-list li {
-        font-size: 0.85em; /* Smaller text on mobile */
-        margin-bottom: 12px;
-        line-height: 1.5;
-    }
-}
-
-/* Additional adjustments for very small screens */
-@media (max-width: 480px) {
-    .info-tiles-container {
-        gap: 10px;
-    }
-    
-    .text-tile {
-        padding: 12px;
-    }
-    
-    .about-list li {
-        font-size: 0.8em;
-        line-height: 1.4;
+    .edition-info-list li {
+        font-size: 1em;
         margin-bottom: 10px;
     }
     
-    .about-list .bulletr,
-    .about-list .bulletg,
-    .about-list .bulletb {
-        margin-right: 8px;
-        width: 15px;
+    .edition-image {
+        width: 100px;
+        height: 120px;
     }
     
-    .about-list .bulletr {
-        font-size: 1.3em;
-    }
-    
-    .about-list .bulletg,
-    .about-list .bulletb {
-        font-size: 1em;
-    }
-    
-    .frame-message, .click-message {
-        font-size: 0.8em;
-        padding: 5px;
-        line-height: 1.3;
-    }
-    
-    #interactive-gif {
-        margin-bottom: 5px;
-    }
-    
-    .pixel-divider {
-        height: 15px;
-        margin: 15px 0;
+    .expanded-view .action-btn {
+        width: calc(100% - 130px);
+        font-size: 0.9em;
+        padding: 10px;
     }
 }
 
@@ -1155,4 +1041,57 @@ textarea {
     border-radius: 4px;
     margin: 20px 0;
     text-align: center;
+}
+
+/* Fix for space below expanded card */
+.editions-grid.has-expanded-card + * {
+    margin-top: 20px; /* Add space after the grid when card is expanded */
+}
+
+/* Add image to expanded view */
+.expanded-info-container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+.edition-info-list {
+    flex: 2;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.edition-image {
+    flex: 1;
+    max-width: 120px;
+    height: 150px;
+    object-fit: cover;
+    border: 2px solid var(--pixel-black);
+}
+
+/* Add a shadow when hovering over buttons */
+.btn:hover {
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Prevent scroll issues when modal is open */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* Hide original title and price in expanded state */
+.edition-card.expanded .edition-name,
+.edition-card.expanded .edition-price {
+    display: none;
+}
+
+/* Position the action button to align with image bottom */
+.expanded-view .action-btn {
+    position: static;
+    width: auto;
+    display: block;
+    margin-left: 15px; /* Match the bullet point padding */
+    margin-top: 12px; /* Add some space above the button */
+    width: calc(100% - 110px); /* Match the width of the bullet points */
 }
