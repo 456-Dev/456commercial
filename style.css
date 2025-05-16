@@ -137,11 +137,43 @@ body {
 .author-tagline {
     font-size: 1.2em;
     margin: 12px 0; /* Reduced from 25px to 12px */
-    color: #333;
+    color: white;
     text-align: center;
+    background-color: var(--pixel-black);
+    display: inline-block;
+    padding: 5px 15px;
+    margin-left: auto;
+    margin-right: auto;
 }
 .author-tagline em {
     font-style: italic;
+}
+
+/* Center the tagline container */
+.author-tagline-container {
+    text-align: center;
+    width: 100%;
+}
+
+/* About list responsive text */
+.about-list li {
+    margin-bottom: 10px;
+    font-size: 0.8em; /* Base size for mobile */
+    line-height: 1.6;
+    display: flex;
+    align-items: flex-start;
+    padding-left: 5px; /* Added small padding to move entire bullet point left */
+}
+
+/* Larger screens - scale up the about list text */
+@media (min-width: 768px) {
+    .about-list li {
+        font-size: 1em; /* Larger text for desktop/web view */
+    }
+    
+    .about-list .item-content {
+        font-size: 1.05em; /* Slightly larger content for better readability */
+    }
 }
 
 .info-tiles-container {
@@ -187,15 +219,6 @@ body {
     list-style-type: none;
     padding: 0;
     margin: 0;
-}
-
-.about-list li {
-    margin-bottom: 10px;
-    font-size: 0.8em;
-    line-height: 1.6;
-    display: flex;
-    align-items: flex-start;
-    padding-left: 5px; /* Added small padding to move entire bullet point left */
 }
 
 .about-list li:last-child {
