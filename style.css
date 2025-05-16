@@ -331,7 +331,7 @@ body {
 .edition-card {
     flex: 1;
     border: var(--border-thickness) solid var(--pixel-black);
-    padding: 12px; /* Reduced padding */
+    padding: 15px 12px; /* Slightly increased vertical padding */
     background-color: var(--pixel-white);
     position: relative;
     transition: all 0.3s ease;
@@ -370,19 +370,26 @@ body {
     margin-top: auto;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 8px; /* Increased from 5px */
+    width: 100%; /* Ensure buttons use full width */
 }
 
 /* Button styles - more compact */
 .btn {
     padding: 8px 5px; /* Reduced padding */
-    font-size: 1em; /* Smaller font */
+    font-size: 10px; /* Fixed small size in pixels */
     font-weight: bold;
     text-align: center;
     border: 2px solid var(--pixel-black);
     cursor: pointer;
     text-decoration: none;
     font-family: 'Times New Roman', serif;
+    white-space: normal; /* Allow text to wrap if needed */
+    line-height: 1.2; /* Tighter line height for wrapped text */
+}
+
+.action-btn {
+    font-size: 0.65rem; /* Action buttons slightly smaller */
 }
 
 .info-btn { 
@@ -565,10 +572,41 @@ body {
     
     .expanded-view .action-btn {
         width: calc(100% - 130px);
-        font-size: 1.6em;
-        font-weight: bold;
+        font-size: 1em;
         padding: 10px;
         margin-top: 15px; /* Add more space above button */
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 360px) {
+    .btn {
+        font-size: 0.6rem; /* Force smaller text on very small screens */
+        padding: 8px 3px;
+    }
+    
+    .action-btn, .info-btn {
+        font-size: 0.55rem; /* Even smaller for action buttons */
+    }
+    
+    .expanded-view .action-btn {
+        font-size: 0.55rem;
+    }
+}
+
+/* Special styling for responsive buttons on small screens */
+@media (max-width: 576px) {
+    .edition-buttons {
+        gap: 8px; /* Increased gap between buttons */
+    }
+    
+    .btn {
+        padding: 10px 5px; /* More vertical padding */
+        font-size: 9px; /* Even smaller on mobile */
+    }
+    
+    .action-btn, .info-btn {
+        padding: 12px 5px; /* Even more padding for action buttons */
     }
 }
 
@@ -1097,8 +1135,19 @@ body.modal-open {
     width: auto;
     display: block;
     margin-left: 15px; /* Match the bullet point padding */
-    margin-top: 12px; /* Add some space above the button */
+    margin-top: 15px; /* Add some space above the button */
     width: calc(100% - 110px); /* Match the width of the bullet points */
+    font-size: 10px; /* Fixed small size in pixels */
+    white-space: normal; /* Allow wrapping */
+}
+
+@media (max-width: 576px) {
+    .expanded-view .action-btn {
+        width: calc(100% - 30px); /* Wider on mobile */
+        padding: 12px 8px;
+        margin-top: 20px;
+        font-size: 0.65rem; /* Fixed smaller size on mobile */
+    }
 }
 
 /* Zelle Info Styling */
