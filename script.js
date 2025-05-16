@@ -206,15 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         `;
                         formParent.appendChild(thankYouMessage);
                         
-                        // Submit the form to Formspree
-                        const formData = new FormData(this);
-                        fetch(this.action, {
-                            method: this.method,
-                            body: formData,
-                            headers: {
-                                'Accept': 'application/json'
-                            }
-                        });
+                        // Old form submission removed - now handled by EmailJS in index.html
                     })
                     .catch((error) => {
                         console.error("Error adding booking: ", error);
@@ -239,15 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 formParent.appendChild(thankYouMessage);
                 
-                // Submit the form to Formspree
-                const formData = new FormData(this);
-                fetch(this.action, {
-                    method: this.method,
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
+                // Old form submission removed - now handled by EmailJS in index.html
             }
         });
     }
@@ -657,8 +641,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             formParent.appendChild(thankYouMessage);
             
-            // Don't return false here if you want the form to actually submit
-            // Let Formspree handle the actual submission
+            // Old form submission removed - now handled by EmailJS in index.html
         });
     }
 

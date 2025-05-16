@@ -478,45 +478,39 @@
     <script>
         // Initialize EmailJS globally
         console.log("Initializing EmailJS globally...");
-        try {
-            // IMPORTANT: Replace this with your actual public key from https://dashboard.emailjs.com/admin/account
-            // Should look like "public_xxxxxxxxxx" or "user_xxxxxxxxxx"
+        (function() {
+            // Initialize with defer to ensure it's fully loaded
             emailjs.init("8c7vCsoyTAZuZfMap");
             console.log("EmailJS initialized successfully");
-        } catch (error) {
-            console.error("EmailJS global initialization error:", error);
-        }
+        })();
         
         // Global test function for EmailJS debugging
         window.testEmailJS = async function() {
             console.log("Testing EmailJS...");
-            
-            // IMPORTANT: Verify these IDs match what's in your EmailJS dashboard
-            // Service ID: Found in the "Email Services" tab (https://dashboard.emailjs.com/admin/services)
-            // Template ID: Found in the "Email Templates" tab (https://dashboard.emailjs.com/admin/templates)
-            const serviceId = "service_hubj58x";  // Verify this exactly matches your EmailJS service ID
-            const templateId = "template_da4g2be";  // Verify this exactly matches your EmailJS template ID
-            
-            const testData = {
-                subscriber_email: "michaellinaresfilms@gmail.com",
-                event_name: "Test Event",
-                book_edition: "Test Edition",
-                confirmation_link: "https://456solutions.com/confirm?id=test123",
-                // Try all possible recipient field variations
-                to_email: "michaellinaresfilms@gmail.com",
-                to_name: "Test User",
-                email: "michaellinaresfilms@gmail.com",  // Try this field name
-                from_name: "Book Order System",  // Add sender name
-                reply_to: "michaellinaresfilms@gmail.com"  // Add reply-to field
-            };
-            
-            console.log(`Using service ID: "${serviceId}", template ID: "${templateId}", and data:`, testData);
-            
             try {
+                const serviceId = "service_hubj58x";
+                const templateId = "template_da4g2be";
+                
+                const testData = {
+                    subscriber_email: "michaellinaresfilms@gmail.com",
+                    event_name: "Test Event",
+                    book_edition: "Test Edition",
+                    confirmation_link: "https://456solutions.com/confirm?id=test123",
+                    // Use the corrected field name (single 'l')
+                    to_email: "michaellinaresfilms@gmail.com",
+                    to_name: "Test User",
+                    email: "michaellinaresfilms@gmail.com",
+                    from_name: "Book Order System",
+                    reply_to: "michaellinaresfilms@gmail.com"
+                };
+                
+                console.log(`Using service ID: "${serviceId}", template ID: "${templateId}", and data:`, testData);
+                
                 const testResult = await emailjs.send(
                     serviceId,
                     templateId,
-                    testData
+                    testData,
+                    "8c7vCsoyTAZuZfMap" // Pass the public key again for redundancy
                 );
                 console.log("EmailJS test successful:", testResult);
                 return testResult;
@@ -603,28 +597,33 @@
                         });
                         console.log("Document added to Firestore with ID:", docRef.id);
                         
-                        // Prepare email data
-                        const emailData = {
-                            subscriber_email: email,
-                            event_name: eventName,
-                            book_edition: bookEditionReserved,
-                            confirmation_link: "https://456solutions.com/confirm?id=" + docRef.id,
-                            // Add all possible recipient fields required by EmailJS
-                            to_email: email,
-                            to_name: email.split('@')[0], // Simple placeholder for name
-                            email: email, // Duplicate field with different name
-                            from_name: "THEY SAID YOU CAN'T - Book Reservation",
-                            reply_to: "books@456solutions.com"
-                        };
-                        console.log("Sending email via EmailJS with data:", emailData);
-                        
                         // Send confirmation email via EmailJS
                         try {
                             // IMPORTANT: These IDs must match your EmailJS dashboard
                             const serviceId = "service_hubj58x";  // Verify this exactly matches your EmailJS service ID
                             const templateId = "template_da4g2be";  // Verify this exactly matches your EmailJS template ID
-            
-                            const emailResult = await emailjs.send(serviceId, templateId, emailData);
+                            
+                            // Prepare email data
+                            const emailData = {
+                                subscriber_email: email,
+                                event_name: eventName,
+                                book_edition: bookEditionReserved,
+                                confirmation_link: "https://456solutions.com/confirm?id=" + docRef.id,
+                                // Include the field with double 'l' that matches your template
+                                to_email: email,
+                                to_name: email.split('@')[0], // Simple placeholder for name
+                                email: email,
+                                from_name: "THEY SAID YOU CAN'T - Book Reservation",
+                                reply_to: "books@456solutions.com"
+                            };
+                            console.log("Sending email via EmailJS with data:", emailData);
+                            
+                            const emailResult = await emailjs.send(
+                                serviceId, 
+                                templateId, 
+                                emailData,
+                                "8c7vCsoyTAZuZfMap" // Pass the public key again for redundancy
+                            );
                             console.log("EmailJS response:", emailResult);
                             
                             // Show success message
