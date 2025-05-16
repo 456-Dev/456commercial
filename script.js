@@ -170,76 +170,85 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            // Save the booking to Firebase
-            db.collection("bookings").add({
-                eventName: eventName,
-                bookEdition: bookChoice,
-                email: email,
-                phone: phone,
-                instagram: instagram,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            })
-            .then(() => {
-                console.log("Booking saved to Firebase!");
-                
-                // Update the event's booked slots in Firebase
-                const eventRef = db.collection("events").doc(eventName.replace(/\s+/g, '_').toLowerCase());
-                
-                return db.runTransaction((transaction) => {
-                    return transaction.get(eventRef).then((eventDoc) => {
-                        if (!eventDoc.exists) {
-                            // Create the event document if it doesn't exist
-                            transaction.set(eventRef, {
-                                name: eventName,
-                                totalSlots: totalSlots,
-                                bookedSlots: bookedSlots + 1,
-                                date: eventCard.querySelector('.event-details').textContent,
-                                location: eventCard.querySelector('.event-location').textContent
-                            });
-                        } else {
-                            // Update the existing event document
-                            const newBookedSlots = eventDoc.data().bookedSlots + 1;
-                            transaction.update(eventRef, { bookedSlots: newBookedSlots });
-                        }
+            // Add Firebase booking logic here (if implemented)
+            // Record the booking in Firebase
+            if (window.db) {
+                try {
+                    window.db.collection("bookings").add({
+                        event_name: eventName,
+                        book_edition: bookChoice,
+                        email: email,
+                        phone: phone,
+                        instagram: instagram,
+                        timestamp: new Date()
+                    })
+                    .then(() => {
+                        console.log("Booking recorded in Firebase");
+                        
+                        // Update the event card slots
+                        const newBookedSlots = bookedSlots + 1;
+                        const newAvailableSlots = totalSlots - newBookedSlots;
+                        
+                        eventCard.dataset.eventSlotsBooked = newBookedSlots;
+                        eventCard.querySelector('.slots-available').textContent = newAvailableSlots;
+                        eventCard.querySelector('.slots-bar-filled').style.width = `${(newBookedSlots / totalSlots) * 100}%`;
+                        
+                        // Show thank you message after form submission
+                        const formParent = this.parentElement;
+                        this.style.display = 'none';
+                        
+                        const thankYouMessage = document.createElement('div');
+                        thankYouMessage.className = 'form-success-message';
+                        thankYouMessage.innerHTML = `
+                            <h4>Thank You!</h4>
+                            <p>Your reservation has been submitted successfully.</p>
+                            <p>A confirmation email has been sent to your email address.</p>
+                        `;
+                        formParent.appendChild(thankYouMessage);
+                        
+                        // Submit the form to Formspree
+                        const formData = new FormData(this);
+                        fetch(this.action, {
+                            method: this.method,
+                            body: formData,
+                            headers: {
+                                'Accept': 'application/json'
+                            }
+                        });
+                    })
+                    .catch((error) => {
+                        console.error("Error adding booking: ", error);
+                        alert("There was an error saving your booking. Please try again.");
                     });
-                });
-            })
-            .then(() => {
-                // Update UI
-                const newBookedSlots = bookedSlots + 1;
-                eventCard.dataset.eventSlotsBooked = newBookedSlots;
-                
-                const availableSlotSpan = eventCard.querySelector('.slots-available');
-                if (availableSlotSpan) {
-                    availableSlotSpan.textContent = totalSlots - newBookedSlots;
+                } catch (error) {
+                    console.error("Firebase error:", error);
+                    alert("There was an error with the booking system. Please try again or contact support.");
                 }
+            } else {
+                // No Firebase, just show thank you message and submit form
+                // Show thank you message after form submission
+                const formParent = this.parentElement;
+                this.style.display = 'none';
                 
-                const barFilled = eventCard.querySelector('.slots-bar-filled');
-                if (barFilled) {
-                    const percentageBooked = (newBookedSlots / totalSlots) * 100;
-                    barFilled.style.width = `${percentageBooked}%`;
-                }
+                const thankYouMessage = document.createElement('div');
+                thankYouMessage.className = 'form-success-message';
+                thankYouMessage.innerHTML = `
+                    <h4>Thank You!</h4>
+                    <p>Your reservation has been submitted successfully.</p>
+                    <p>A confirmation email has been sent to your email address.</p>
+                `;
+                formParent.appendChild(thankYouMessage);
                 
-                // Disable the book button if all slots are now booked
-                if (newBookedSlots >= totalSlots) {
-                    const bookButton = eventCard.querySelector('.book-slot-btn');
-                    if (bookButton) {
-                        bookButton.disabled = true;
-                        bookButton.textContent = "Fully Booked";
-                        bookButton.style.backgroundColor = 'var(--pixel-grey)';
+                // Submit the form to Formspree
+                const formData = new FormData(this);
+                fetch(this.action, {
+                    method: this.method,
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
                     }
-                }
-                
-                // Show a success message
-                alert("Your slot has been reserved! Check your email for confirmation details.");
-                
-                // Close the modal and reset form
-                closeModal();
-            })
-            .catch((error) => {
-                console.error("Error saving booking: ", error);
-                alert("There was an error saving your booking. Please try again.");
-            });
+                });
+            }
         });
     }
 
@@ -626,11 +635,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle delivery form submission
     if (deliveryForm) {
         deliveryForm.addEventListener('submit', function(e) {
-            // Only prevent the form submission if we're in demo mode
-            // In a real implementation, we would let Formspree handle the submission
-            // Comment out the next line to enable actual form submission:
-            // e.preventDefault();
-            
             // Check if payment confirmation checkbox is checked
             const paymentConfirmed = document.getElementById('payment-confirmation').checked;
             if (!paymentConfirmed) {
@@ -639,43 +643,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 return false;
             }
             
-            // Store a reference to the form
-            const form = this;
+            // Show thank you message after form submission
+            const formParent = this.parentElement;
+            this.style.display = 'none';
             
-            // Show a submitting status if desired
-            // form.querySelector('button[type="submit"]').textContent = "Submitting...";
+            const thankYouMessage = document.createElement('div');
+            thankYouMessage.className = 'form-success-message';
+            thankYouMessage.innerHTML = `
+                <h4>Thank You!</h4>
+                <p>Your order has been submitted successfully.</p>
+                <p>A confirmation email has been sent to your email address.</p>
+                <p>We'll ship your book within 5-7 business days.</p>
+            `;
+            formParent.appendChild(thankYouMessage);
             
-            // If using Formspree with AJAX (uncommenting below would prevent the default form submission)
-            /*
-            e.preventDefault();
-            
-            const formData = new FormData(form);
-            
-            fetch(form.action, {
-                method: form.method,
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error("Form submission failed");
-            })
-            .then(data => {
-                // Show success message
-                if (orderSuccessDiv) {
-                    orderSuccessDiv.style.display = 'block';
-                    form.style.display = 'none';
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("There was a problem submitting your form. Please try again.");
-            });
-            */
+            // Don't return false here if you want the form to actually submit
+            // Let Formspree handle the actual submission
         });
     }
 

@@ -285,8 +285,11 @@
         <div class="modal-content">
             <button class="modal-close-btn" aria-label="Close modal">×</button>
             <h3 id="modal-event-name">Book Slot for [Event Name]</h3>
-            <form id="booking-form" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+            <form id="booking-form" action="https://formsubmit.io/send/books@456solutions.com" method="POST">
                 <input type="hidden" name="event_name" id="form-event-name-hidden" value="">
+                <input type="hidden" name="_subject" value="Your THEY SAID YOU CAN'T Reservation Confirmation">
+                <input type="hidden" name="_redirect" value="false">
+                <input type="hidden" name="_autoresponse" value="Thank you for your reservation. This email confirms your slot for the THEY SAID YOU CAN'T book pickup event. We look forward to seeing you there!">
                 <div class="form-group">
                     <label for="book-choice">Which book edition are you reserving?</label>
                     <select id="book-choice" name="book_edition_reserved" required>
@@ -361,8 +364,11 @@
             <h3>Order Deluxe Edition - Delivery</h3>
             <p class="delivery-intro">Order the Deluxe [Worse] Edition for $58 ($50 + $8 shipping).</p>
             
-            <form id="delivery-form" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+            <form id="delivery-form" action="https://formsubmit.io/send/books@456solutions.com" method="POST">
                 <input type="hidden" name="order_type" value="Deluxe Edition Delivery - $58">
+                <input type="hidden" name="_subject" value="Your THEY SAID YOU CAN'T Deluxe Edition Order Confirmation">
+                <input type="hidden" name="_redirect" value="false">
+                <input type="hidden" name="_autoresponse" value="Thank you for your Deluxe Edition order. Your book will be shipped within 5-7 business days, and tracking information will be sent to your email.">
                 
                 <div class="form-group">
                     <label for="full-name">Full Name*</label>
