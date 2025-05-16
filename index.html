@@ -492,7 +492,35 @@
         window.addEventListener('firebase-ready', () => {
             // Initialize EmailJS
             // TODO: Replace with your real EmailJS public key
-            emailjs.init("PK_jmu1NYfKXq8PBibd3");
+            console.log("Initializing EmailJS...");
+            try {
+                emailjs.init("PK_jmu1NYfKXq8PBibd3");
+                console.log("EmailJS initialized successfully");
+                
+                // Add test function to window for console debugging
+                window.testEmailJS = async function() {
+                    console.log("Testing EmailJS...");
+                    try {
+                        const testResult = await emailjs.send(
+                            "zoho_smtp", 
+                            "pickup_booking", 
+                            {
+                                subscriber_email: "test@example.com",
+                                event_name: "Test Event",
+                                book_edition: "Test Edition",
+                                confirmation_link: "https://456solutions.com/confirm?id=test123"
+                            }
+                        );
+                        console.log("EmailJS test successful:", testResult);
+                        return testResult;
+                    } catch (error) {
+                        console.error("EmailJS test failed:", error);
+                        throw error;
+                    }
+                };
+            } catch (error) {
+                console.error("EmailJS initialization error:", error);
+            }
 
             // Get Firebase app and initialize Firestore
             const app = getApp();
@@ -506,68 +534,84 @@
             if (bookingForm) {
                 bookingForm.addEventListener('submit', async function(e) {
                     e.preventDefault(); // Prevent default form submission
+                    console.log("Form submitted - starting processing");
                     
                     // Get form data
                     const email = document.getElementById('email').value;
                     const eventName = document.getElementById('form-event-name-hidden').value;
                     const bookEditionReserved = document.getElementById('book-choice').value;
                     
+                    console.log("Form data collected:", { email, eventName, bookEditionReserved });
+                    
                     try {
                         // Add document to Firestore with server timestamp
+                        console.log("Adding document to Firestore...");
                         const docRef = await addDoc(bookingsCollection, {
                             email,
                             event_name: eventName,
                             book_edition_reserved: bookEditionReserved,
                             createdAt: serverTimestamp()
                         });
+                        console.log("Document added to Firestore with ID:", docRef.id);
+                        
+                        // Prepare email data
+                        const emailData = {
+                            subscriber_email: email,
+                            event_name: eventName,
+                            book_edition: bookEditionReserved,
+                            confirmation_link: "https://456solutions.com/confirm?id=" + docRef.id
+                        };
+                        console.log("Sending email via EmailJS with data:", emailData);
                         
                         // Send confirmation email via EmailJS
-                        await emailjs.send(
-                            "service_hubj58x", 
-                            "template_da4g2be", 
-                            {
-                                subscriber_email: email,
-                                event_name: eventName,
-                                book_edition: bookEditionReserved,
-                                confirmation_link: "https://456solutions.com/confirm?id=" + docRef.id
-                            }
-                        );
-                        
-                        // Show success message
-                        alert("Reservation successful! A confirmation email has been sent to your address.");
-                        
-                        // Close modal
-                        document.querySelector('.modal-close-btn').click();
-                        
-                        // Update UI if needed (event slots, etc.)
-                        const eventCard = document.querySelector(`.event-card[data-event-name="${eventName}"]`);
-                        if (eventCard) {
-                            const totalSlots = parseInt(eventCard.dataset.eventSlotsTotal, 10);
-                            const bookedSlots = parseInt(eventCard.dataset.eventSlotsBooked, 10);
+                        try {
+                            const emailResult = await emailjs.send("zoho_smtp", "pickup_booking", emailData);
+                            console.log("EmailJS response:", emailResult);
                             
-                            // Update booked slots
-                            const newBookedSlots = bookedSlots + 1;
-                            const newAvailableSlots = totalSlots - newBookedSlots;
+                            // Show success message
+                            alert("Reservation successful! A confirmation email has been sent to your address.");
                             
-                            eventCard.dataset.eventSlotsBooked = newBookedSlots;
-                            eventCard.querySelector('.slots-available').textContent = newAvailableSlots;
-                            eventCard.querySelector('.slots-bar-filled').style.width = `${(newBookedSlots / totalSlots) * 100}%`;
+                            // Close modal
+                            document.querySelector('.modal-close-btn').click();
                             
-                            // Disable button if fully booked
-                            if (newAvailableSlots <= 0) {
-                                const bookButton = eventCard.querySelector('.book-slot-btn');
-                                if (bookButton) {
-                                    bookButton.disabled = true;
-                                    bookButton.textContent = 'Fully Booked';
-                                    bookButton.style.backgroundColor = 'var(--pixel-grey)';
-                                }
-                            }
+                            // Update UI (event slots, etc.)
+                            updateEventUI(eventName);
+                        } catch (emailError) {
+                            console.error("EmailJS send error:", emailError);
+                            alert("Your reservation was saved, but there was an error sending the confirmation email. We'll send it manually. Your slot is confirmed!");
                         }
                     } catch (error) {
                         console.error("Error processing reservation:", error);
                         alert("There was an error processing your reservation. Please try again or contact support.");
                     }
                 });
+            }
+            
+            // Helper function to update event UI
+            function updateEventUI(eventName) {
+                const eventCard = document.querySelector(`.event-card[data-event-name="${eventName}"]`);
+                if (eventCard) {
+                    const totalSlots = parseInt(eventCard.dataset.eventSlotsTotal, 10);
+                    const bookedSlots = parseInt(eventCard.dataset.eventSlotsBooked, 10);
+                    
+                    // Update booked slots
+                    const newBookedSlots = bookedSlots + 1;
+                    const newAvailableSlots = totalSlots - newBookedSlots;
+                    
+                    eventCard.dataset.eventSlotsBooked = newBookedSlots;
+                    eventCard.querySelector('.slots-available').textContent = newAvailableSlots;
+                    eventCard.querySelector('.slots-bar-filled').style.width = `${(newBookedSlots / totalSlots) * 100}%`;
+                    
+                    // Disable button if fully booked
+                    if (newAvailableSlots <= 0) {
+                        const bookButton = eventCard.querySelector('.book-slot-btn');
+                        if (bookButton) {
+                            bookButton.disabled = true;
+                            bookButton.textContent = 'Fully Booked';
+                            bookButton.style.backgroundColor = 'var(--pixel-grey)';
+                        }
+                    }
+                }
             }
         });
     </script>
