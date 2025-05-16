@@ -1100,3 +1100,30 @@ body.modal-open {
     margin-top: 12px; /* Add some space above the button */
     width: calc(100% - 110px); /* Match the width of the bullet points */
 }
+
+/* Zelle Info Styling */
+.zelle-info {
+    margin: 15px 0;
+    background-color: #f0f0ff;
+    border: 1px solid #6C1CD3;
+    border-radius: 4px;
+    padding: 12px;
+    transition: all 0.3s ease;
+}
+
+.zelle-details h5 {
+    color: #6C1CD3;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.zelle-details p {
+    margin: 5px 0;
+}
+
+.zelle-note {
+    font-size: 0.9em;
+    font-style: italic;
+    margin-top: 10px !important;
+}

@@ -679,4 +679,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Handle Zelle payment buttons ---
+    const zelleDigitalBtn = document.getElementById('zelle-digital-btn');
+    const zelleDigitalInfo = document.getElementById('zelle-digital-info');
+    const zelleDeliveryBtn = document.getElementById('zelle-delivery-btn');
+    const zelleDeliveryInfo = document.getElementById('zelle-delivery-info');
+    
+    if (zelleDigitalBtn && zelleDigitalInfo) {
+        zelleDigitalBtn.addEventListener('click', () => {
+            zelleDigitalInfo.style.display = zelleDigitalInfo.style.display === 'none' ? 'block' : 'none';
+        });
+    }
+    
+    if (zelleDeliveryBtn && zelleDeliveryInfo) {
+        zelleDeliveryBtn.addEventListener('click', () => {
+            zelleDeliveryInfo.style.display = zelleDeliveryInfo.style.display === 'none' ? 'block' : 'none';
+        });
+    }
+
 });
