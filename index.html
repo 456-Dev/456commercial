@@ -575,7 +575,7 @@
 
             // Handle form submission
             if (bookingForm) {
-                bookingForm.addEventListener('submit', async function(e) {
+                bookingForm.addEventListener('submit', function(e) {
                     e.preventDefault(); // Prevent default form submission
                     console.log("Form submitted - starting processing");
                     
@@ -586,67 +586,76 @@
                     
                     console.log("Form data collected:", { email, eventName, bookEditionReserved });
                     
-                    try {
-                        // Add document to Firestore with server timestamp
-                        console.log("Adding document to Firestore...");
-                        const docRef = await addDoc(bookingsCollection, {
-                            email,
-                            event_name: eventName,
-                            book_edition_reserved: bookEditionReserved,
-                            createdAt: serverTimestamp()
-                        });
+                    // First save to Firestore
+                    console.log("Adding document to Firestore...");
+                    addDoc(bookingsCollection, {
+                        email,
+                        event_name: eventName,
+                        book_edition_reserved: bookEditionReserved,
+                        createdAt: serverTimestamp()
+                    })
+                    .then(docRef => {
                         console.log("Document added to Firestore with ID:", docRef.id);
                         
-                        // Send confirmation email via EmailJS
-                        try {
-                            // IMPORTANT: These IDs must match your EmailJS dashboard
-                            const serviceId = "service_hubj58x";  // Verify this exactly matches your EmailJS service ID
-                            const templateId = "template_da4g2be";  // Verify this exactly matches your EmailJS template ID
-                            
-                            // Prepare email data
-                            const emailData = {
-                                subscriber_email: email,
-                                event_name: eventName,
-                                book_edition: bookEditionReserved,
-                                confirmation_link: "https://456solutions.com/confirm?id=" + docRef.id,
-                                // Include the field with double 'l' that matches your template
-                                to_email: email,
-                                to_name: email.split('@')[0], // Simple placeholder for name
-                                email: email,
-                                from_name: "THEY SAID YOU CAN'T - Book Reservation",
-                                reply_to: "books@456solutions.com"
-                            };
-                            console.log("Sending email via EmailJS with data:", emailData);
-                            console.log("Using serviceId:", serviceId);
-                            console.log("Using templateId:", templateId);
-                            console.log("Using publicKey: 8c7vCsoyTAZuZfMap");
-                            console.log("About to call emailjs.send()...");
-                            
-                            const emailResult = await emailjs.send(
-                                serviceId, 
-                                templateId, 
-                                emailData,
-                                "8c7vCsoyTAZuZfMap" // Pass the public key again for redundancy
-                            );
-                            console.log("EmailJS response:", emailResult);
-                            
-                            // Show success message
-                            alert("Reservation successful! A confirmation email has been sent to your address.");
-                            
-                            // Close modal
-                            document.querySelector('.modal-close-btn').click();
-                            
-                            // Update UI (event slots, etc.)
-                            updateEventUI(eventName);
-                        } catch (emailError) {
-                            console.error("EmailJS send error:", emailError);
-                            console.error("Error details:", JSON.stringify(emailError));
-                            alert("Your reservation was saved, but there was an error sending the confirmation email. We'll send it manually. Your slot is confirmed!");
+                        // Now send email with EmailJS
+                        console.log("Preparing to send confirmation email...");
+                        
+                        // IMPORTANT: These IDs must match your EmailJS dashboard
+                        const serviceId = "service_hubj58x";
+                        const templateId = "template_da4g2be";
+                        
+                        // Prepare email data
+                        const emailData = {
+                            subscriber_email: email,
+                            event_name: eventName,
+                            book_edition: bookEditionReserved,
+                            confirmation_link: "https://456solutions.com/confirm?id=" + docRef.id,
+                            to_email: email,
+                            to_name: email.split('@')[0], // Simple placeholder for name
+                            email: email,
+                            from_name: "THEY SAID YOU CAN'T - Book Reservation",
+                            reply_to: "books@456solutions.com"
+                        };
+                        
+                        console.log("Sending email via EmailJS with data:", emailData);
+                        console.log("Using serviceId:", serviceId);
+                        console.log("Using templateId:", templateId);
+                        console.log("Using publicKey: 8c7vCsoyTAZuZfMap");
+                        
+                        // Return the promise for chaining
+                        return emailjs.send(
+                            serviceId,
+                            templateId,
+                            emailData,
+                            "8c7vCsoyTAZuZfMap"
+                        );
+                    })
+                    .then(emailResult => {
+                        // Email sent successfully
+                        console.log("Email sent successfully:", emailResult);
+                        
+                        // Show success message
+                        alert("Reservation successful! A confirmation email has been sent to your address.");
+                        
+                        // Close modal
+                        document.querySelector('.modal-close-btn').click();
+                        
+                        // Update UI (event slots, etc.)
+                        updateEventUI(eventName);
+                    })
+                    .catch(error => {
+                        // Handle any errors in the promise chain
+                        if (error.status === 0) {
+                            console.error("EmailJS error - likely network issue:", error);
+                            alert("Your reservation was saved, but there was a network error sending the confirmation email. We'll send it manually. Your slot is confirmed!");
+                        } else if (error.text && error.text.includes("recipient")) {
+                            console.error("EmailJS recipient error:", error);
+                            alert("Your reservation was saved, but there was an issue with the email address. We'll contact you manually. Your slot is confirmed!");
+                        } else {
+                            console.error("Error processing reservation:", error);
+                            alert("There was an error processing your reservation. Please try again or contact support.");
                         }
-                    } catch (error) {
-                        console.error("Error processing reservation:", error);
-                        alert("There was an error processing your reservation. Please try again or contact support.");
-                    }
+                    });
                 });
             }
             
