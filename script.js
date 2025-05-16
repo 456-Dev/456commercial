@@ -530,7 +530,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Edition cards info behavior ---
     const editionsGrid = document.querySelector('.editions-grid');
     const modalOverlay = document.querySelector('.modal-overlay');
-    const isMobile = window.innerWidth <= 768;
+    let isMobile = window.innerWidth <= 768; // Fixed readonly property issue
     
     // Handle window resize
     window.addEventListener('resize', () => {
@@ -574,9 +574,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Also close when clicking on overlay
-    modalOverlay.addEventListener('click', () => {
-        document.querySelector('.edition-card.expanded .close-info-btn').click();
-    });
+    if (modalOverlay) {
+        modalOverlay.addEventListener('click', () => {
+            // First check if there are any expanded edition cards
+            const expandedCard = document.querySelector('.edition-card.expanded');
+            if (expandedCard) {
+                const closeBtn = expandedCard.querySelector('.close-info-btn');
+                if (closeBtn) {
+                    closeBtn.click();
+                }
+            }
+        });
+    }
 
     // Order delivery functionality
     if (orderDeliveryBtn) {
