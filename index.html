@@ -501,7 +501,9 @@
                 subscriber_email: "michaellinaresfilms@gmail.com",
                 event_name: "Test Event",
                 book_edition: "Test Edition",
-                confirmation_link: "https://456solutions.com/confirm?id=test123"
+                confirmation_link: "https://456solutions.com/confirm?id=test123",
+                to_email: "michaellinaresfilms@gmail.com",
+                to_name: "Test User"
             };
             
             console.log(`Using service ID: "${serviceId}", template ID: "${templateId}", and data:`, testData);
@@ -574,7 +576,10 @@
                             subscriber_email: email,
                             event_name: eventName,
                             book_edition: bookEditionReserved,
-                            confirmation_link: "https://456solutions.com/confirm?id=" + docRef.id
+                            confirmation_link: "https://456solutions.com/confirm?id=" + docRef.id,
+                            // Add recipient fields required by EmailJS
+                            to_email: email,
+                            to_name: email.split('@')[0] // Simple placeholder for name
                         };
                         console.log("Sending email via EmailJS with data:", emailData);
                         
