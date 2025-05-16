@@ -157,7 +157,8 @@ body {
 
 .text-tile {
     flex: 2; /* Take up 2/3 of the space */
-    padding: 20px;
+    padding: 15px; /* Reduced from 20px to give more space for content */
+    padding-top: 8px; /* Reduced top padding specifically */
     background-color: #f9f9f9;
     min-width: 0; /* Allow shrinking */
     border-radius: 4px;
@@ -171,13 +172,14 @@ body {
 }
 
 .about-title {
-    font-size: 1.4em;
+    font-size: 1.2em;
     font-weight: bold;
-    margin-bottom: 15px;
+    margin-top: -5px; /* Added negative margin to reduce space above title */
+    margin-bottom: 2px;
     color: var(--pixel-black);
     text-align: center;
     border-bottom: 2px solid var(--pixel-grey);
-    padding-bottom: 5px;
+    padding-bottom: 0px;
     letter-spacing: 1px;
 }
 
@@ -189,10 +191,11 @@ body {
 
 .about-list li {
     margin-bottom: 10px;
-    font-size: 1em;
+    font-size: 0.8em;
     line-height: 1.6;
     display: flex;
     align-items: flex-start;
+    padding-left: 5px; /* Added small padding to move entire bullet point left */
 }
 
 .about-list li:last-child {
@@ -202,10 +205,10 @@ body {
 .about-list .bulletr,
 .about-list .bulletg,
 .about-list .bulletb {
-    margin-right: 15px;
+    margin-right: 8px; /* Reduced from 15px */
     flex-shrink: 0;
     display: inline-block;
-    width: 20px;
+    width: 15px; /* Reduced from 20px */
     text-align: center;
     line-height: 1;
 }
@@ -217,7 +220,7 @@ body {
 
 .about-list .bulletg {
     color: var(--pixel-green);
-    font-size: 1.2em; /* Square */
+    font-size: 1.3em; /* Square */
 }
 
 .about-list .bulletb {
@@ -340,25 +343,30 @@ body {
     min-width: 0; /* Allow text to wrap/compress */
 }
 
-/* Edition name styles - smaller on mobile */
+/* Edition name styles - responsive sizing */
 .edition-name {
-    font-size: 1.2em; /* Smaller font */
+    font-size: 1.0em;
     line-height: 1.1;
     font-weight: bold;
     text-transform: uppercase;
     margin: 0 0 12px 0;
-    padding-right: 45px; /* Make room for price tag */
+    padding-right: calc(15% + 5px); /* Make room for price tag + small gap */
 }
 
-/* Price tag styles - smaller on mobile */
+/* Price tag styles - responsive sizing */
 .edition-price {
     position: absolute;
-    top: 0px;
-    right: 0px;
-    font-size: 1.3em;
+    top: 0;
+    right: 0;
+    width: 15%; /* Set width to 15% of the tile */
+    font-size: clamp(0.9rem, 3vw, 1.4rem); /* Responsive font size */
     font-weight: bold;
-    padding: 3px 10px;
+    padding: 3px 0; /* Vertical padding only */
     background-color: var(--pixel-black);
+    text-align: center; /* Center text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .digital .edition-price { color: var(--pixel-white); }
@@ -377,7 +385,7 @@ body {
 /* Button styles - more compact */
 .btn {
     padding: 8px 5px; /* Reduced padding */
-    font-size: 10px; /* Fixed small size in pixels */
+    font-size: 12px; /* Fixed small size in pixels */
     font-weight: bold;
     text-align: center;
     border: 2px solid var(--pixel-black);
@@ -389,7 +397,7 @@ body {
 }
 
 .action-btn {
-    font-size: 0.65rem; /* Action buttons slightly smaller */
+    font-size: 0.75rem; /* Action buttons slightly smaller */
 }
 
 .info-btn { 
@@ -1175,4 +1183,11 @@ body.modal-open {
     font-size: 0.9em;
     font-style: italic;
     margin-top: 10px !important;
+}
+
+@media (max-width: 576px) {
+    .edition-price {
+        font-size: clamp(0.8rem, 3vw, 1.1rem); /* Slightly smaller on mobile */
+        min-width: 30px; /* Minimum width to ensure readability */
+    }
 }
