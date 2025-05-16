@@ -474,6 +474,46 @@
     <!-- EmailJS -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
+    <!-- Initialize EmailJS globally -->
+    <script>
+        // Initialize EmailJS globally
+        console.log("Initializing EmailJS globally...");
+        try {
+            emailjs.init("PK_jmu1NYfKXq8PBibd3");
+            console.log("EmailJS initialized successfully");
+        } catch (error) {
+            console.error("EmailJS global initialization error:", error);
+        }
+        
+        // Global test function for EmailJS debugging
+        window.testEmailJS = async function() {
+            console.log("Testing EmailJS...");
+            const serviceId = "zoho_smtp";
+            const templateId = "pickup_booking";
+            const testData = {
+                subscriber_email: "test@example.com",
+                event_name: "Test Event",
+                book_edition: "Test Edition",
+                confirmation_link: "https://456solutions.com/confirm?id=test123"
+            };
+            
+            console.log(`Using service ID: "${serviceId}", template ID: "${templateId}", and data:`, testData);
+            
+            try {
+                const testResult = await emailjs.send(
+                    serviceId,
+                    templateId,
+                    testData
+                );
+                console.log("EmailJS test successful:", testResult);
+                return testResult;
+            } catch (error) {
+                console.error("EmailJS test failed:", error);
+                throw error;
+            }
+        };
+    </script>
+
     <!-- Firebase Modular v9 SDK -->
     <script type="module">
         // Import Firebase modules
@@ -490,38 +530,6 @@
 
         // Wait for Firebase to be ready
         window.addEventListener('firebase-ready', () => {
-            // Initialize EmailJS
-            // TODO: Replace with your real EmailJS public key
-            console.log("Initializing EmailJS...");
-            try {
-                emailjs.init("PK_jmu1NYfKXq8PBibd3");
-                console.log("EmailJS initialized successfully");
-                
-                // Add test function to window for console debugging
-                window.testEmailJS = async function() {
-                    console.log("Testing EmailJS...");
-                    try {
-                        const testResult = await emailjs.send(
-                            "zoho_smtp", 
-                            "pickup_booking", 
-                            {
-                                subscriber_email: "test@example.com",
-                                event_name: "Test Event",
-                                book_edition: "Test Edition",
-                                confirmation_link: "https://456solutions.com/confirm?id=test123"
-                            }
-                        );
-                        console.log("EmailJS test successful:", testResult);
-                        return testResult;
-                    } catch (error) {
-                        console.error("EmailJS test failed:", error);
-                        throw error;
-                    }
-                };
-            } catch (error) {
-                console.error("EmailJS initialization error:", error);
-            }
-
             // Get Firebase app and initialize Firestore
             const app = getApp();
             const db = getFirestore(app);
