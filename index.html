@@ -285,11 +285,9 @@
         <div class="modal-content">
             <button class="modal-close-btn" aria-label="Close modal">×</button>
             <h3 id="modal-event-name">Book Slot for [Event Name]</h3>
-            <form id="booking-form" action="https://formsubmit.io/send/books@456solutions.com" method="POST">
+            <form id="booking-form">
                 <input type="hidden" name="event_name" id="form-event-name-hidden" value="">
                 <input type="hidden" name="_subject" value="Your THEY SAID YOU CAN'T Reservation Confirmation">
-                <input type="hidden" name="_redirect" value="false">
-                <input type="hidden" name="_autoresponse" value="Thank you for your reservation. This email confirms your slot for the THEY SAID YOU CAN'T book pickup event. We look forward to seeing you there!">
                 <div class="form-group">
                     <label for="book-choice">Which book edition are you reserving?</label>
                     <select id="book-choice" name="book_edition_reserved" required>
@@ -471,6 +469,107 @@
         // Dispatch event when Firebase is ready
         window.db = db;
         window.dispatchEvent(new Event('firebase-ready'));
+    </script>
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <!-- Firebase Modular v9 SDK -->
+    <script type="module">
+        // Import Firebase modules
+        import { 
+            getFirestore, 
+            collection, 
+            addDoc, 
+            serverTimestamp 
+        } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+        
+        import { 
+            getApp 
+        } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+
+        // Wait for Firebase to be ready
+        window.addEventListener('firebase-ready', () => {
+            // Initialize EmailJS
+            // TODO: Replace with your real EmailJS public key
+            emailjs.init("PK_jmu1NYfKXq8PBibd3");
+
+            // Get Firebase app and initialize Firestore
+            const app = getApp();
+            const db = getFirestore(app);
+            const bookingsCollection = collection(db, "bookings");
+
+            // Get booking form
+            const bookingForm = document.getElementById('booking-form');
+
+            // Handle form submission
+            if (bookingForm) {
+                bookingForm.addEventListener('submit', async function(e) {
+                    e.preventDefault(); // Prevent default form submission
+                    
+                    // Get form data
+                    const email = document.getElementById('email').value;
+                    const eventName = document.getElementById('form-event-name-hidden').value;
+                    const bookEditionReserved = document.getElementById('book-choice').value;
+                    
+                    try {
+                        // Add document to Firestore with server timestamp
+                        const docRef = await addDoc(bookingsCollection, {
+                            email,
+                            event_name: eventName,
+                            book_edition_reserved: bookEditionReserved,
+                            createdAt: serverTimestamp()
+                        });
+                        
+                        // Send confirmation email via EmailJS
+                        await emailjs.send(
+                            "zoho_smtp", 
+                            "pickup_booking", 
+                            {
+                                subscriber_email: email,
+                                event_name: eventName,
+                                book_edition: bookEditionReserved,
+                                confirmation_link: "https://456solutions.com/confirm?id=" + docRef.id
+                            }
+                        );
+                        
+                        // Show success message
+                        alert("Reservation successful! A confirmation email has been sent to your address.");
+                        
+                        // Close modal
+                        document.querySelector('.modal-close-btn').click();
+                        
+                        // Update UI if needed (event slots, etc.)
+                        const eventCard = document.querySelector(`.event-card[data-event-name="${eventName}"]`);
+                        if (eventCard) {
+                            const totalSlots = parseInt(eventCard.dataset.eventSlotsTotal, 10);
+                            const bookedSlots = parseInt(eventCard.dataset.eventSlotsBooked, 10);
+                            
+                            // Update booked slots
+                            const newBookedSlots = bookedSlots + 1;
+                            const newAvailableSlots = totalSlots - newBookedSlots;
+                            
+                            eventCard.dataset.eventSlotsBooked = newBookedSlots;
+                            eventCard.querySelector('.slots-available').textContent = newAvailableSlots;
+                            eventCard.querySelector('.slots-bar-filled').style.width = `${(newBookedSlots / totalSlots) * 100}%`;
+                            
+                            // Disable button if fully booked
+                            if (newAvailableSlots <= 0) {
+                                const bookButton = eventCard.querySelector('.book-slot-btn');
+                                if (bookButton) {
+                                    bookButton.disabled = true;
+                                    bookButton.textContent = 'Fully Booked';
+                                    bookButton.style.backgroundColor = 'var(--pixel-grey)';
+                                }
+                            }
+                        }
+                    } catch (error) {
+                        console.error("Error processing reservation:", error);
+                        alert("There was an error processing your reservation. Please try again or contact support.");
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>
