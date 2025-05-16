@@ -481,7 +481,7 @@
         try {
             // IMPORTANT: Replace this with your actual public key from https://dashboard.emailjs.com/admin/account
             // Should look like "public_xxxxxxxxxx" or "user_xxxxxxxxxx"
-            emailjs.init("jmu1NYfKXq8PBibd3");
+            emailjs.init("8c7vCsoyTAZuZfMap");
             console.log("EmailJS initialized successfully");
         } catch (error) {
             console.error("EmailJS global initialization error:", error);
@@ -502,8 +502,12 @@
                 event_name: "Test Event",
                 book_edition: "Test Edition",
                 confirmation_link: "https://456solutions.com/confirm?id=test123",
+                // Try all possible recipient field variations
                 to_email: "michaellinaresfilms@gmail.com",
-                to_name: "Test User"
+                to_name: "Test User",
+                email: "michaellinaresfilms@gmail.com",  // Try this field name
+                from_name: "Book Order System",  // Add sender name
+                reply_to: "michaellinaresfilms@gmail.com"  // Add reply-to field
             };
             
             console.log(`Using service ID: "${serviceId}", template ID: "${templateId}", and data:`, testData);
@@ -519,6 +523,34 @@
             } catch (error) {
                 console.error("EmailJS test failed:", error);
                 throw error;
+            }
+        };
+    </script>
+
+    <!-- Add EmailJS template inspector -->
+    <script>
+        // This function will help diagnose template parameter issues
+        window.inspectEmailJSTemplate = async function() {
+            console.log("Checking EmailJS template...");
+            try {
+                const serviceId = "service_hubj58x";
+                const templateId = "template_da4g2be";
+                
+                // Log the service and template IDs
+                console.log(`Using Service ID: ${serviceId}`);
+                console.log(`Using Template ID: ${templateId}`);
+                
+                console.log("To fix the 'recipients address is empty' error:");
+                console.log("1. Go to your EmailJS dashboard");
+                console.log("2. Open the template 'template_da4g2be'");
+                console.log("3. Check the '_to' field - this is where the recipient email must go");
+                console.log("4. Verify which parameter name is used for the '_to' field");
+                console.log("5. Use exactly that parameter name in your code");
+                
+                return "See console for template inspection instructions";
+            } catch (error) {
+                console.error("Error inspecting template:", error);
+                return error;
             }
         };
     </script>
@@ -577,9 +609,12 @@
                             event_name: eventName,
                             book_edition: bookEditionReserved,
                             confirmation_link: "https://456solutions.com/confirm?id=" + docRef.id,
-                            // Add recipient fields required by EmailJS
+                            // Add all possible recipient fields required by EmailJS
                             to_email: email,
-                            to_name: email.split('@')[0] // Simple placeholder for name
+                            to_name: email.split('@')[0], // Simple placeholder for name
+                            email: email, // Duplicate field with different name
+                            from_name: "THEY SAID YOU CAN'T - Book Reservation",
+                            reply_to: "books@456solutions.com"
                         };
                         console.log("Sending email via EmailJS with data:", emailData);
                         
