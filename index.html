@@ -519,6 +519,21 @@
                 throw error;
             }
         };
+        
+        // Add a global function to send emails that can be called from the module script
+        window.sendConfirmationEmail = function(emailData) {
+            console.log("Global sendConfirmationEmail called with data:", emailData);
+            
+            const serviceId = "service_hubj58x";
+            const templateId = "template_da4g2be";
+            
+            return emailjs.send(
+                serviceId,
+                templateId,
+                emailData,
+                "8c7vCsoyTAZuZfMap"
+            );
+        };
     </script>
 
     <!-- Add EmailJS template inspector -->
@@ -570,6 +585,31 @@
             const db = getFirestore(app);
             const bookingsCollection = collection(db, "bookings");
 
+            // Debug test - check if EmailJS is accessible within this module
+            console.log("Checking if EmailJS is accessible in the module:", typeof emailjs);
+            try {
+                emailjs.send(
+                    "service_hubj58x",
+                    "template_da4g2be",
+                    {
+                        to_email: "michaellinaresfilms@gmail.com",
+                        to_name: "Test User",
+                        from_name: "Debug Test",
+                        subscriber_email: "michaellinaresfilms@gmail.com",
+                        event_name: "Debug Test",
+                        book_edition: "Debug Test",
+                        confirmation_link: "https://456solutions.com/debug"
+                    },
+                    "8c7vCsoyTAZuZfMap"
+                ).then(response => {
+                    console.log("Debug test email sent successfully:", response);
+                }).catch(error => {
+                    console.error("Debug test email failed:", error);
+                });
+            } catch (error) {
+                console.error("Error accessing EmailJS in module:", error);
+            }
+
             // Get booking form
             const bookingForm = document.getElementById('booking-form');
 
@@ -617,18 +657,10 @@
                             reply_to: "books@456solutions.com"
                         };
                         
-                        console.log("Sending email via EmailJS with data:", emailData);
-                        console.log("Using serviceId:", serviceId);
-                        console.log("Using templateId:", templateId);
-                        console.log("Using publicKey: 8c7vCsoyTAZuZfMap");
+                        console.log("Calling global sendConfirmationEmail function...");
                         
-                        // Return the promise for chaining
-                        return emailjs.send(
-                            serviceId,
-                            templateId,
-                            emailData,
-                            "8c7vCsoyTAZuZfMap"
-                        );
+                        // Use the global function instead of calling EmailJS directly from module
+                        return window.sendConfirmationEmail(emailData);
                     })
                     .then(emailResult => {
                         // Email sent successfully
