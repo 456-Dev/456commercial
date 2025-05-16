@@ -522,17 +522,81 @@
         
         // Add a global function to send emails that can be called from the module script
         window.sendConfirmationEmail = function(emailData) {
+            console.log("%c SENDING EMAIL - DETAILED DEBUG LOG", "background: #ff0; color: #000; font-size: 14px; font-weight: bold;");
             console.log("Global sendConfirmationEmail called with data:", emailData);
+            
+            if (!emailjs) {
+                console.error("ERROR: emailjs is not defined in the global scope!");
+                return Promise.reject(new Error("emailjs not found"));
+            }
             
             const serviceId = "service_hubj58x";
             const templateId = "template_da4g2be";
             
-            return emailjs.send(
-                serviceId,
-                templateId,
-                emailData,
-                "8c7vCsoyTAZuZfMap"
-            );
+            console.log("EmailJS is available:", typeof emailjs);
+            console.log("EmailJS.send is:", typeof emailjs.send);
+            console.log("Using service ID:", serviceId);
+            console.log("Using template ID:", templateId);
+            
+            try {
+                console.log("Attempting to send email...");
+                const sendPromise = emailjs.send(
+                    serviceId,
+                    templateId,
+                    emailData,
+                    "8c7vCsoyTAZuZfMap"
+                );
+                
+                console.log("Email send initiated, waiting for response...");
+                
+                // Add handlers directly on the promise
+                sendPromise.then(function(response) {
+                    console.log("%c EMAIL SENT SUCCESSFULLY", "background: #0f0; color: #000; font-size: 14px; font-weight: bold;");
+                    console.log("Response:", response);
+                }).catch(function(error) {
+                    console.error("%c EMAIL SEND FAILED", "background: #f00; color: #fff; font-size: 14px; font-weight: bold;");
+                    console.error("Error details:", error);
+                });
+                
+                return sendPromise;
+            } catch (error) {
+                console.error("Exception when trying to send email:", error);
+                return Promise.reject(error);
+            }
+        };
+        
+        // Add a function to test email sending with form values
+        window.testEmailWithFormValues = function() {
+            console.log("Testing email with form values...");
+            const email = document.getElementById('email').value || "michaellinaresfilms@gmail.com";
+            const eventName = document.getElementById('form-event-name-hidden').value || "Test Event";
+            const bookEditionReserved = document.getElementById('book-choice').value || "Test Edition";
+            
+            const testData = {
+                subscriber_email: email,
+                event_name: eventName,
+                book_edition: bookEditionReserved,
+                confirmation_link: "https://456solutions.com/confirm?id=test",
+                to_email: email,
+                to_name: email.split('@')[0],
+                email: email,
+                from_name: "THEY SAID YOU CAN'T - Book Reservation TEST",
+                reply_to: "books@456solutions.com"
+            };
+            
+            console.log("Sending test email with form values:", testData);
+            
+            return window.sendConfirmationEmail(testData)
+                .then(function(result) {
+                    console.log("Test email sent successfully with form values:", result);
+                    alert("Test email sent to " + email);
+                    return result;
+                })
+                .catch(function(error) {
+                    console.error("Test email with form values failed:", error);
+                    alert("Test email failed: " + (error.message || JSON.stringify(error)));
+                    throw error;
+                });
         };
     </script>
 
@@ -636,13 +700,10 @@
                     })
                     .then(docRef => {
                         console.log("Document added to Firestore with ID:", docRef.id);
+                        console.log("Booking recorded in Firebase"); // This is the message you're seeing
                         
                         // Now send email with EmailJS
                         console.log("Preparing to send confirmation email...");
-                        
-                        // IMPORTANT: These IDs must match your EmailJS dashboard
-                        const serviceId = "service_hubj58x";
-                        const templateId = "template_da4g2be";
                         
                         // Prepare email data
                         const emailData = {
@@ -657,14 +718,23 @@
                             reply_to: "books@456solutions.com"
                         };
                         
-                        console.log("Calling global sendConfirmationEmail function...");
+                        console.log("%c FORM SUBMISSION - CALLING EMAIL FUNCTION", "background: #00f; color: #fff; font-size: 14px; font-weight: bold;");
+                        console.log("Form values - email:", email);
+                        console.log("Window object available:", typeof window !== 'undefined');
+                        console.log("sendConfirmationEmail function available:", typeof window.sendConfirmationEmail === 'function');
                         
-                        // Use the global function instead of calling EmailJS directly from module
-                        return window.sendConfirmationEmail(emailData);
+                        try {
+                            // Use the global function instead of calling EmailJS directly from module
+                            return window.sendConfirmationEmail(emailData);
+                        } catch (err) {
+                            console.error("Error calling sendConfirmationEmail:", err);
+                            return Promise.reject(err);
+                        }
                     })
                     .then(emailResult => {
                         // Email sent successfully
                         console.log("Email sent successfully:", emailResult);
+                        console.log("%c EMAIL SUCCESS CONFIRMATION - UI UPDATING", "background: #0c0; color: #fff; font-size: 16px; font-weight: bold;");
                         
                         // Show success message
                         alert("Reservation successful! A confirmation email has been sent to your address.");
