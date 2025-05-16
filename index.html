@@ -479,7 +479,9 @@
         // Initialize EmailJS globally
         console.log("Initializing EmailJS globally...");
         try {
-            emailjs.init("PK_jmu1NYfKXq8PBibd3");
+            // IMPORTANT: Replace this with your actual public key from https://dashboard.emailjs.com/admin/account
+            // Should look like "public_xxxxxxxxxx" or "user_xxxxxxxxxx"
+            emailjs.init("jmu1NYfKXq8PBibd3");
             console.log("EmailJS initialized successfully");
         } catch (error) {
             console.error("EmailJS global initialization error:", error);
@@ -488,10 +490,15 @@
         // Global test function for EmailJS debugging
         window.testEmailJS = async function() {
             console.log("Testing EmailJS...");
-            const serviceId = "zoho_smtp";
-            const templateId = "pickup_booking";
+            
+            // IMPORTANT: Verify these IDs match what's in your EmailJS dashboard
+            // Service ID: Found in the "Email Services" tab (https://dashboard.emailjs.com/admin/services)
+            // Template ID: Found in the "Email Templates" tab (https://dashboard.emailjs.com/admin/templates)
+            const serviceId = "service_hubj58x";  // Verify this exactly matches your EmailJS service ID
+            const templateId = "template_da4g2be";  // Verify this exactly matches your EmailJS template ID
+            
             const testData = {
-                subscriber_email: "test@example.com",
+                subscriber_email: "michaellinaresfilms@gmail.com",
                 event_name: "Test Event",
                 book_edition: "Test Edition",
                 confirmation_link: "https://456solutions.com/confirm?id=test123"
@@ -573,7 +580,11 @@
                         
                         // Send confirmation email via EmailJS
                         try {
-                            const emailResult = await emailjs.send("zoho_smtp", "pickup_booking", emailData);
+                            // IMPORTANT: These IDs must match your EmailJS dashboard
+                            const serviceId = "service_hubj58x";  // Verify this exactly matches your EmailJS service ID
+                            const templateId = "template_da4g2be";  // Verify this exactly matches your EmailJS template ID
+            
+                            const emailResult = await emailjs.send(serviceId, templateId, emailData);
                             console.log("EmailJS response:", emailResult);
                             
                             // Show success message
