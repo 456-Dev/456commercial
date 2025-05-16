@@ -627,7 +627,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Handle delivery form submission
     if (deliveryForm) {
-        deliveryForm.addEventListener('submit', function(e) {
+        deliveryForm.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Prevent form submission
+            
             // Check if payment confirmation checkbox is checked
             const paymentConfirmed = document.getElementById('payment-confirmation').checked;
             if (!paymentConfirmed) {
@@ -636,21 +638,89 @@ document.addEventListener('DOMContentLoaded', () => {
                 return false;
             }
             
-            // Show thank you message after form submission
-            const formParent = this.parentElement;
-            this.style.display = 'none';
+            // Get form data
+            const fullName = document.getElementById('full-name').value;
+            const email = document.getElementById('delivery-email').value;
+            const phone = document.getElementById('delivery-phone').value;
+            const address = document.getElementById('delivery-address').value;
+            const city = document.getElementById('delivery-city').value;
+            const state = document.getElementById('delivery-state').value;
+            const zipCode = document.getElementById('delivery-zip').value;
             
-            const thankYouMessage = document.createElement('div');
-            thankYouMessage.className = 'form-success-message';
-            thankYouMessage.innerHTML = `
-                <h4>Thank You!</h4>
-                <p>Your order has been submitted successfully.</p>
-                <p>A confirmation email has been sent to your email address.</p>
-                <p>We'll ship your book within 5-7 business days.</p>
-            `;
-            formParent.appendChild(thankYouMessage);
-            
-            // Old form submission removed - now handled by EmailJS in index.html
+            try {
+                // Add to Firebase if available
+                let docRef = null;
+                if (window.db) {
+                    console.log("Saving delivery order to Firebase...");
+                    docRef = await window.db.collection("deliveryOrders").add({
+                        full_name: fullName,
+                        email: email,
+                        phone: phone,
+                        shipping_address: address,
+                        city: city,
+                        state: state,
+                        zip_code: zipCode,
+                        payment_confirmed: true,
+                        timestamp: new Date()
+                    });
+                    console.log("Delivery order saved to Firebase with ID:", docRef.id);
+                }
+                
+                // Send confirmation email via EmailJS
+                try {
+                    console.log("Sending confirmation email via EmailJS...");
+                    
+                    // EmailJS parameters 
+                    const serviceId = "service_hubj58x";
+                    const templateId = "template_da4g2be";
+                    
+                    // Prepare data for EmailJS
+                    const emailData = {
+                        subscriber_email: email,
+                        event_name: "Book Delivery Order",
+                        book_edition: "Deluxe Edition - Shipped",
+                        confirmation_link: docRef ? `https://456solutions.com/confirm?id=${docRef.id}` : "",
+                        to_email: email,
+                        to_name: fullName,
+                        email: email,
+                        from_name: "THEY SAID YOU CAN'T - Book Order",
+                        reply_to: "books@456solutions.com",
+                        shipping_address: `${address}, ${city}, ${state} ${zipCode}`
+                    };
+                    
+                    console.log("Sending email with data:", emailData);
+                    
+                    const emailResult = await emailjs.send(
+                        serviceId,
+                        templateId,
+                        emailData,
+                        "8c7vCsoyTAZuZfMap" // PublicKey
+                    );
+                    
+                    console.log("Email sent successfully:", emailResult);
+                } catch (emailError) {
+                    console.error("Error sending confirmation email:", emailError);
+                    console.error("Error details:", JSON.stringify(emailError));
+                }
+                
+                // Show thank you message after form submission
+                const formParent = this.parentElement;
+                this.style.display = 'none';
+                
+                const thankYouMessage = document.createElement('div');
+                thankYouMessage.className = 'form-success-message';
+                thankYouMessage.innerHTML = `
+                    <h4>Thank You!</h4>
+                    <p>Your order has been submitted successfully.</p>
+                    <p>A confirmation email has been sent to your email address.</p>
+                    <p>We'll ship your book within 5-7 business days.</p>
+                `;
+                formParent.appendChild(thankYouMessage);
+                
+            } catch (error) {
+                console.error("Error processing order:", error);
+                alert("There was an error processing your order. Please try again or contact support.");
+            }
         });
     }
 

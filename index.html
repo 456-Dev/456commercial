@@ -617,6 +617,10 @@
                                 reply_to: "books@456solutions.com"
                             };
                             console.log("Sending email via EmailJS with data:", emailData);
+                            console.log("Using serviceId:", serviceId);
+                            console.log("Using templateId:", templateId);
+                            console.log("Using publicKey: 8c7vCsoyTAZuZfMap");
+                            console.log("About to call emailjs.send()...");
                             
                             const emailResult = await emailjs.send(
                                 serviceId, 
@@ -636,6 +640,7 @@
                             updateEventUI(eventName);
                         } catch (emailError) {
                             console.error("EmailJS send error:", emailError);
+                            console.error("Error details:", JSON.stringify(emailError));
                             alert("Your reservation was saved, but there was an error sending the confirmation email. We'll send it manually. Your slot is confirmed!");
                         }
                     } catch (error) {
