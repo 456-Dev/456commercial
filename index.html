@@ -690,7 +690,7 @@
                     
                     console.log("Form data collected:", { email, eventName, bookEditionReserved });
                     
-                    // First save to Firestore WITHOUT chaining the email send
+                    // First save to Firestore 
                     console.log("Adding document to Firestore...");
                     addDoc(bookingsCollection, {
                         email,
@@ -702,54 +702,48 @@
                         console.log("Document added to Firestore with ID:", docRef.id);
                         console.log("Booking recorded in Firebase");
                         
-                        // Create separate function to handle email sending
-                        sendBookingConfirmationEmail(email, eventName, bookEditionReserved, docRef.id);
+                        // Instead of our own email sending, use the global test function directly
+                        // This uses the EXACT same approach as the working test function
+                        console.log("Using test function approach...");
                         
-                        // Show success message and update UI regardless of email status
-                        // This ensures the user gets visual feedback even if email has issues
+                        // Show UI success immediately to decouple from email sending
                         alert("Reservation successful! We're sending a confirmation email to your address.");
-                        
-                        // Close modal
                         document.querySelector('.modal-close-btn').click();
-                        
-                        // Update UI (event slots, etc.)
                         updateEventUI(eventName);
+                        
+                        // Call a function with the exact same implementation as the test function
+                        // But using the form values
+                        console.log("Calling exact test function clone with form values...");
+                        
+                        // The following function is based on window.testEmailWithFormValues which works
+                        const testData = {
+                            subscriber_email: email,
+                            event_name: eventName,
+                            book_edition: bookEditionReserved,
+                            confirmation_link: "https://456solutions.com/confirm?id=" + docRef.id,
+                            to_email: email,
+                            to_name: email.split('@')[0],
+                            email: email,
+                            from_name: "THEY SAID YOU CAN'T - Book Reservation",
+                            reply_to: "books@456solutions.com"
+                        };
+                        
+                        console.log("Calling exact copy of test function with data:", testData);
+                        
+                        // This part is identical to window.testEmailWithFormValues
+                        window.sendConfirmationEmail(testData)
+                            .then(function(result) {
+                                console.log("Form email sent successfully:", result);
+                            })
+                            .catch(function(error) {
+                                console.error("Form email failed but booking was saved:", error);
+                            });
                     })
                     .catch(error => {
                         console.error("Error saving to Firestore:", error);
                         alert("There was an error processing your reservation. Please try again or contact support.");
                     });
                 });
-                
-                // Separate function to handle email sending
-                function sendBookingConfirmationEmail(email, eventName, bookEditionReserved, docRefId) {
-                    console.log("Preparing to send confirmation email in separate function...");
-                    
-                    const emailData = {
-                        subscriber_email: email,
-                        event_name: eventName,
-                        book_edition: bookEditionReserved,
-                        confirmation_link: "https://456solutions.com/confirm?id=" + docRefId,
-                        to_email: email,
-                        to_name: email.split('@')[0],
-                        email: email,
-                        from_name: "THEY SAID YOU CAN'T - Book Reservation",
-                        reply_to: "books@456solutions.com"
-                    };
-                    
-                    console.log("Calling sendConfirmationEmail from separate function...");
-                    
-                    // Call without promise chaining, just like the test function
-                    window.sendConfirmationEmail(emailData)
-                        .then(function(result) {
-                            console.log("Booking email sent successfully:", result);
-                            // No UI updates here since we already updated the UI
-                        })
-                        .catch(function(error) {
-                            console.error("Booking email failed but reservation was saved:", error);
-                            // No alerts here since we already showed a success message
-                        });
-                }
             }
             
             // Helper function to update event UI
