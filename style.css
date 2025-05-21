@@ -1367,3 +1367,9 @@ select option:first-child {
     opacity: 1;
     margin-top: 15px;
 }
+
+.risk-warning {
+    text-align: right;
+    margin-top: 5px;
+    margin-bottom: 0;
+}
