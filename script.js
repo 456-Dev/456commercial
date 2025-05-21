@@ -1,4 +1,184 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Remove any existing event listeners
+    const oldButtons = document.querySelectorAll('.book-slot-btn');
+    oldButtons.forEach(button => {
+        const newButton = button.cloneNode(true);
+        button.parentNode.replaceChild(newButton, button);
+    });
+
+    // Handle book slot button clicks
+    document.querySelectorAll('.book-slot-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const eventCard = button.closest('.event-card');
+            const formSection = eventCard.querySelector('.booking-form-section');
+            
+            // Close any other open forms
+            document.querySelectorAll('.booking-form-section.expanded').forEach(section => {
+                if (section !== formSection) {
+                    section.classList.remove('expanded');
+                    section.style.display = 'none';
+                }
+            });
+            
+            // Toggle this form
+            if (formSection.style.display === 'none') {
+                formSection.style.display = 'block';
+                // Use setTimeout to allow display:block to take effect before adding expanded class
+                setTimeout(() => {
+                    formSection.classList.add('expanded');
+                }, 10);
+            } else {
+                formSection.classList.remove('expanded');
+                // Wait for transition to complete before hiding
+                setTimeout(() => {
+                    formSection.style.display = 'none';
+                }, 300);
+            }
+        });
+    });
+
+    // Handle form submissions
+    document.querySelectorAll('.booking-form').forEach(form => {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            console.log("Form submitted - starting processing");
+            
+            // Get form data
+            const eventName = this.querySelector('.form-event-name-hidden').value;
+            const username = this.querySelector('[name="username"]').value;
+            const email = this.querySelector('[name="email"]').value;
+            const phone = this.querySelector('[name="phone"]').value || '';
+            const instagram = this.querySelector('[name="instagram"]').value || '';
+            const bookChoice = this.querySelector('[name="book_edition_reserved"]').value;
+            
+            // Find the event card
+            const eventCard = this.closest('.event-card');
+            if (!eventCard) {
+                alert("Error: Event not found.");
+                return;
+            }
+            
+            const totalSlots = parseInt(eventCard.dataset.eventSlotsTotal, 10);
+            const bookedSlots = parseInt(eventCard.dataset.eventSlotsBooked, 10);
+            const availableSlots = totalSlots - bookedSlots;
+            
+            if (availableSlots <= 0) {
+                alert("Sorry, all slots for this event are booked!");
+                return;
+            }
+            
+            try {
+                // First save to Firebase
+                let docRef = null;
+                if (window.db) {
+                    // Start a batch write
+                    const batch = db.batch();
+                    
+                    // Add the booking
+                    const bookingRef = db.collection("bookings").doc();
+                    batch.set(bookingRef, {
+                        event_name: eventName,
+                        username: username,
+                        book_edition: bookChoice,
+                        email: email,
+                        phone: phone,
+                        instagram: instagram,
+                        timestamp: new Date()
+                    });
+                    
+                    // Update the event's booked slots
+                    const eventRef = db.collection("events").where("name", "==", eventName).limit(1);
+                    const eventSnapshot = await eventRef.get();
+                    
+                    if (!eventSnapshot.empty) {
+                        const eventDoc = eventSnapshot.docs[0];
+                        const currentBookedSlots = eventDoc.data().bookedSlots || 0;
+                        batch.update(eventDoc.ref, {
+                            bookedSlots: currentBookedSlots + 1
+                        });
+                    }
+                    
+                    // Commit the batch
+                    await batch.commit();
+                    docRef = bookingRef;
+                    
+                    console.log("Booking recorded in Firebase with ID:", docRef.id);
+                    
+                    // Update the event card slots
+                    const newBookedSlots = bookedSlots + 1;
+                    const newAvailableSlots = totalSlots - newBookedSlots;
+                    
+                    eventCard.dataset.eventSlotsBooked = newBookedSlots;
+                    eventCard.querySelector('.slots-available').textContent = newAvailableSlots;
+                    eventCard.querySelector('.slots-bar-filled').style.width = `${(newBookedSlots / totalSlots) * 100}%`;
+                    
+                    // Disable the button if no more slots are available
+                    if (newAvailableSlots <= 0) {
+                        const bookButton = eventCard.querySelector('.book-slot-btn');
+                        if (bookButton) {
+                            bookButton.disabled = true;
+                            bookButton.textContent = "Fully Booked";
+                            bookButton.style.backgroundColor = 'var(--pixel-grey)';
+                        }
+                    }
+                }
+
+                // Send confirmation email via EmailJS
+                console.log("Sending confirmation email...");
+                const emailData = {
+                    subscriber_email: email,
+                    event_name: eventName,
+                    book_edition: bookChoice,
+                    confirmation_link: docRef ? `https://456solutions.com/confirm?id=${docRef.id}` : "",
+                    to_email: email,
+                    username: username,
+                    email: email,
+                    from_name: "THEY SAID YOU CAN'T - Book Reservation",
+                    reply_to: "books@456solutions.com"
+                };
+                
+                const emailResult = await emailjs.send(
+                    "service_hubj58x",
+                    "template_da4g2be",
+                    emailData,
+                    "8c7vCsoyTAZuZfMap"
+                );
+                
+                console.log("Email sent successfully:", emailResult);
+                
+                // Show thank you message
+                const formSection = this.closest('.booking-form-section');
+                this.style.display = 'none';
+                
+                const thankYouMessage = document.createElement('div');
+                thankYouMessage.className = 'form-success-message';
+                thankYouMessage.innerHTML = `
+                    <h4>Thank You, ${username}!</h4>
+                    <p>Your reservation has been submitted successfully.</p>
+                    <p>A confirmation email has been sent to ${email}.</p>
+                `;
+                formSection.appendChild(thankYouMessage);
+                
+                // Close form section after a delay
+                setTimeout(() => {
+                    formSection.classList.remove('expanded');
+                    setTimeout(() => {
+                        formSection.style.display = 'none';
+                        // Reset the form and remove thank you message after it's hidden
+                        this.style.display = 'block';
+                        this.reset();
+                        thankYouMessage.remove();
+                    }, 300);
+                }, 3000);
+                
+            } catch (error) {
+                console.error("Error processing booking:", error);
+                alert("There was an error processing your reservation. Please try again or contact support.");
+            }
+        });
+    });
+
     // --- Current Year for Footer ---
     const currentYearSpan = document.getElementById('currentYear');
     if (currentYearSpan) {
@@ -50,6 +230,45 @@ document.addEventListener('DOMContentLoaded', () => {
                         <button class="btn book-slot-btn" ${availableSlots <= 0 ? 'disabled' : ''}>
                             ${availableSlots <= 0 ? 'Fully Booked' : 'Book Pickup Slot'}
                         </button>
+                        
+                        <!-- Expandable Booking Form -->
+                        <div class="booking-form-section" style="display: none;">
+                            <form class="booking-form">
+                                <input type="hidden" name="event_name" class="form-event-name-hidden" value="${data.name}">
+                                
+                                <div class="form-group">
+                                    <label for="full-name-${eventId}">Username*</label>
+                                    <input type="text" id="full-name-${eventId}" name="username" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email-${eventId}">Email Address*</label>
+                                    <input type="email" id="email-${eventId}" name="email" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="phone-${eventId}">Phone Number (Optional)</label>
+                                    <input type="tel" id="phone-${eventId}" name="phone">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="instagram-${eventId}">Instagram Handle (Optional)</label>
+                                    <input type="text" id="instagram-${eventId}" name="instagram" placeholder="@yourusername">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="book-choice-${eventId}">Book Edition*</label>
+                                    <select id="book-choice-${eventId}" name="book_edition_reserved" required>
+                                        <option value="" disabled selected>Select an edition...</option>
+                                        <option value="Standard Edition" data-price="$20">Standard Edition - $20</option>
+                                        <option value="Deluxe [Worse] Edition" data-price="$50">Deluxe [Worse] Edition - $50</option>
+                                    </select>
+                                </div>
+
+                                <p class="form-note">* Required fields. Confirmation will be sent to your email. Payment is due at pickup.</p>
+                                <button type="submit" class="btn modal-submit-btn">Submit Reservation</button>
+                            </form>
+                        </div>
                     `;
                     
                     if (availableSlots <= 0) {
@@ -62,8 +281,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     eventList.appendChild(eventCard);
                 });
                 
-                // Reattach event listeners
-                attachBookButtonListeners();
+                // Reattach event listeners after creating all cards
+                attachEventListeners();
             })
             .catch((error) => {
                 console.error("Error loading events: ", error);
@@ -71,16 +290,186 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
     
-    function attachBookButtonListeners() {
-        document.querySelectorAll('.book-slot-btn').forEach(button => {
-            button.addEventListener('click', () => {
+    // Function to attach all event listeners
+    function attachEventListeners() {
+        console.log("Attaching event listeners to buttons and forms...");
+        
+        // Handle book slot button clicks
+        const buttons = document.querySelectorAll('.book-slot-btn');
+        console.log(`Found ${buttons.length} book slot buttons`);
+        
+        buttons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                console.log("Book slot button clicked");
+                e.preventDefault();
                 const eventCard = button.closest('.event-card');
-                const eventName = eventCard.dataset.eventName;
-                const slotsAvailable = parseInt(eventCard.querySelector('.slots-available').textContent, 10);
-                if (slotsAvailable > 0) {
-                    openModal(eventName);
+                const formSection = eventCard.querySelector('.booking-form-section');
+                console.log("Form section found:", formSection);
+                
+                // Close any other open forms
+                document.querySelectorAll('.booking-form-section.expanded').forEach(section => {
+                    if (section !== formSection) {
+                        section.classList.remove('expanded');
+                        section.style.display = 'none';
+                    }
+                });
+                
+                // Toggle this form
+                if (formSection.style.display === 'none') {
+                    console.log("Opening form section");
+                    formSection.style.display = 'block';
+                    // Use setTimeout to allow display:block to take effect before adding expanded class
+                    setTimeout(() => {
+                        formSection.classList.add('expanded');
+                    }, 10);
                 } else {
+                    console.log("Closing form section");
+                    formSection.classList.remove('expanded');
+                    // Wait for transition to complete before hiding
+                    setTimeout(() => {
+                        formSection.style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
+
+        // Handle form submissions
+        document.querySelectorAll('.booking-form').forEach(form => {
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                console.log("Form submitted - starting processing");
+                
+                // Get form data
+                const eventName = this.querySelector('.form-event-name-hidden').value;
+                const username = this.querySelector('[name="username"]').value;
+                const email = this.querySelector('[name="email"]').value;
+                const phone = this.querySelector('[name="phone"]').value || '';
+                const instagram = this.querySelector('[name="instagram"]').value || '';
+                const bookChoice = this.querySelector('[name="book_edition_reserved"]').value;
+                
+                // Find the event card
+                const eventCard = this.closest('.event-card');
+                if (!eventCard) {
+                    alert("Error: Event not found.");
+                    return;
+                }
+                
+                const totalSlots = parseInt(eventCard.dataset.eventSlotsTotal, 10);
+                const bookedSlots = parseInt(eventCard.dataset.eventSlotsBooked, 10);
+                const availableSlots = totalSlots - bookedSlots;
+                
+                if (availableSlots <= 0) {
                     alert("Sorry, all slots for this event are booked!");
+                    return;
+                }
+                
+                try {
+                    // First save to Firebase
+                    let docRef = null;
+                    if (window.db) {
+                        // Start a batch write
+                        const batch = db.batch();
+                        
+                        // Add the booking
+                        const bookingRef = db.collection("bookings").doc();
+                        batch.set(bookingRef, {
+                            event_name: eventName,
+                            username: username,
+                            book_edition: bookChoice,
+                            email: email,
+                            phone: phone,
+                            instagram: instagram,
+                            timestamp: new Date()
+                        });
+                        
+                        // Update the event's booked slots
+                        const eventRef = db.collection("events").where("name", "==", eventName).limit(1);
+                        const eventSnapshot = await eventRef.get();
+                        
+                        if (!eventSnapshot.empty) {
+                            const eventDoc = eventSnapshot.docs[0];
+                            const currentBookedSlots = eventDoc.data().bookedSlots || 0;
+                            batch.update(eventDoc.ref, {
+                                bookedSlots: currentBookedSlots + 1
+                            });
+                        }
+                        
+                        // Commit the batch
+                        await batch.commit();
+                        docRef = bookingRef;
+                        
+                        console.log("Booking recorded in Firebase with ID:", docRef.id);
+                        
+                        // Update the event card slots
+                        const newBookedSlots = bookedSlots + 1;
+                        const newAvailableSlots = totalSlots - newBookedSlots;
+                        
+                        eventCard.dataset.eventSlotsBooked = newBookedSlots;
+                        eventCard.querySelector('.slots-available').textContent = newAvailableSlots;
+                        eventCard.querySelector('.slots-bar-filled').style.width = `${(newBookedSlots / totalSlots) * 100}%`;
+                        
+                        // Disable the button if no more slots are available
+                        if (newAvailableSlots <= 0) {
+                            const bookButton = eventCard.querySelector('.book-slot-btn');
+                            if (bookButton) {
+                                bookButton.disabled = true;
+                                bookButton.textContent = "Fully Booked";
+                                bookButton.style.backgroundColor = 'var(--pixel-grey)';
+                            }
+                        }
+                    }
+
+                    // Send confirmation email via EmailJS
+                    console.log("Sending confirmation email...");
+                    const emailData = {
+                        subscriber_email: email,
+                        event_name: eventName,
+                        book_edition: bookChoice,
+                        confirmation_link: docRef ? `https://456solutions.com/confirm?id=${docRef.id}` : "",
+                        to_email: email,
+                        username: username,
+                        email: email,
+                        from_name: "THEY SAID YOU CAN'T - Book Reservation",
+                        reply_to: "books@456solutions.com"
+                    };
+                    
+                    const emailResult = await emailjs.send(
+                        "service_hubj58x",
+                        "template_da4g2be",
+                        emailData,
+                        "8c7vCsoyTAZuZfMap"
+                    );
+                    
+                    console.log("Email sent successfully:", emailResult);
+                    
+                    // Show thank you message
+                    const formSection = this.closest('.booking-form-section');
+                    this.style.display = 'none';
+                    
+                    const thankYouMessage = document.createElement('div');
+                    thankYouMessage.className = 'form-success-message';
+                    thankYouMessage.innerHTML = `
+                        <h4>Thank You, ${username}!</h4>
+                        <p>Your reservation has been submitted successfully.</p>
+                        <p>A confirmation email has been sent to ${email}.</p>
+                    `;
+                    formSection.appendChild(thankYouMessage);
+                    
+                    // Close form section after a delay
+                    setTimeout(() => {
+                        formSection.classList.remove('expanded');
+                        setTimeout(() => {
+                            formSection.style.display = 'none';
+                            // Reset the form and remove thank you message after it's hidden
+                            this.style.display = 'block';
+                            this.reset();
+                            thankYouMessage.remove();
+                        }, 300);
+                    }, 3000);
+                    
+                } catch (error) {
+                    console.error("Error processing booking:", error);
+                    alert("There was an error processing your reservation. Please try again or contact support.");
                 }
             });
         });
@@ -144,98 +533,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
-    if (bookingForm) {
-        bookingForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent default form submission
-            
-            const eventName = formEventNameHiddenInput.value;
-            const bookChoice = document.getElementById('book-choice').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value || '';
-            const instagram = document.getElementById('instagram').value || '';
-            
-            // Find the event card to update slots
-            const eventCard = document.querySelector(`.event-card[data-event-name="${eventName}"]`);
-            if (!eventCard) {
-                alert("Error: Event not found.");
-                return;
-            }
-            
-            const totalSlots = parseInt(eventCard.dataset.eventSlotsTotal, 10);
-            const bookedSlots = parseInt(eventCard.dataset.eventSlotsBooked, 10);
-            const availableSlots = totalSlots - bookedSlots;
-            
-            if (availableSlots <= 0) {
-                alert("Sorry, all slots for this event are booked!");
-                return;
-            }
-            
-            // Add Firebase booking logic here (if implemented)
-            // Record the booking in Firebase
-            if (window.db) {
-                try {
-                    window.db.collection("bookings").add({
-                        event_name: eventName,
-                        book_edition: bookChoice,
-                        email: email,
-                        phone: phone,
-                        instagram: instagram,
-                        timestamp: new Date()
-                    })
-                    .then(() => {
-                        console.log("Booking recorded in Firebase");
-                        
-                        // Update the event card slots
-                        const newBookedSlots = bookedSlots + 1;
-                        const newAvailableSlots = totalSlots - newBookedSlots;
-                        
-                        eventCard.dataset.eventSlotsBooked = newBookedSlots;
-                        eventCard.querySelector('.slots-available').textContent = newAvailableSlots;
-                        eventCard.querySelector('.slots-bar-filled').style.width = `${(newBookedSlots / totalSlots) * 100}%`;
-                        
-                        // Show thank you message after form submission
-                        const formParent = this.parentElement;
-                        this.style.display = 'none';
-                        
-                        const thankYouMessage = document.createElement('div');
-                        thankYouMessage.className = 'form-success-message';
-                        thankYouMessage.innerHTML = `
-                            <h4>Thank You!</h4>
-                            <p>Your reservation has been submitted successfully.</p>
-                            <p>A confirmation email has been sent to your email address.</p>
-                        `;
-                        formParent.appendChild(thankYouMessage);
-                        
-                        // Old form submission removed - now handled by EmailJS in index.html
-                    })
-                    .catch((error) => {
-                        console.error("Error adding booking: ", error);
-                        alert("There was an error saving your booking. Please try again.");
-                    });
-                } catch (error) {
-                    console.error("Firebase error:", error);
-                    alert("There was an error with the booking system. Please try again or contact support.");
-                }
-            } else {
-                // No Firebase, just show thank you message and submit form
-                // Show thank you message after form submission
-                const formParent = this.parentElement;
-                this.style.display = 'none';
-                
-                const thankYouMessage = document.createElement('div');
-                thankYouMessage.className = 'form-success-message';
-                thankYouMessage.innerHTML = `
-                    <h4>Thank You!</h4>
-                    <p>Your reservation has been submitted successfully.</p>
-                    <p>A confirmation email has been sent to your email address.</p>
-                `;
-                formParent.appendChild(thankYouMessage);
-                
-                // Old form submission removed - now handled by EmailJS in index.html
-            }
-        });
-    }
-
     // --- Slots Tracker (Update visual from data attributes) ---
     document.querySelectorAll('.event-card').forEach(card => {
         const totalSlots = parseInt(card.dataset.eventSlotsTotal, 10);
@@ -507,6 +804,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Hide click message and show frame message
                     if (clickMessage) {
+                        clickMessage.textContent = "";
                         clickMessage.classList.remove('visible');
                     }
                     
@@ -681,7 +979,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         book_edition: "Deluxe Edition - Shipped",
                         confirmation_link: docRef ? `https://456solutions.com/confirm?id=${docRef.id}` : "",
                         to_email: email,
-                        to_name: fullName,
+                        username: fullName,
                         email: email,
                         from_name: "THEY SAID YOU CAN'T - Book Order",
                         reply_to: "books@456solutions.com",

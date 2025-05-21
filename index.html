@@ -225,30 +225,7 @@
             <h2>Upcoming NYC Pickup Events</h2>
             <p class="section-intro">Select an upcoming event below to book your pickup slot for Standard or Deluxe editions. Only 25 slots per event!</p>
             <div class="event-list">
-                <article class="event-card" data-event-name="Union Square Park Pop-Up" data-event-slots-total="25" data-event-slots-booked="5">
-                    <h3 class="event-name">Union Square Park Pop-Up</h3>
-                    <p class="event-details">Sat, November 9th, 2024 | 11:00 AM - 3:00 PM</p>
-                    <p class="event-location">Meet near the South Plaza fountain.</p>
-                    <div class="slots-tracker">
-                        Slots Remaining: <span class="slots-available">20</span>/25
-                        <div class="slots-bar-container">
-                            <div class="slots-bar-filled" style="width: 20%;"></div>
-                        </div>
-                    </div>
-                    <button class="btn book-slot-btn">Book Pickup Slot</button>
-                </article>
-                <article class="event-card" data-event-name="Brooklyn Bridge Park Pop-Up" data-event-slots-total="25" data-event-slots-booked="10">
-                    <h3 class="event-name">Brooklyn Bridge Park Pop-Up</h3>
-                    <p class="event-details">Sun, November 17th, 2024 | 1:00 PM - 4:00 PM</p>
-                    <p class="event-location">Pier 1, near the Granite Prospect.</p>
-                    <div class="slots-tracker">
-                        Slots Remaining: <span class="slots-available">15</span>/25
-                        <div class="slots-bar-container">
-                            <div class="slots-bar-filled" style="width: 40%;"></div>
-                        </div>
-                    </div>
-                    <button class="btn book-slot-btn">Book Pickup Slot</button>
-                </article>
+                <!-- Events will be loaded dynamically from Firebase -->
             </div>
         </section>
 
@@ -279,39 +256,6 @@
         <p class="copyright">© <span id="currentYear"></span>  All Rights Reserved. 456solutions.com</p>
         </div>
     </footer>
-
-    <!-- Booking Modal -->
-    <div id="booking-modal" class="modal-overlay" aria-hidden="true">
-        <div class="modal-content">
-            <button class="modal-close-btn" aria-label="Close modal">×</button>
-            <h3 id="modal-event-name">Book Slot for [Event Name]</h3>
-            <form id="booking-form">
-                <input type="hidden" name="event_name" id="form-event-name-hidden" value="">
-                <input type="hidden" name="_subject" value="Your THEY SAID YOU CAN'T Reservation Confirmation">
-                <div class="form-group">
-                    <label for="book-choice">Which book edition are you reserving?</label>
-                    <select id="book-choice" name="book_edition_reserved" required>
-                        <option value="Standard Edition - $20">Standard Edition - $20</option>
-                        <option value="Deluxe [Worse] Edition - $50">Deluxe [Worse] Edition - $50</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="email">Your Email*</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone (Optional)</label>
-                    <input type="tel" id="phone" name="phone">
-                </div>
-                <div class="form-group">
-                    <label for="instagram">Instagram (Optional, include @)</label>
-                    <input type="text" id="instagram" name="instagram">
-                </div>
-                <p class="form-note">Confirmation sent to email. Payment due at pickup.</p>
-                <button type="submit" class="btn modal-submit-btn">Submit Reservation</button>
-            </form>
-        </div>
-    </div>
 
     <!-- Digital Purchase Modal -->
     <div id="digital-purchase-modal" class="modal-overlay" aria-hidden="true">
@@ -568,6 +512,7 @@
         // Add a function to test email sending with form values
         window.testEmailWithFormValues = function() {
             console.log("Testing email with form values...");
+            const fullName = document.getElementById('full-name').value || "Test User";
             const email = document.getElementById('email').value || "michaellinaresfilms@gmail.com";
             const eventName = document.getElementById('form-event-name-hidden').value || "Test Event";
             const bookEditionReserved = document.getElementById('book-choice').value || "Test Edition";
@@ -578,7 +523,7 @@
                 book_edition: bookEditionReserved,
                 confirmation_link: "https://456solutions.com/confirm?id=test",
                 to_email: email,
-                to_name: email.split('@')[0],
+                to_name: fullName,
                 email: email,
                 from_name: "THEY SAID YOU CAN'T - Book Reservation TEST",
                 reply_to: "books@456solutions.com"
@@ -651,127 +596,6 @@
 
             // Debug test - check if EmailJS is accessible within this module
             console.log("Checking if EmailJS is accessible in the module:", typeof emailjs);
-            try {
-                emailjs.send(
-                    "service_hubj58x",
-                    "template_da4g2be",
-                    {
-                        to_email: "michaellinaresfilms@gmail.com",
-                        to_name: "Test User",
-                        from_name: "Debug Test",
-                        subscriber_email: "michaellinaresfilms@gmail.com",
-                        event_name: "Debug Test",
-                        book_edition: "Debug Test",
-                        confirmation_link: "https://456solutions.com/debug"
-                    },
-                    "8c7vCsoyTAZuZfMap"
-                ).then(response => {
-                    console.log("Debug test email sent successfully:", response);
-                }).catch(error => {
-                    console.error("Debug test email failed:", error);
-                });
-            } catch (error) {
-                console.error("Error accessing EmailJS in module:", error);
-            }
-
-            // Get booking form
-            const bookingForm = document.getElementById('booking-form');
-
-            // Handle form submission
-            if (bookingForm) {
-                bookingForm.addEventListener('submit', function(e) {
-                    e.preventDefault(); // Prevent default form submission
-                    console.log("Form submitted - starting processing");
-                    
-                    // Get form data
-                    const email = document.getElementById('email').value;
-                    const eventName = document.getElementById('form-event-name-hidden').value;
-                    const bookEditionReserved = document.getElementById('book-choice').value;
-                    
-                    console.log("Form data collected:", { email, eventName, bookEditionReserved });
-                    
-                    // First save to Firestore 
-                    console.log("Adding document to Firestore...");
-                    addDoc(bookingsCollection, {
-                        email,
-                        event_name: eventName,
-                        book_edition_reserved: bookEditionReserved,
-                        createdAt: serverTimestamp()
-                    })
-                    .then(docRef => {
-                        console.log("Document added to Firestore with ID:", docRef.id);
-                        console.log("Booking recorded in Firebase");
-                        
-                        // Instead of our own email sending, use the global test function directly
-                        // This uses the EXACT same approach as the working test function
-                        console.log("Using test function approach...");
-                        
-                        // Show UI success immediately to decouple from email sending
-                        alert("Reservation successful! We're sending a confirmation email to your address.");
-                        document.querySelector('.modal-close-btn').click();
-                        updateEventUI(eventName);
-                        
-                        // Call a function with the exact same implementation as the test function
-                        // But using the form values
-                        console.log("Calling exact test function clone with form values...");
-                        
-                        // The following function is based on window.testEmailWithFormValues which works
-                        const testData = {
-                            subscriber_email: email,
-                            event_name: eventName,
-                            book_edition: bookEditionReserved,
-                            confirmation_link: "https://456solutions.com/confirm?id=" + docRef.id,
-                            to_email: email,
-                            to_name: email.split('@')[0],
-                            email: email,
-                            from_name: "THEY SAID YOU CAN'T - Book Reservation",
-                            reply_to: "books@456solutions.com"
-                        };
-                        
-                        console.log("Calling exact copy of test function with data:", testData);
-                        
-                        // This part is identical to window.testEmailWithFormValues
-                        window.sendConfirmationEmail(testData)
-                            .then(function(result) {
-                                console.log("Form email sent successfully:", result);
-                            })
-                            .catch(function(error) {
-                                console.error("Form email failed but booking was saved:", error);
-                            });
-                    })
-                    .catch(error => {
-                        console.error("Error saving to Firestore:", error);
-                        alert("There was an error processing your reservation. Please try again or contact support.");
-                    });
-                });
-            }
-            
-            // Helper function to update event UI
-            function updateEventUI(eventName) {
-                const eventCard = document.querySelector(`.event-card[data-event-name="${eventName}"]`);
-                if (eventCard) {
-                    const totalSlots = parseInt(eventCard.dataset.eventSlotsTotal, 10);
-                    const bookedSlots = parseInt(eventCard.dataset.eventSlotsBooked, 10);
-                    
-                    // Update booked slots
-                    const newBookedSlots = bookedSlots + 1;
-                    const newAvailableSlots = totalSlots - newBookedSlots;
-                    
-                    eventCard.dataset.eventSlotsBooked = newBookedSlots;
-                    eventCard.querySelector('.slots-available').textContent = newAvailableSlots;
-                    eventCard.querySelector('.slots-bar-filled').style.width = `${(newBookedSlots / totalSlots) * 100}%`;
-                    
-                    // Disable button if fully booked
-                    if (newAvailableSlots <= 0) {
-                        const bookButton = eventCard.querySelector('.book-slot-btn');
-                        if (bookButton) {
-                            bookButton.disabled = true;
-                            bookButton.textContent = 'Fully Booked';
-                            bookButton.style.backgroundColor = 'var(--pixel-grey)';
-                        }
-                    }
-                }
-            }
         });
     </script>
 </body>

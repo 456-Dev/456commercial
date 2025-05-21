@@ -1234,3 +1234,136 @@ body.modal-open {
     margin-bottom: 10px;
     line-height: 1.5;
 }
+
+/* Form field styling */
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--pixel-black);
+}
+
+/* Clean dropdown styling */
+select {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 2px solid var(--pixel-grey);
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    color: #333;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 12px;
+    padding-right: 40px;
+}
+
+select:hover {
+    border-color: var(--pixel-black);
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--pixel-black);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the dropdown options */
+select option {
+    padding: 12px;
+    font-size: 16px;
+}
+
+select option:first-child {
+    color: #666;
+    font-style: italic;
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+    select {
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: 14px 40px 14px 15px; /* Larger touch target */
+    }
+}
+
+/* Remove old custom select styles */
+.select-wrapper, .custom-select, .select-arrow {
+    display: none;
+}
+
+/* Expandable Booking Form */
+.booking-form-section {
+    margin-top: 15px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 2px solid var(--pixel-grey);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.booking-form {
+    max-width: 100%;
+}
+
+.booking-form .form-group {
+    margin-bottom: 15px;
+}
+
+.booking-form input,
+.booking-form select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid var(--pixel-grey);
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.booking-form input:focus,
+.booking-form select:focus {
+    border-color: var(--pixel-black);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.booking-form .form-note {
+    font-size: 0.85em;
+    color: var(--pixel-grey);
+    margin: 15px 0;
+}
+
+.booking-form .modal-submit-btn {
+    width: 100%;
+    background-color: var(--pixel-green);
+    color: var(--pixel-black);
+    font-weight: bold;
+    padding: 12px;
+}
+
+.booking-form .modal-submit-btn:hover {
+    background-color: #5fdd3f;
+}
+
+/* Animation for form expansion */
+.booking-form-section {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out, margin 0.3s ease-out;
+}
+
+.booking-form-section.expanded {
+    max-height: 1000px;
+    opacity: 1;
+    margin-top: 15px;
+}
