@@ -315,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 
                 // Toggle this form
-                if (formSection.style.display === 'none') {
+                if (formSection.style.display === 'none' || !formSection.style.display) {
                     console.log("Opening form section");
                     formSection.style.display = 'block';
                     // Use setTimeout to allow display:block to take effect before adding expanded class
@@ -750,18 +750,18 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         
         const frameMessages = {
-            1: "Diego Sanchez's Page from the section [Meditations]",
-            2: "Untitled Photo from the section [Don't play water]",
-            3: "λ = NotMYdog from the section [HFIλ]",
-            4: "Untitled Photo from the section [Don't play water]",
-            5: "why? GOD. from the section [odds & ends pt.17]",
-            6: "Untitled Photo from the section [ROAD KILL]",
-            7: "Untitled Photo from the section [ROAD KILL]",
-            8: "5G from the section [Video Screenshots of America]",
-            9: "λ = inverted from the section [HFIλ]",
-            10: "Untitled Photo from the section [DOUBLE UP!!]",
-            11: "Elvis's Jet from the section [Video Screenshots of America]",
-            12: "Untitled Photo from the section [DOUBLE UP!!]"
+            1: "Diego Sanchez's Page [Meditations]",
+            2: "Untitled Photo [Don't play water]",
+            3: "λ = NotMYdog [HFIλ]",
+            4: "Untitled Photo [Don't play water]",
+            5: "why? GOD. [odds & ends pt.17]",
+            6: "Untitled Photo ROAD KILL]",
+            7: "Untitled Photo [ROAD KILL]",
+            8: "5G [Video Screenshots of America]",
+            9: "λ = inverted [HFIλ]",
+            10: "Untitled Photo DOUBLE UP!!]",
+            11: "Elvis's Jet [Video Screenshots of America]",
+            12: "Untitled Photo [DOUBLE UP!!]"
         };
 
         // Store the original animated and static sources

@@ -407,25 +407,27 @@ body {
 
 /* Button styles - more compact */
 .btn {
-    padding: 8px 5px; /* Reduced padding */
-    font-size: 12px; /* Fixed small size in pixels */
+    padding: 8px 5px;
+    font-size: 0.75rem; /* Base font size */
     font-weight: bold;
     text-align: center;
     border: 2px solid var(--pixel-black);
     cursor: pointer;
     text-decoration: none;
     font-family: 'Times New Roman', serif;
-    white-space: normal; /* Allow text to wrap if needed */
-    line-height: 1.2; /* Tighter line height for wrapped text */
+    white-space: normal;
+    line-height: 1.2;
 }
 
 .action-btn {
-    font-size: 0.75rem; /* Action buttons slightly smaller */
+    font-size: 0.825rem; /* 10% larger than info-btn */
+    padding: 6px 4px; /* Reduced padding to compensate for larger font */
 }
 
 .info-btn { 
     background-color: var(--pixel-white);
     color: var(--pixel-black);
+    font-size: 0.75rem;
 }
 
 .digital .action-btn { background-color: var(--pixel-blue); color: var(--pixel-white); }
@@ -628,16 +630,22 @@ body {
 /* Special styling for responsive buttons on small screens */
 @media (max-width: 576px) {
     .edition-buttons {
-        gap: 8px; /* Increased gap between buttons */
+        gap: 8px;
     }
     
     .btn {
-        padding: 10px 5px; /* More vertical padding */
-        font-size: 9px; /* Even smaller on mobile */
+        padding: 10px 5px;
+        font-size: 10px;
     }
     
-    .action-btn, .info-btn {
-        padding: 12px 5px; /* Even more padding for action buttons */
+    .action-btn {
+        padding: 10px 4px;
+        font-size: 11px; /* 10% larger than base mobile size */
+    }
+    
+    .info-btn {
+        padding: 12px 5px;
+        font-size: 12px;
     }
 }
 
@@ -1300,76 +1308,4 @@ select option:first-child {
 /* Remove old custom select styles */
 .select-wrapper, .custom-select, .select-arrow {
     display: none;
-}
-
-/* Expandable Booking Form */
-.booking-form-section {
-    margin-top: 15px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 2px solid var(--pixel-grey);
-    border-radius: 4px;
-    transition: all 0.3s ease;
-}
-
-.booking-form {
-    max-width: 100%;
-}
-
-.booking-form .form-group {
-    margin-bottom: 15px;
-}
-
-.booking-form input,
-.booking-form select {
-    width: 100%;
-    padding: 10px;
-    border: 2px solid var(--pixel-grey);
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-.booking-form input:focus,
-.booking-form select:focus {
-    border-color: var(--pixel-black);
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-}
-
-.booking-form .form-note {
-    font-size: 0.85em;
-    color: var(--pixel-grey);
-    margin: 15px 0;
-}
-
-.booking-form .modal-submit-btn {
-    width: 100%;
-    background-color: var(--pixel-green);
-    color: var(--pixel-black);
-    font-weight: bold;
-    padding: 12px;
-}
-
-.booking-form .modal-submit-btn:hover {
-    background-color: #5fdd3f;
-}
-
-/* Animation for form expansion */
-.booking-form-section {
-    overflow: hidden;
-    max-height: 0;
-    opacity: 0;
-    transition: max-height 0.3s ease-out, opacity 0.3s ease-out, margin 0.3s ease-out;
-}
-
-.booking-form-section.expanded {
-    max-height: 1000px;
-    opacity: 1;
-    margin-top: 15px;
-}
-
-.risk-warning {
-    text-align: right;
-    margin-top: 5px;
-    margin-bottom: 0;
 }
