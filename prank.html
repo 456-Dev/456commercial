@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Collection</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .prank-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            text-align: center;
+            border: var(--border-thickness) solid var(--pixel-black);
+            background-color: var(--bg-color);
+        }
+
+        @media (max-width: 768px) {
+            .prank-container {
+                margin: 10px;
+                padding: 15px;
+            }
+        }
+
+        .prank-text {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: var(--pixel-red);
+        }
+
+        @media (max-width: 768px) {
+            .prank-text {
+                font-size: 1em;
+            }
+        }
+
+        .data-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 auto 30px;
+            max-width: 600px;
+            text-align: left;
+        }
+
+        .data-list li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+            color: var(--pixel-black);
+            font-size: 1em;
+            line-height: 1.4;
+        }
+
+        .data-list li::before {
+            content: "•";
+            color: var(--pixel-red);
+            font-size: 1.5em;
+            position: absolute;
+            left: 8px;
+            top: -2px;
+        }
+
+        @media (max-width: 768px) {
+            .data-list li {
+                font-size: 0.9em;
+                padding-left: 20px;
+            }
+        }
+
+        .loading-bar {
+            width: 100%;
+            height: 20px;
+            background-color: var(--pixel-grey);
+            border: 2px solid var(--pixel-black);
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+            background-color: var(--pixel-red);
+            transition: width 0.1s linear;
+        }
+
+        .countdown {
+            font-size: 1.5em;
+            margin: 20px 0;
+            font-weight: bold;
+            color: var(--pixel-black);
+        }
+
+        .cancel-btn {
+            background-color: var(--pixel-red);
+            color: var(--pixel-white);
+            padding: 15px 30px;
+            border: var(--border-thickness) solid var(--pixel-black);
+            font-size: 1.2em;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 768px) {
+            .cancel-btn {
+                padding: 12px 20px;
+                font-size: 1em;
+                width: 100%;
+            }
+        }
+
+        .cancel-btn:hover {
+            background-color: var(--pixel-magenta);
+        }
+
+        .header-text {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            color: var(--pixel-red);
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .header-text {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="prank-container">
+        <p class="header-text">Thank you for consenting to share your data!</p>
+        <ul class="data-list">
+            <li>Social Security Number</li>
+            <li>NFC Tap History</li>
+            <li>Private Browser History</li>
+            <li>Bluetooth Pairing History</li>
+            <li>Face ID Hash</li>
+            <li>SIM Card ICCID</li>
+            <li>VPN Kill Switch Status</li>
+            <li>System Kernel Logs</li>
+        </ul>
+        <div class="loading-bar">
+            <div class="loading-progress" id="progress"></div>
+        </div>
+        <div class="countdown" id="countdown">10</div>
+        <a href="index.html" class="cancel-btn" id="cancelBtn">Cancel Data Transfer</a>
+    </div>
+
+    <script>
+        let timeLeft = 10;
+        let progress = 0;
+        const progressBar = document.getElementById('progress');
+        const countdownDisplay = document.getElementById('countdown');
+        
+        // Update progress bar randomly
+        const updateProgress = () => {
+            if (progress < 100) {
+                progress += Math.random() * 3; // Random progress increment
+                if (progress > 100) progress = 100;
+                progressBar.style.width = progress + '%';
+            }
+        };
+
+        // Update countdown
+        const countdown = setInterval(() => {
+            timeLeft--;
+            countdownDisplay.textContent = timeLeft;
+            updateProgress();
+            
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                window.location.href = 'index.html';
+            }
+        }, 1000);
+
+        // Start progress updates more frequently than the countdown
+        setInterval(updateProgress, 100);
+
+        // Optional: Redirect on button click
+        document.getElementById('cancelBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            clearInterval(countdown);
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html> 
