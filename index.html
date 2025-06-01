@@ -389,7 +389,6 @@
     <!-- Firebase Config -->
     <script>
         // Your web app's Firebase configuration
-        // Replace with your actual Firebase project config
         const firebaseConfig = {
             apiKey: "AIzaSyDnUlmVv1PBF_gXqeyM4aEaV6hndrXPeBw",
             authDomain: "books-bookings.firebaseapp.com",
@@ -399,13 +398,18 @@
             appId: "1:704734229089:web:acd4877e3d11ad24503020"
         };
         
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        
-        // Dispatch event when Firebase is ready
-        window.db = db;
-        window.dispatchEvent(new Event('firebase-ready'));
+        // Initialize Firebase with error handling
+        try {
+            firebase.initializeApp(firebaseConfig);
+            const db = firebase.firestore();
+            console.log('Firebase initialized successfully');
+            
+            // Dispatch event when Firebase is ready
+            window.db = db;
+            window.dispatchEvent(new Event('firebase-ready'));
+        } catch (error) {
+            console.error('Error initializing Firebase:', error);
+        }
     </script>
 
     <!-- EmailJS -->
@@ -573,7 +577,11 @@
             getFirestore, 
             collection, 
             addDoc, 
-            serverTimestamp 
+            serverTimestamp,
+            doc,
+            getDoc,
+            updateDoc,
+            setDoc 
         } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
         
         import { 
@@ -581,15 +589,107 @@
         } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
 
         // Wait for Firebase to be ready
-        window.addEventListener('firebase-ready', () => {
-            // Get Firebase app and initialize Firestore
-            const app = getApp();
-            const db = getFirestore(app);
-            const bookingsCollection = collection(db, "bookings");
+        window.addEventListener('firebase-ready', async () => {
+            console.log('Firebase ready event received');
+            try {
+                // Get Firebase app and initialize Firestore
+                const app = getApp();
+                const db = getFirestore(app);
+                console.log('Firestore initialized');
 
-            // Debug test - check if EmailJS is accessible within this module
-            console.log("Checking if EmailJS is accessible in the module:", typeof emailjs);
+                // View counter logic
+                const viewsRef = doc(db, 'stats', 'pageViews');
+                console.log('Attempting to access view counter document');
+                
+                try {
+                    // Get current views
+                    const viewsDoc = await getDoc(viewsRef);
+                    let currentViews = 0;
+                    
+                    if (viewsDoc.exists()) {
+                        console.log('View counter document exists');
+                        currentViews = viewsDoc.data().count || 0;
+                        // Increment views
+                        await updateDoc(viewsRef, {
+                            count: currentViews + 1,
+                            lastUpdated: serverTimestamp()
+                        });
+                        console.log('View count updated to:', currentViews + 1);
+                    } else {
+                        console.log('Creating initial view counter document');
+                        // Create initial document
+                        await setDoc(viewsRef, {
+                            count: 1,
+                            lastUpdated: serverTimestamp()
+                        });
+                        currentViews = 1;
+                    }
+
+                    // Update the counter display
+                    const viewCounter = document.getElementById('view-counter');
+                    if (viewCounter) {
+                        viewCounter.textContent = currentViews.toLocaleString();
+                        console.log('Counter display updated');
+                        
+                        // Add animation class after setting the initial value
+                        setTimeout(() => {
+                            viewCounter.classList.add('view-counter-visible');
+                            console.log('Counter animation added');
+                        }, 500);
+                    } else {
+                        console.error('View counter element not found in DOM');
+                    }
+                    
+                } catch (error) {
+                    console.error('Error updating view count:', error);
+                }
+            } catch (error) {
+                console.error('Error in Firebase ready handler:', error);
+            }
         });
     </script>
+
+    <!-- View Counter -->
+    <div class="view-counter" id="view-counter">0</div>
+
+    <style>
+        .view-counter {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--pixel-black);
+            color: var(--pixel-white);
+            padding: 8px 15px;
+            border: var(--border-thickness) solid var(--pixel-white);
+            font-family: var(--font-pixel);
+            font-size: 0.9em;
+            border-radius: 4px;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: block !important; /* Force display */
+        }
+
+        .view-counter::before {
+            content: '👁 ';
+            margin-right: 5px;
+        }
+
+        .view-counter-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .view-counter {
+                bottom: 10px;
+                right: 10px;
+                font-size: 0.8em;
+                padding: 6px 12px;
+            }
+        }
+    </style>
 </body>
 </html>
