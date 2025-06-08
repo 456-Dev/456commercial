@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Slideshow</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px 0 0 0;
+      background: #000;
+      color: #fff;
+      font-family: 'Tahoma', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding-left: 10%;
+    }
+    #slideshow-container {
+      position: relative;
+      width: 90%;
+      max-width: 1000px;
+      height: 56.25vw;
+      max-height: 562px;
+      background: #111;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      align-self: center;
+    }
+    .slide {
+      display: none;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .active {
+      display: block;
+      animation: fade 1s;
+    }
+    @keyframes fade {
+      from { opacity: 0.4; }
+      to { opacity: 1; }
+    }
+    .nav {
+      position: absolute;
+      top: 50%;
+      width: auto;
+      margin-top: -22px;
+      padding: 16px;
+      color: #fff;
+      font-weight: bold;
+      font-size: 24px;
+      cursor: pointer;
+      user-select: none;
+      border-radius: 0 3px 3px 0;
+      background: rgba(0,0,0,0.5);
+    }
+    .nav:hover { background: rgba(0,0,0,0.8); }
+    #prev { left: 0; }
+    #next { right: 0; border-radius: 3px 0 0 3px; }
+    #description-blurb {
+      color: white;
+      margin-bottom: 25px;
+      text-align: left;
+      max-width: 700px;
+      line-height: 1.4;
+    }
+    #description-blurb p {
+      margin: 0 0 10px 0;
+      font-size: 1rem;
+      line-height: 1.4;
+      font-family: 'Tahoma', sans-serif;
+    }
+    #description-blurb p:first-child {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+    }
+    #description-blurb p:last-child {
+      margin-top: 15px;
+      font-style: italic;
+      color: #ddd;
+    }
+    #description-blurb .question {
+      margin-left: 20px;
+      margin-bottom: 8px;
+    }
+    #carousel-label {
+      color: white;
+      text-align: center;
+      margin-bottom: 10px;
+      font-family: 'Tahoma', sans-serif;
+      font-size: 0.9rem;
+      color: #ccc;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    #tech-info {
+      color: white;
+      margin-bottom: 25px;
+      text-align: left;
+      max-width: 700px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 15px 20px;
+      border-radius: 8px;
+      border-left: 4px solid white;
+      margin-left: 0;
+    }
+    #tech-info h2 {
+      margin: 0 0 15px 0;
+      font-size: 1.4rem;
+      color: white;
+    }
+    #tech-info .info-row {
+      display: flex;
+      justify-content: flex-start;
+      gap: 15px;
+      margin-bottom: 8px;
+      font-family: 'Tahoma', sans-serif;
+    }
+    #tech-info .info-label {
+      font-weight: bold;
+      color: #ccc;
+      min-width: 80px;
+    }
+    #tech-info .info-value {
+      color: white;
+    }
+    #screenings {
+      color: white;
+      margin-bottom: 25px;
+      text-align: left;
+      max-width: 700px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 15px 20px;
+      border-radius: 8px;
+      border-left: 4px solid #888;
+    }
+    #screenings h2 {
+      margin: 0 0 15px 0;
+      font-size: 1.4rem;
+      color: white;
+    }
+    #screenings .screening-item {
+      margin-bottom: 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      font-family: 'Tahoma', sans-serif;
+    }
+    #screenings .screening-item:last-child {
+      border-bottom: none;
+    }
+    #screenings .screening-date {
+      font-weight: bold;
+      color: white;
+      font-size: 1rem;
+    }
+    #screenings .screening-details {
+      color: #ccc;
+      font-size: 0.9rem;
+      margin-top: 2px;
+    }
+    #movieInfo {
+      width: 80%;
+      max-width: 800px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    #movieInfo h2 {
+      margin: 0 0 10px;
+      font-size: 2rem;
+    }
+    #movieInfo p { margin: 8px 0; }
+    #movieInfo .rating {
+      font-weight: 700;
+    }
+    #title-banner {
+      margin-bottom: 15px;
+      text-align: center;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+    #title-banner .side-image {
+      width: 80px;
+      height: auto;
+      object-fit: contain;
+      border-radius: 0px;
+      opacity: 1;
+    }
+    #title-banner h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: bold;
+      font-family: 'Tahoma', sans-serif;
+      color: black;
+      background: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      box-shadow: 0 2px 4px rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div id="title-banner">
+    <img class="side-image" src="flag.png" alt="Flag">
+    <h1>"ONE QUESTION FOR AMERICA"</h1>
+    <img class="side-image" src="flag.png" alt="Flag">
+  </div>
+
+  <div id="description-blurb">
+    <p>A new documentary film, asking 221 people the same 3 questions:</p>
+    <p class="question"><strong>Question #1:</strong> What is one question they have for everyone in America?</p>
+    <p class="question"><strong>Question #2:</strong> Flipping their question back on them</p>
+    <p class="question"><strong>Question #3:</strong> Are they happy?</p>
+    <p>Film Description: Come join us on a road trip as we learn what America wants to learn about itself!</p>
+  </div>
+
+  <div id="carousel-label">Film Screenshots</div>
+
+  <div id="slideshow-container">
+    <!-- Replace srcs with actual image URLs -->
+    <img class="slide active" src="extracted_images/page_002_image_01.png" alt="Page 2 Image 1">
+    <img class="slide" src="extracted_images/page_003_image_02.png" alt="Page 3 Image 2">
+    <img class="slide" src="extracted_images/page_004_image_03.png" alt="Page 4 Image 3">
+    <img class="slide" src="extracted_images/page_006_image_01.png" alt="Page 6 Image 1">
+    <img class="slide" src="extracted_images/page_007_image_02.png" alt="Page 7 Image 2">
+    <img class="slide" src="extracted_images/page_008_image_03.png" alt="Page 8 Image 3">
+    <img class="slide" src="extracted_images/page_010_image_01.png" alt="Page 10 Image 1">
+    <img class="slide" src="extracted_images/page_011_image_02.png" alt="Page 11 Image 2">
+    <img class="slide" src="extracted_images/page_012_image_03.png" alt="Page 12 Image 3">
+    <img class="slide" src="extracted_images/page_014_image_01.png" alt="Page 14 Image 1">
+    <img class="slide" src="extracted_images/page_015_image_02.png" alt="Page 15 Image 2">
+    <img class="slide" src="extracted_images/page_016_image_03.png" alt="Page 16 Image 3">
+    <img class="slide" src="extracted_images/page_018_image_01.png" alt="Page 18 Image 1">
+    <img class="slide" src="extracted_images/page_019_image_02.png" alt="Page 19 Image 2">
+    <img class="slide" src="extracted_images/page_020_image_03.png" alt="Page 20 Image 3">
+    <img class="slide" src="extracted_images/page_022_image_01.png" alt="Page 22 Image 1">
+    <img class="slide" src="extracted_images/page_023_image_02.png" alt="Page 23 Image 2">
+    <img class="slide" src="extracted_images/page_024_image_03.png" alt="Page 24 Image 3">
+    <!-- Navigation arrows -->
+    <div id="prev" class="nav">&#10094;</div>
+    <div id="next" class="nav">&#10095;</div>
+  </div>
+
+  <section id="screenings">
+    <h2>Upcoming Screenings</h2>
+    <div class="screening-item">
+      <div class="screening-date">June 12, 2024 - 5:30 PM - 7:30 PM</div>
+      <div class="screening-details">Hoboken Public Library • 500 Park Ave, Hoboken, USA</div>
+    </div>
+    <div class="screening-item">
+      <div class="screening-date">June 14, 2024 - 2:00 PM - 4:00 PM</div>
+      <div class="screening-details">Hoboken Public Library • 500 Park Ave, Hoboken, USA<</div>
+    </div>
+  </section>
+
+  <section id="tech-info">
+    <h2>Film Information</h2>
+    <div class="info-row">
+      <span class="info-label">Director:</span>
+      <span class="info-value">Michael Linares</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Genre:</span>
+      <span class="info-value">Documentary</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Runtime:</span>
+      <span class="info-value">1 hour 16 minutes</span>
+    </div>
+    <div class="info-row">
+        <span class="info-label">Rating:</span>
+        <span class="info-value">R (Cursing,Guns,Politics) </span>
+      </div>
+  </section>
+
+  <script>
+    let slideIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    const total = slides.length;
+    const prev = document.getElementById('prev');
+    const next = document.getElementById('next');
+
+    function showSlide(index) {
+      slides.forEach((s, i) => {
+        s.classList.remove('active');
+        if (i === index) s.classList.add('active');
+      });
+    }
+
+    function nextSlide() {
+      slideIndex = (slideIndex + 1) % total;
+      showSlide(slideIndex);
+    }
+
+    function prevSlide() {
+      slideIndex = (slideIndex - 1 + total) % total;
+      showSlide(slideIndex);
+    }
+
+    next.addEventListener('click', nextSlide);
+    prev.addEventListener('click', prevSlide);
+
+    // Auto-play
+    setInterval(nextSlide, 5000);
+  </script>
+</body>
+</html>
