@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Movie Slideshow</title>
+  <title>One Question for America</title>
+  <link rel="icon" type="image/png" href="flag.png">
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <style>
@@ -16,10 +17,9 @@
       font-family: 'Tahoma', sans-serif;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
       justify-content: flex-start;
       min-height: 100vh;
-      padding-left: 10%;
     }
     #slideshow-container {
       position: relative;
@@ -70,16 +70,13 @@
       text-align: left;
       max-width: 700px;
       line-height: 1.4;
+      align-self: center;
     }
     #description-blurb p {
       margin: 0 0 10px 0;
       font-size: 1rem;
       line-height: 1.4;
       font-family: 'Tahoma', sans-serif;
-    }
-    #description-blurb p:first-child {
-      font-size: 1.1rem;
-      margin-bottom: 15px;
     }
     #description-blurb p:last-child {
       margin-top: 15px;
@@ -88,7 +85,8 @@
     }
     #description-blurb .question {
       margin-left: 20px;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
+      font-size: 1rem;
     }
     #carousel-label {
       color: white;
@@ -109,7 +107,8 @@
       padding: 15px 20px;
       border-radius: 8px;
       border-left: 4px solid white;
-      margin-left: 0;
+      align-self: flex-start;
+      margin-left: calc((100% - 700px) / 2);
     }
     #tech-info h2 {
       margin: 0 0 15px 0;
@@ -140,6 +139,8 @@
       padding: 15px 20px;
       border-radius: 8px;
       border-left: 4px solid #888;
+      align-self: flex-start;
+      margin-left: calc((100% - 700px) / 2);
     }
     #screenings h2 {
       margin: 0 0 15px 0;
@@ -216,14 +217,6 @@
     <img class="side-image" src="flag.png" alt="Flag">
   </div>
 
-  <div id="description-blurb">
-    <p>A new documentary film, asking 221 people the same 3 questions:</p>
-    <p class="question"><strong>Question #1:</strong> What is one question they have for everyone in America?</p>
-    <p class="question"><strong>Question #2:</strong> Flipping their question back on them</p>
-    <p class="question"><strong>Question #3:</strong> Are they happy?</p>
-    <p>Film Description: Come join us on a road trip as we learn what America wants to learn about itself!</p>
-  </div>
-
   <div id="carousel-label">Film Screenshots</div>
 
   <div id="slideshow-container">
@@ -249,6 +242,13 @@
     <!-- Navigation arrows -->
     <div id="prev" class="nav">&#10094;</div>
     <div id="next" class="nav">&#10095;</div>
+  </div>
+
+  <div id="description-blurb">
+    <p class="question"><strong>Question #1:</strong> What is one question you would ask everyone in America?</p>
+    <p class="question"><strong>Question #2:</strong> Answer your own question</p>
+    <p class="question"><strong>Question #3:</strong> Are you happy?</p>
+    <p>Film Description: Come join us on a road trip as we learn what America wants to learn about itself! A new 86 minute documentary film where the same 3 questions were asked to 221 people across 14 states from Los Angeles to New York City. Do you have a sister? Do you know where you will spend eternity? Where did you learn how to drive? Dementia Patient or Felon? What would you ask America?</p>
   </div>
 
   <section id="screenings">
