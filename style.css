@@ -368,8 +368,8 @@ body {
 
 /* Edition name styles - responsive sizing */
 .edition-name {
-    font-size: 1.6em;
-    line-height: 1.2;
+    font-size: 1.0em;
+    line-height: 1.1;
     font-weight: bold;
     text-transform: uppercase;
     margin: 0 0 12px 0;
@@ -800,7 +800,7 @@ body {
 }
 
 .america-flag {
-    width: 240px;
+    width: 50%;
     height: auto;
     border-radius: 6px;
     box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
