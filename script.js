@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     <label for="book-choice-${eventId}">Book Edition*</label>
                                     <select id="book-choice-${eventId}" name="book_edition_reserved" required>
                                         <option value="" disabled selected>Select an edition...</option>
-                                        <option value="Standard Edition" data-price="$20">Standard Edition - $20</option>
+                                        <option value="Standard Edition" data-price="$25">Standard Edition - $25</option>
                                         <option value="Deluxe [Worse] Edition" data-price="$50">Deluxe [Worse] Edition - $50</option>
                                     </select>
                                 </div>
@@ -570,7 +570,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const bookingModalSelect = document.getElementById('book-choice');
                 if (bookingModalSelect) {
                    if (card.classList.contains('standard')) {
-                       bookingModalSelect.value = "Standard Edition - $20";
+                       bookingModalSelect.value = "Standard Edition - $25";
                    } else if (card.classList.contains('deluxe')) {
                        bookingModalSelect.value = "Deluxe [Worse] Edition - $50";
                    }

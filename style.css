@@ -368,8 +368,8 @@ body {
 
 /* Edition name styles - responsive sizing */
 .edition-name {
-    font-size: 1.0em;
-    line-height: 1.1;
+    font-size: 1.6em;
+    line-height: 1.2;
     font-weight: bold;
     text-transform: uppercase;
     margin: 0 0 12px 0;
@@ -576,7 +576,7 @@ body {
     }
     
     .edition-name {
-        font-size: 1.6em;
+        font-size: 1.28em;
         line-height: 1.2;
     }
     
@@ -646,6 +646,10 @@ body {
     .info-btn {
         padding: 12px 5px;
         font-size: 12px;
+    }
+    
+    .edition-name {
+        font-size: 0.8em; /* 20% smaller on mobile */
     }
 }
 
@@ -758,6 +762,82 @@ body {
     border-top: var(--border-thickness) solid var(--pixel-black);
     font-size: 0.85em;
 }
+
+/* America Footer */
+.america-footer {
+    background-color: #000;
+    padding: 30px 20px;
+    text-align: center;
+    border-top: 3px solid var(--pixel-black);
+}
+
+.america-footer-content {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.america-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    padding: 15px 25px;
+    border: 2px solid white;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.america-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+.america-flag {
+    width: 240px;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
+}
+
+.america-description {
+    color: #ccc;
+    font-family: 'Tahoma', sans-serif;
+    font-size: 0.9rem;
+    text-align: center;
+    line-height: 1.4;
+    margin-bottom: 5px;
+}
+
+.america-text {
+    font-family: 'Tahoma', sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+}
+
+@media (max-width: 480px) {
+    .america-link {
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px 20px;
+    }
+    
+    .america-text {
+        font-size: 1rem;
+    }
+    
+    .america-flag {
+        width: 35px;
+    }
+}
+
 .contact-info a {
     color: var(--link-color);
     font-weight: bold;
