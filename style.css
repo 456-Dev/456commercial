@@ -834,7 +834,21 @@ body {
     }
     
     .america-flag {
-        width: 35px;
+        width: 80px;
+    }
+    
+    .america-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: white;
+        padding: 15px 25px;
+        border: 2px solid white;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.1);
+        cursor: pointer;
     }
 }
 
