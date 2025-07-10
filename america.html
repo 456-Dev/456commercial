@@ -69,34 +69,37 @@
       margin-bottom: 25px;
       text-align: left;
       max-width: 700px;
-      line-height: 1.4;
+      line-height: 1.6;
       align-self: center;
     }
     #description-blurb p {
-      margin: 0 0 10px 0;
-      font-size: 1rem;
-      line-height: 1.4;
+      margin: 0 0 15px 0;
+      font-size: 1.1rem;
+      line-height: 1.6;
       font-family: 'Tahoma', sans-serif;
     }
     #description-blurb p:last-child {
-      margin-top: 15px;
+      margin-top: 20px;
       font-style: italic;
-      color: #ddd;
+      color: #eee;
+      font-size: 1rem;
     }
     #description-blurb .question {
       margin-left: 20px;
-      margin-bottom: 4px;
-      font-size: 1rem;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+      font-weight: 500;
     }
     #carousel-label {
       color: white;
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       font-family: 'Tahoma', sans-serif;
-      font-size: 0.9rem;
+      font-size: 1rem;
       color: #ccc;
       text-transform: uppercase;
       letter-spacing: 1px;
+      font-weight: 500;
     }
     #tech-info {
       color: white;
@@ -104,31 +107,34 @@
       text-align: left;
       max-width: 700px;
       background: rgba(255, 255, 255, 0.05);
-      padding: 15px 20px;
+      padding: 20px 25px;
       border-radius: 8px;
       border-left: 4px solid white;
       align-self: flex-start;
       margin-left: calc((100% - 700px) / 2);
     }
     #tech-info h2 {
-      margin: 0 0 15px 0;
-      font-size: 1.4rem;
+      margin: 0 0 20px 0;
+      font-size: 1.5rem;
       color: white;
+      font-weight: bold;
     }
     #tech-info .info-row {
       display: flex;
       justify-content: flex-start;
       gap: 15px;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
       font-family: 'Tahoma', sans-serif;
     }
     #tech-info .info-label {
       font-weight: bold;
-      color: #ccc;
+      color: #ddd;
       min-width: 80px;
+      font-size: 1rem;
     }
     #tech-info .info-value {
       color: white;
+      font-size: 1rem;
     }
     #screenings {
       color: white;
@@ -136,20 +142,21 @@
       text-align: left;
       max-width: 700px;
       background: rgba(255, 255, 255, 0.03);
-      padding: 15px 20px;
+      padding: 20px 25px;
       border-radius: 8px;
       border-left: 4px solid #888;
       align-self: flex-start;
       margin-left: calc((100% - 700px) / 2);
     }
     #screenings h2 {
-      margin: 0 0 15px 0;
-      font-size: 1.4rem;
+      margin: 0 0 20px 0;
+      font-size: 1.5rem;
       color: white;
+      font-weight: bold;
     }
     #screenings .screening-item {
-      margin-bottom: 12px;
-      padding: 8px 0;
+      margin-bottom: 15px;
+      padding: 10px 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       font-family: 'Tahoma', sans-serif;
     }
@@ -159,12 +166,12 @@
     #screenings .screening-date {
       font-weight: bold;
       color: white;
-      font-size: 1rem;
+      font-size: 1.1rem;
     }
     #screenings .screening-details {
-      color: #ccc;
-      font-size: 0.9rem;
-      margin-top: 2px;
+      color: #ddd;
+      font-size: 1rem;
+      margin-top: 4px;
     }
     #movieInfo {
       width: 80%;
@@ -179,6 +186,136 @@
     #movieInfo p { margin: 8px 0; }
     #movieInfo .rating {
       font-weight: 700;
+    }
+    
+    /* Responsive design for narrow screens */
+    @media (max-width: 768px) {
+      body {
+        padding: 15px 10px 0 10px;
+      }
+      
+      #description-blurb {
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 0 10px;
+      }
+      
+      #tech-info {
+        max-width: 100%;
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 15px 20px;
+      }
+      
+      #screenings {
+        max-width: 100%;
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 15px 20px;
+      }
+      
+      #slideshow-container {
+        width: 95%;
+        max-width: 100%;
+      }
+      
+      #title-banner h1 {
+        font-size: 1.3rem;
+        padding: 3px 6px;
+      }
+      
+      #title-banner .side-image {
+        width: 30px;
+      }
+      
+      #video-link a {
+        font-size: 1.1rem;
+        padding: 15px 20px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      body {
+        padding: 10px 5px 0 5px;
+      }
+      
+      #description-blurb {
+        padding: 0 5px;
+      }
+      
+      #tech-info {
+        margin-left: 5px;
+        margin-right: 5px;
+        padding: 12px 15px;
+      }
+      
+      #screenings {
+        margin-left: 5px;
+        margin-right: 5px;
+        padding: 12px 15px;
+      }
+      
+      #slideshow-container {
+        width: 98%;
+      }
+      
+      #title-banner h1 {
+        font-size: 1.1rem;
+        padding: 2px 4px;
+      }
+      
+      #title-banner .side-image {
+        width: 25px;
+      }
+      
+      #video-link a {
+        font-size: 1rem;
+        padding: 12px 16px;
+      }
+      
+      .arrow {
+        font-size: 1.5rem;
+      }
+    }
+    #video-link {
+      text-align: center;
+      margin-bottom: 30px;
+      max-width: 800px;
+      align-self: center;
+    }
+    #video-link a {
+      display: inline-flex;
+      align-items: center;
+      gap: 15px;
+      padding: 20px 30px;
+      background: linear-gradient(45deg, #ff6b35, #f7931e);
+      color: white;
+      text-decoration: none;
+      border-radius: 12px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      font-family: 'Tahoma', sans-serif;
+      box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+      transition: all 0.3s ease;
+    }
+    #video-link a:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 107, 53, 0.6);
+    }
+    .arrow {
+      font-size: 2rem;
+      animation: flash 1.5s infinite;
+    }
+    @keyframes flash {
+      0%, 50% { opacity: 1; }
+      25%, 75% { opacity: 0.3; }
+    }
+    .arrow-left {
+      animation-delay: 0s;
+    }
+    .arrow-right {
+      animation-delay: 0.75s;
     }
     #title-banner {
       margin-bottom: 15px;
@@ -217,6 +354,12 @@
     <img class="side-image" src="flag.png" alt="Flag">
   </div>
 
+  <div id="video-link">
+    <a href="https://www.youtube.com/watch?v=rypQce5ik7w" target="_blank">
+      <span class="arrow arrow-left">&#10094;</span> CLICK HERE TO WATCH ON YOUTUBE <span class="arrow arrow-right">&#10095;</span>
+    </a>
+  </div>
+
   <div id="carousel-label">Film Screenshots</div>
 
   <div id="slideshow-container">
@@ -253,14 +396,7 @@
 
   <section id="screenings">
     <h2>Upcoming Screenings</h2>
-    <div class="screening-item">
-      <div class="screening-date">June 12, 2024 - 5:30 PM - 7:30 PM</div>
-      <div class="screening-details">Hoboken Public Library • 500 Park Ave, Hoboken, USA</div>
-    </div>
-    <div class="screening-item">
-      <div class="screening-date">June 14, 2024 - 2:00 PM - 4:00 PM</div>
-      <div class="screening-details">Hoboken Public Library • 500 Park Ave, Hoboken, USA<</div>
-    </div>
+
   </section>
 
   <section id="tech-info">
@@ -282,6 +418,8 @@
         <span class="info-value">R (Cursing,Guns,Politics) </span>
       </div>
   </section>
+
+
 
   <script>
     let slideIndex = 0;
