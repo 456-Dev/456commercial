@@ -33,18 +33,61 @@
       border-radius:5px;
       z-index:10;
     }
+    #prankReveal {
+      position:absolute;
+      top:50%; left:50%; transform:translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.9);
+      color: #fff;
+      padding: 2em;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 1.2em;
+      max-width: 80%;
+      border: 2px solid #c00;
+      z-index: 15;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    #prankReveal.show {
+      opacity: 1;
+    }
+    #startBtn {
+      position:absolute;
+      top:50%; left:50%; transform:translate(-50%, -50%);
+      padding:1em 2em;
+      font-size:1.2em;
+      background:#c00;
+      color:#fff;
+      border:none; cursor:pointer;
+      border-radius:10px;
+      z-index:20;
+    }
+    #startBtn.hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
+  <button id="startBtn">Click to Start Camera Check</button>
   <div class="alert-banner">⚠️ Lens Dust Detected! Please Clean Your Sensor ⚠️</div>
   <canvas id="dustCanvas"></canvas>
+  <div id="prankReveal">
+    <h2>😂 Just kidding!</h2>
+    <p>This is a prank QR code. Click OK to go to the main page.</p>
+  </div>
   <button id="reloadBtn">OK</button>
-  <!-- Make sure goofy-ahh-car-horn-sound-effect.mp3 is stored locally in your repo, e.g. in an "assets/audio" folder -->
   <audio id="airhorn" src="assets/goofy-ahh-car-horn-sound-effect.mp3" preload="auto"></audio>
   <script>
     const canvas = document.getElementById('dustCanvas');
     const ctx = canvas.getContext('2d');
+    const startBtn = document.getElementById('startBtn');
+    const prankReveal = document.getElementById('prankReveal');
+    const reloadBtn = document.getElementById('reloadBtn');
+    const airhorn = document.getElementById('airhorn');
+    
     let w, h;
+    let prankStarted = false;
+    
     function resize() {
       w = canvas.width = window.innerWidth;
       h = canvas.height = window.innerHeight;
@@ -74,28 +117,37 @@
 
     const motes = Array.from({ length: 150 }, () => new Dust());
     function animate() {
-      ctx.clearRect(0, 0, w, h);
-      motes.forEach(m => { m.update(); m.draw(); });
+      if (prankStarted) {
+        ctx.clearRect(0, 0, w, h);
+        motes.forEach(m => { m.update(); m.draw(); });
+      }
       requestAnimationFrame(animate);
     }
     animate();
 
-    const airhorn = document.getElementById('airhorn');
-    airhorn.volume = 1.0;
-    window.addEventListener('load', () => {
-      airhorn.play().catch(e => console.warn('Autoplay prevented:', e));
+    // Start the prank when user clicks
+    startBtn.addEventListener('click', () => {
+      prankStarted = true;
+      startBtn.classList.add('hidden');
+      airhorn.volume = 1.0;
+      airhorn.play().catch(e => console.warn('Audio play failed:', e));
+      
+      // Show prank reveal after 2 seconds
+      setTimeout(() => {
+        prankReveal.classList.add('show');
+      }, 2000);
+      
+      // Auto redirect after 8 seconds total
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 8000);
     });
 
-    setTimeout(() => {
+    // Handle OK button click
+    reloadBtn.addEventListener('click', () => {
       airhorn.play().catch(e => {});
       window.location.href = 'index.html';
-    }, 5000);
-
-    document.getElementById('reloadBtn')
-      .addEventListener('click', () => {
-        airhorn.play().catch(e => {});
-        window.location.href = 'index.html';
-      });
+    });
   </script>
 </body>
 </html>
