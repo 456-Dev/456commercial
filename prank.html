@@ -73,7 +73,7 @@
   <canvas id="dustCanvas"></canvas>
   <div id="prankReveal">
     <h2>😂 Just kidding!</h2>
-    <p>This is a prank QR code. Click OK to go to the main page.</p>
+    <p>This is a prank QR code. Click OK to visit Big Nose Michael on YouTube.</p>
   </div>
   <button id="reloadBtn">OK</button>
   <audio id="airhorn" src="assets/goofy-ahh-car-horn-sound-effect.mp3" preload="auto"></audio>
@@ -139,14 +139,14 @@
       
       // Auto redirect after 8 seconds total
       setTimeout(() => {
-        window.location.href = 'index.html';
+        window.location.href = 'https://www.youtube.com/@bignosemichael';
       }, 8000);
     });
 
     // Handle OK button click
     reloadBtn.addEventListener('click', () => {
       airhorn.play().catch(e => {});
-      window.location.href = 'index.html';
+      window.location.href = 'https://www.youtube.com/@bignosemichael';
     });
   </script>
 </body>
