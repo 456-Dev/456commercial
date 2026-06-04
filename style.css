@@ -657,6 +657,46 @@ body {
 .events-section {
     margin: 5px 0;
 }
+.get-the-book-sign {
+    margin: 30px auto 10px;
+    max-width: 640px;
+    text-align: center;
+    padding: 25px 20px;
+    background-color: var(--pixel-yellow);
+    color: var(--pixel-black);
+    border: var(--border-thickness) solid var(--pixel-black);
+    box-shadow: 8px 8px 0 var(--pixel-black);
+}
+.get-the-book-sign h3 {
+    font-family: var(--font-pixel), var(--font-main);
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+}
+.get-the-book-sign p {
+    font-size: 1.1rem;
+    margin-bottom: 18px;
+    font-weight: bold;
+}
+.get-the-book-contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+.get-the-book-btn {
+    display: inline-block;
+    width: 100%;
+    max-width: 420px;
+    padding: 12px 16px;
+    font-size: 1.05rem;
+    font-weight: bold;
+    text-decoration: none;
+    border: var(--border-thickness) solid var(--pixel-black);
+    transition: transform 0.1s ease;
+}
+.get-the-book-btn:hover { transform: translate(-2px, -2px); }
+.get-the-book-btn.instagram { background-color: var(--pixel-magenta); color: var(--pixel-white); }
+.get-the-book-btn.email { background-color: var(--pixel-white); color: var(--pixel-black); }
 #events {
     padding-top: 15px;
     margin-bottom: 15px;
