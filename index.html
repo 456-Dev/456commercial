@@ -1,710 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THEY SAID YOU CAN'T</title>
-    
-    <!-- Standard favicons for different sizes -->
-    <link rel="icon" href="https://github.com/456-Dev/456commercial/blob/main/favicon16x16.png?raw=true" type="image/png" sizes="16x16">
-    
-    <!-- Apple Touch Icon for iOS/Safari -->
-    <link rel="apple-touch-icon" href="https://github.com/456-Dev/456commercial/blob/main/favicon160x160.png?raw=true">
-    <link rel="apple-touch-icon-precomposed" href="https://github.com/456-Dev/456commercial/blob/main/favicon160x160.png?raw=true">
-    
-    <!-- Safari specific -->
-    <link rel="mask-icon" href="https://github.com/456-Dev/456commercial/blob/main/favicon32x32.png?raw=true" color="#000000">
-    
-    <!-- For Safari tab icon specifically -->
-    <link rel="shortcut icon" href="https://github.com/456-Dev/456commercial/blob/main/favicon32x32.png?raw=true" type="image/png">
-    
-    <!-- iOS/Safari specific meta tags -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="THEY SAID YOU CAN'T">
-    
-    <!-- Main stylesheet -->
-    <link rel="stylesheet" href="style.css">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9129652082443761"
-     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#006BB6">
+<title>Add your photo from MSG</title>
+
+<meta property="og:title" content="Add your photo from MSG">
+<meta property="og:description" content="Got a pic with the head at the Garden? Upload it and it joins the gallery.">
+<meta property="og:image" content="https://www.456solutions.com/assets/bignose-avatar.jpg">
+<meta property="og:url" content="https://www.456solutions.com/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="favicon32x32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="favicon160x160.png">
+
+<style>
+  :root{
+    --blue:#006BB6; --blue-dk:#004f87;
+    --orange:#F58426; --orange-dk:#e26d0c;
+    --ink:#0a0a0a; --paper:#fbfaf7; --card:#fff; --muted:#6b6b6b;
+    --radius:18px; font-size:16px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+  body{font-family:"Helvetica Neue",Arial,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--paper);color:var(--ink);line-height:1.45;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;opacity:.05;pointer-events:none;background:repeating-linear-gradient(45deg,var(--blue) 0 24px,transparent 24px 48px);}
+  img{max-width:100%;display:block;}
+  .wrap{width:100%;max-width:540px;margin:0 auto;padding:0 16px;}
+
+  header.bar{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:3px solid var(--ink);}
+  .bar-inner{max-width:540px;margin:0 auto;padding:9px 16px;display:flex;align-items:center;gap:10px;}
+  .bar .av{width:38px;height:38px;border-radius:50%;border:2.5px solid var(--ink);object-fit:cover;flex:0 0 auto;cursor:pointer;}
+  .bar .name{font-weight:800;font-size:.96rem;letter-spacing:-.02em;line-height:1.05;}
+  .bar .name small{display:block;font-weight:600;color:var(--muted);font-size:.7rem;}
+  .bar .spacer{flex:1;}
+  .bar .gallery-link{display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#fff;text-decoration:none;border:2.5px solid var(--ink);border-radius:999px;padding:8px 14px;font-weight:800;font-size:.8rem;white-space:nowrap;box-shadow:0 3px 0 var(--ink);transition:transform .08s,box-shadow .08s;}
+  .bar .gallery-link:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink);}
+
+  .hero{padding:24px 0 6px;text-align:center;}
+  .pill{display:inline-flex;align-items:center;gap:7px;background:var(--orange);color:var(--ink);font-weight:800;border:2.5px solid var(--ink);border-radius:999px;padding:6px 14px;font-size:.74rem;box-shadow:0 3px 0 var(--ink);margin-bottom:14px;}
+  h1.big{font-size:clamp(2.3rem,12vw,3.7rem);line-height:.9;font-weight:900;letter-spacing:-.03em;text-transform:uppercase;}
+  h1.big .blue{color:var(--blue);} h1.big .orange{color:var(--orange);}
+  .tagline{font-size:1.05rem;font-weight:600;color:#222;max-width:28ch;margin:12px auto 0;}
+
+  .card{background:var(--card);border:3px solid var(--ink);border-radius:var(--radius);box-shadow:0 10px 0 var(--ink);padding:16px;margin:18px 0 8px;}
+
+  .drop{display:block;border:3px dashed var(--blue);border-radius:14px;background:#f2f7fc;padding:42px 18px;text-align:center;cursor:pointer;transition:background .15s,border-color .15s;}
+  .drop.drag{background:#e2eefb;border-color:var(--orange);}
+  .drop .ico{font-size:3rem;line-height:1;}
+  .drop b{display:block;font-size:1.15rem;margin-top:10px;}
+  .drop span{display:block;color:var(--muted);font-size:.86rem;margin-top:3px;}
+  #file{display:none;}
+
+  .stage{display:none;}
+  .stage.on{display:block;}
+  .preview-hold{border:3px solid var(--ink);border-radius:12px;overflow:hidden;background:#111;line-height:0;}
+  #preview{width:100%;height:auto;display:block;max-height:62vh;object-fit:contain;}
+
+  .field{margin-top:14px;}
+  .field label{display:block;font-weight:800;font-size:.82rem;margin-bottom:5px;}
+  .field input[type=text]{width:100%;border:2.5px solid var(--ink);border-radius:11px;padding:12px;font-size:1rem;font-weight:600;font-family:inherit;}
+  .field .sub{color:var(--muted);font-size:.76rem;font-weight:600;margin-top:4px;}
+
+  .consent{font-size:.76rem;color:var(--muted);font-weight:600;margin-top:14px;line-height:1.45;background:#f6f6f4;border-radius:10px;padding:10px 12px;}
+
+  .actions{display:grid;grid-template-columns:1fr;gap:10px;margin-top:14px;}
+  .btn{border:3px solid var(--ink);border-radius:13px;padding:15px;font-weight:900;font-size:1.05rem;cursor:pointer;text-align:center;text-decoration:none;box-shadow:0 5px 0 var(--ink);transition:transform .08s,box-shadow .08s;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--ink);}
+  .btn:active{transform:translateY(5px);box-shadow:0 0 0 var(--ink);}
+  .btn[disabled]{opacity:.55;cursor:default;box-shadow:0 5px 0 var(--ink);}
+  .btn.submit{background:var(--orange);}
+  .btn.redo{background:#fff;box-shadow:0 4px 0 var(--ink);font-size:.85rem;padding:11px;}
+
+  .success{display:none;text-align:center;background:#eafbe7;border:3px solid var(--ink);border-radius:14px;padding:20px;}
+  .success.on{display:block;}
+  .success .big-check{font-size:2.4rem;}
+  .success h3{font-size:1.3rem;font-weight:900;text-transform:uppercase;margin-top:6px;}
+  .success p{font-weight:600;font-size:.92rem;margin-top:6px;color:#246b1b;}
+  .success a.see{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:var(--blue);color:#fff;text-decoration:none;font-weight:800;border:3px solid var(--ink);border-radius:12px;padding:12px 18px;box-shadow:0 5px 0 var(--ink);}
+
+  .browse{margin-top:18px;}
+  .browse a{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--blue);color:#fff;text-decoration:none;font-weight:900;font-size:1.1rem;border:3px solid var(--ink);border-radius:14px;padding:16px;box-shadow:0 7px 0 var(--ink);text-transform:uppercase;transition:transform .1s,box-shadow .1s;}
+  .browse a:active{transform:translateY(7px);box-shadow:0 0 0 var(--ink);}
+
+  .ps{margin-top:26px;text-align:center;padding:16px;border:2.5px dashed var(--ink);border-radius:14px;background:#fff;}
+  .ps small{font-weight:700;color:#444;display:block;margin-bottom:10px;}
+  .ps a.yt{display:inline-flex;align-items:center;gap:8px;background:#ff0000;color:#fff;text-decoration:none;font-weight:800;border:2.5px solid var(--ink);border-radius:999px;padding:9px 16px;box-shadow:0 3px 0 var(--ink);font-size:.86rem;}
+  .ps a.yt svg{width:20px;height:20px;}
+
+  footer{text-align:center;padding:26px 0 50px;border-top:3px solid var(--ink);margin-top:26px;}
+  footer small{color:var(--muted);display:block;font-weight:600;}
+  footer a{color:var(--blue);font-weight:800;}
+
+  .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(140%);background:var(--ink);color:#fff;font-weight:800;padding:12px 18px;border-radius:999px;z-index:99;transition:transform .3s;font-size:.9rem;max-width:90vw;text-align:center;}
+  .toast.on{transform:translateX(-50%) translateY(0);}
+
+  @media (min-width:560px){ h1.big{font-size:3.9rem;} }
+</style>
 </head>
 <body>
-    <div class="banner-wrapper">
-        <header class="site-banner">
-            <img src="https://github.com/456-Dev/456commercial/blob/main/websiteBANNER.png?raw=true" alt="Book Cover Image: THEY SAID YOU CAN'T" class="banner-image">
-        </header>
+
+<header class="bar">
+  <div class="bar-inner">
+    <img class="av" id="honkAv" src="assets/bignose-avatar.jpg" alt="" title="honk">
+    <div class="name">Big Nose Michael<small>the head @ MSG</small></div>
+    <div class="spacer"></div>
+    <a class="gallery-link" href="gallery.html">🖼 Gallery</a>
+  </div>
+</header>
+
+<section class="hero wrap">
+  <span class="pill">📍 you met the head at the garden</span>
+  <h1 class="big"><span class="blue">ADD YOUR</span><br><span class="orange">PHOTO</span></h1>
+  <p class="tagline">Got a pic with the head at MSG? Upload it — it joins the gallery for everyone to scroll.</p>
+</section>
+
+<section class="wrap">
+  <div class="card">
+    <!-- upload -->
+    <label class="drop" id="drop" for="file">
+      <div class="ico">📸</div>
+      <b>Tap to add your photo</b>
+      <span>the one you took with the head</span>
+    </label>
+    <input type="file" id="file" accept="image/*">
+
+    <!-- preview + submit -->
+    <div class="stage" id="stage">
+      <div class="preview-hold"><img id="preview" alt="Your photo"></div>
+
+      <div class="field">
+        <label for="handle">Your name or @handle <span style="font-weight:600;color:var(--muted)">(optional)</span></label>
+        <input type="text" id="handle" placeholder="@yourname" autocapitalize="off" autocomplete="off" maxlength="40">
+        <div class="sub">shown with your photo so people know whose it is</div>
+      </div>
+
+      <div class="consent">By submitting, you're OK with your photo appearing in the public gallery and being used in a video. Don't upload anything you wouldn't want public.</div>
+
+      <div class="actions">
+        <button class="btn submit" id="submit">🖼 Add to the gallery</button>
+        <button class="btn redo" id="redo">↺ choose a different photo</button>
+      </div>
     </div>
 
-    <div class="main-content-wrapper">
-        <!-- Author Line -->
-        <div class="author-tagline-container">
-            <p class="author-tagline">the new photography book by <em><b>bignosemichael</b></em></p>
-        </div>
-        
-        <!-- Editions Section -->
-        <section id="editions" class="editions-selection-section">
-            <div class="editions-grid">
-                <!-- Digital Edition -->
-                <article class="edition-card digital">
-                    <h3 class="edition-name">Digital<br>Edition</h3>
-                    <p class="edition-price">$5</p>
-                    
-                    <!-- Normal View Buttons -->
-                    <div class="normal-view">
-                        <div class="edition-buttons">
-                            <button class="btn info-btn">More Info</button>
-                            <a href="#digital-purchase-form" class="btn action-btn buy-digital-btn">Buy Digital</a>
-                        </div>
-                    </div>
-                    
-                    <!-- Expanded View Content -->
-                    <div class="expanded-view">
-                        <div class="expanded-header">
-                            <h4>DIGITAL EDITION <em>[Five Dollars]</em></h4>
-                            <button class="close-info-btn">×</button>
-                        </div>
-                        <div class="expanded-info-container">
-                            <ul class="edition-info-list">
-                                <li>Just a pdf of the deluxe edition
-                                    <ul>
-                                        <li>No fun compared to the real deal :)</li>
-                                        <li>I promise the google drive link won't hack your device <3</li>
-                                    </ul>
-                                </li>
-                                <li>PRINT THE BOOK YOURSELF!
-                                    <ul>
-                                        <li>Looks good even with standard office paper </li>
-                                        <li>Print it at work lol</li>
-                                    </ul>
-                                </li>
-                                <li>Free code found on page 1 of physical copies
-                                    <ul>
-                                        <li>Digital backup of your physical book</li>
-                                        <li>Contains Deluxe Edition only section</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <a href="#digital-purchase-form" class="btn action-btn buy-digital-btn">Buy Digital</a>
-                    </div>
-                </article>
-
-                <!-- Standard Edition -->
-                <article class="edition-card standard">
-                    <h3 class="edition-name">Standard<br>Edition</h3>
-                    <p class="edition-price">$25</p>
-                    
-                    <!-- Normal View Buttons -->
-                    <div class="normal-view">
-                        <div class="edition-buttons">
-                            <button class="btn info-btn">More Info</button>
-                            <a href="#events" class="btn action-btn reserve-physical-btn">Reserve Pickup</a>
-                        </div>
-                    </div>
-                    
-                    <!-- Expanded View Content -->
-                    <div class="expanded-view">
-                        <div class="expanded-header">
-                            <h4>STANDARD EDITION <em>[Twenty Five Dollars]</em></h4>
-                            <button class="close-info-btn">×</button>
-                        </div>
-                        <div class="expanded-info-container">
-                            <ul class="edition-info-list">
-                                <li>High-quality paperback with GLOSSY COVER
-                                    <ul>
-                                        <li>160 pages of slammin photograghy broken into 7 sections</li>
-                                        <li>Cream of the crop</li>
-                                    </ul>
-                                </li>
-                                <li>BEST DEAL, physical art!
-                                    <ul>
-                                        <li>This is the one you want to buy</li>
-                                        <li>Don't buy the deluxe edition, trust me</li>
-                                    </ul>
-                                </li>
-                                <li>Free DIY poster included
-                                    <ul>
-                                        <li>Tiled poster that you craft on your own!</li>
-                                        <li>"Tale of 3 Citites</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <a href="#events" class="btn action-btn reserve-physical-btn">Reserve Pickup</a>
-                    </div>
-                </article>
-
-                <!-- Deluxe Edition -->
-                <article class="edition-card deluxe">
-                    <h3 class="edition-name">Deluxe<br>Edition</h3>
-                    <p class="edition-price">$50</p>
-                    
-                    <!-- Normal View Buttons -->
-                    <div class="normal-view">
-                        <div class="edition-buttons">
-                            <button class="btn info-btn">More Info</button>
-                            <a href="#events" class="btn action-btn reserve-physical-btn">Reserve Pickup</a>
-                        </div>
-                    </div>
-                    
-                    <!-- Expanded View Content -->
-                    <div class="expanded-view">
-                        <div class="expanded-header">
-                            <h4>DELUXE EDITION <em>[Fifty Dollars]</em></h4>
-                            <button class="close-info-btn">×</button>
-                        </div>
-                        <div class="expanded-info-container">
-                            <ul class="edition-info-list">
-                                <li>Features an additonal 16 pages of spicy, outside the box photograghy
-                                    <ul>
-                                        <li>[MAKING CHOICES while...DRUNK? and HIGH! aka TEXT]</li>
-                                        <li>also available in digital edition</li>
-                                    </ul>
-                                </li>
-                                <li>Unique front/back MATTE cover 
-                                    <ul>
-                                        <li>Better paper and cover stock for those who care!</li>
-                                        <li>signed by bignosemichael [an unknown 25 year old]</li>
-                                    </ul>
-                                </li>
-                                <li>Intentionally overpriced
-                                    <ul>
-                                        <li>Includes everything in the standard edition</li>
-                                        <li>Don't buy this unless you are rich</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <a href="#events" class="btn action-btn reserve-physical-btn">Reserve Pickup</a>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <hr class="pixel-divider">
-
-        <!-- Info Tiles Section -->
-        <section id="new-book-intro" class="new-intro-section">
-            <div class="info-tiles-container">
-                <div class="gif-tile">
-                    <img src="https://github.com/456-Dev/456commercial/blob/main/image_lottery/selector.gif?raw=true" 
-                         alt="Interactive GIF" 
-                         id="interactive-gif"
-                         data-animated-src="https://github.com/456-Dev/456commercial/blob/main/image_lottery/selector.gif?raw=true"
-                         data-static-src="https://github.com/456-Dev/456commercial/blob/main/image_lottery/image_lottery.png?raw=true">
-                    <p id="frame-message" class="frame-message"></p>
-                    <p id="click-message" class="click-message"></p>
-                </div>
-                <div class="text-tile">
-                    <h3 class="about-title">ABOUT THIS BOOK</h3>
-                    <ul class="about-list">
-                        <li>
-                            <span class="bulletr">●</span>
-                            <span class="item-content"><strong>160 full color pages]</strong> [8.5" by 11"] of <em>photograghy</em> broken into 7 <u>unique</u> sections</span>
-                        </li>
-                        <li>
-                            <span class="bulletg">■</span>
-                            <span class="item-content">231 <u>Traditional</u> street photograghs, <em>hyper-processed</em> images and creative writing from your favorite <strong>guest writers!</strong></span>
-                        </li>
-                        <li>
-                            <span class="bulletb">▲</span>
-                            <span class="item-content">This book may [or may not] contain: <strong>sexy humans</strong>, <em>dead rats</em> and <u>general non-sense</u>. 
-                                                        <p class="risk-warning"><b>Enjoy at your own risk!</b></p></span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <hr class="pixel-divider">
-
-        <!-- Events Section -->
-        <section id="events" class="events-section">
-            <h2>Upcoming NYC Pickup Events</h2>
-            <p class="section-intro">Select an upcoming event below to book your pickup slot for Standard or Deluxe editions!</p>
-            <div class="event-list">
-                <!-- Events will be loaded dynamically from Firebase -->
-            </div>
-
-            <div class="get-the-book-sign">
-                <h3>📖 Want a copy of the book?</h3>
-                <p>Message me to grab one!</p>
-                <div class="get-the-book-contacts">
-                    <a href="https://www.instagram.com/bignosemichael" target="_blank" rel="noopener" class="get-the-book-btn instagram">📷 @bignosemichael on Instagram</a>
-                    <a href="mailto:michaellinares314@gmail.com" class="get-the-book-btn email">✉️ michaellinares314@gmail.com</a>
-                </div>
-            </div>
-        </section>
-
-        <hr class="pixel-divider">
-         <section id="how-it-works" class="how-it-works-section">
-            <h2>How Physical Book Orders Work</h2>
-            <ol class="steps-list">
-                <li><span>4</span>Select an Event and fill out the form.</li>
-                <li><span>5</span>Receive an email confirmation for your slot.</li>
-                <li><span>6</span>Meet us at the event, pay (Cash/Venmo/etc.), and collect your reserved book!</li>
-            </ol>
-            
-            <h3 
-        </section>
+    <!-- success -->
+    <div class="success" id="success">
+      <div class="big-check">✅</div>
+      <h3 id="successTitle">You're in!</h3>
+      <p id="successMsg"></p>
+      <a class="see" href="gallery.html">🖼 See the gallery →</a>
     </div>
+  </div>
 
-    <div class="america-footer">
-        <div class="america-footer-content">
-            <img src="flag.png" alt="American Flag" class="america-flag">
-            <div class="america-description">New Documentary Film (2025) - click here to find out more</div>
-            <a href="america.html" class="america-link">
-                <span class="america-text">One Question for America</span>
-            </a>
-        </div>
-    </div>
+  <!-- browse everyone's photos -->
+  <div class="browse">
+    <a href="gallery.html">🖼 See everyone's photos →</a>
+  </div>
+</section>
 
-    <footer class="site-footer-bottom">
-        <p class="contact-info">Questions? Shipping or Delivery? Email: <a href="mailto:support@456solutions.com">support@456solutions.com</a></p>
-        <p class="no-copyright"> Everyone else is on one, two, three. We are on four, five, six?! 456solutions.com</p>
-        </div>
-    </footer>
+<!-- incidental footnote -->
+<section class="wrap">
+  <div class="ps">
+    <small>p.s. — the best ones end up in videos.</small>
+    <a class="yt" href="https://www.youtube.com/channel/UCPHlxgD-zH8MpuZ9bQDAWMA?sub_confirmation=1" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M23 7.3a3 3 0 0 0-2.1-2.1C19 4.7 12 4.7 12 4.7s-7 0-8.9.5A3 3 0 0 0 1 7.3 31 31 0 0 0 .6 12 31 31 0 0 0 1 16.7a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 23.4 12 31 31 0 0 0 23 7.3zM9.6 15.5v-7l6 3.5z"/></svg>
+      subscribe on youtube
+    </a>
+  </div>
+</section>
 
-    <!-- Digital Purchase Modal -->
-    <div id="digital-purchase-modal" class="modal-overlay" aria-hidden="true">
-        <div class="modal-content">
-            <button class="modal-close-btn" aria-label="Close modal">×</button>
-            <h3>Purchase Digital Edition - $5</h3>
-            <div class="digital-purchase-info">
-                <p>Get immediate access to the full book as a high-quality PDF after payment.</p>
-                <p>Please pay $5 using one of these methods:</p>
-                <div class="payment-options">
-                    <a href="https://venmo.com/michaellinares" target="_blank" class="payment-option venmo">Venmo</a>
-                    <a href="https://cash.app/michaellinares" target="_blank" class="payment-option cashapp">Cash App</a>
-                    <button class="payment-option zelle" id="zelle-digital-btn">Zelle</button>
-                </div>
-                
-                <!-- Zelle Info Section -->
-                <div id="zelle-digital-info" class="zelle-info" style="display: none;">
-                    <div class="zelle-details">
-                        <h5>Zelle Payment Details:</h5>
-                        <p>Send $5 to: <strong>michaellinaresfilms@gmail.com</strong></p>
-                        <p class="zelle-note">Use your banking app to make the Zelle payment, then return to this page and click the confirmation button below.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="promo-area">
-                <div class="form-group">
-                    <label for="promo-code">Have a promo code?</label>
-                    <input type="text" id="promo-code" placeholder="Enter promo code">
-                    <button id="apply-promo-btn" class="btn">Apply</button>
-                </div>
-            </div>
-            <div class="honor-system">
-                <p>After paying, click the button below:</p>
-                <button id="paid-confirmation-btn" class="btn modal-submit-btn">I Swear To God I Paid $5</button>
-            </div>
-            <div id="download-section" style="display: none;">
-                <h4>Thank you for your support!</h4>
-                <p>Click below to access your digital copy:</p>
-                <a href="#" class="btn download-btn" target="_blank">Access Digital Book</a>
-            </div>
-        </div>
-    </div>
+<footer>
+  <div class="wrap"><small>📍 Madison Square Garden · <a href="gallery.html">the gallery</a> · <a href="book.html">the book</a></small></div>
+</footer>
 
-    <!-- Delivery Order Modal -->
-    <div id="delivery-modal" class="modal-overlay" aria-hidden="true">
-        <div class="modal-content">
-            <button class="modal-close-btn" aria-label="Close modal">×</button>
-            <h3>Order Deluxe Edition - Delivery</h3>
-            <p class="delivery-intro">Order the Deluxe [Worse] Edition for $58 ($50 + $8 shipping).</p>
-            
-            <form id="delivery-form" action="https://formsubmit.io/send/books@456solutions.com" method="POST">
-                <input type="hidden" name="order_type" value="Deluxe Edition Delivery - $58">
-                <input type="hidden" name="_subject" value="Your THEY SAID YOU CAN'T Deluxe Edition Order Confirmation">
-                <input type="hidden" name="_redirect" value="false">
-                <input type="hidden" name="_autoresponse" value="Thank you for your Deluxe Edition order. Your book will be shipped within 5-7 business days, and tracking information will be sent to your email.">
-                
-                <div class="form-group">
-                    <label for="full-name">Full Name*</label>
-                    <input type="text" id="full-name" name="full_name" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="delivery-email">Email Address*</label>
-                    <input type="email" id="delivery-email" name="email" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="delivery-phone">Phone Number*</label>
-                    <input type="tel" id="delivery-phone" name="phone" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="delivery-address">Shipping Address*</label>
-                    <textarea id="delivery-address" name="shipping_address" rows="3" required></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="delivery-city">City*</label>
-                    <input type="text" id="delivery-city" name="city" required>
-                </div>
-                
-                <div class="form-group double-field">
-                    <div>
-                        <label for="delivery-state">State*</label>
-                        <input type="text" id="delivery-state" name="state" required>
-                    </div>
-                    <div>
-                        <label for="delivery-zip">ZIP Code*</label>
-                        <input type="text" id="delivery-zip" name="zip_code" required>
-                    </div>
-                </div>
-                
-                <div class="payment-section">
-                    <h4>Payment Options</h4>
-                    <p>Please pay $58 using one of these methods:</p>
-                    <div class="payment-options">
-                        <a href="https://venmo.com/michaellinares" target="_blank" class="payment-option venmo">Venmo</a>
-                        <a href="https://cash.app/michaellinares" target="_blank" class="payment-option cashapp">Cash App</a>
-                        <button class="payment-option zelle" id="zelle-delivery-btn">Zelle</button>
-                    </div>
-                    
-                    <!-- Zelle Info Section -->
-                    <div id="zelle-delivery-info" class="zelle-info" style="display: none;">
-                        <div class="zelle-details">
-                            <h5>Zelle Payment Details:</h5>
-                            <p>Send $58 to: <strong>michaellinaresfilms@gmail.com</strong></p>
-                            <p class="zelle-note">Use your banking app to make the Zelle payment, then return to this page.</p>
-                        </div>
-                    </div>
-                    <p class="payment-note">After completing payment, check the box below:</p>
-                    <div class="form-group checkbox-group">
-                        <input type="checkbox" id="payment-confirmation" name="payment_confirmed" required>
-                        <label for="payment-confirmation">I confirm I've sent $58 payment</label>
-                    </div>
-                </div>
-                
-                <p class="form-note">Books typically ship within 5-7 business days of order. Tracking information will be sent to your email.</p>
-                <button type="submit" class="btn modal-submit-btn">Complete Order</button>
-            </form>
-            
-            <div id="order-success" style="display: none;">
-                <h4>Thank you for your order!</h4>
-                <p>Your Deluxe Edition will be shipped soon. Check your email for confirmation.</p>
-            </div>
-        </div>
-    </div>
+<div class="toast" id="toast"></div>
+<audio id="honkAudio" src="goofy-ahh-car-horn-sound-effect.mp3" preload="auto"></audio>
 
-    <!-- Add this overlay div at the bottom of the body -->
-    <div class="modal-overlay"></div>
+<script src="gallery-config.js"></script>
+<script>
+(function(){
+  "use strict";
+  var fileInput=document.getElementById('file');
+  var drop=document.getElementById('drop');
+  var stage=document.getElementById('stage');
+  var preview=document.getElementById('preview');
+  var handleEl=document.getElementById('handle');
+  var submitBtn=document.getElementById('submit');
+  var successBox=document.getElementById('success');
+  var toastEl=document.getElementById('toast');
+  var chosen=null, objURL=null;
 
-    <script src="script.js"></script>
-    
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    
-    <!-- Firebase Config -->
-    <script>
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyDnUlmVv1PBF_gXqeyM4aEaV6hndrXPeBw",
-            authDomain: "books-bookings.firebaseapp.com",
-            projectId: "books-bookings",
-            storageBucket: "books-bookings.firebasestorage.app",
-            messagingSenderId: "704734229089",
-            appId: "1:704734229089:web:acd4877e3d11ad24503020"
-        };
-        
-        // Initialize Firebase with error handling
-        try {
-            firebase.initializeApp(firebaseConfig);
-            const db = firebase.firestore();
-            console.log('Firebase initialized successfully');
-            
-            // Dispatch event when Firebase is ready
-            window.db = db;
-            window.dispatchEvent(new Event('firebase-ready'));
-        } catch (error) {
-            console.error('Error initializing Firebase:', error);
-        }
-    </script>
+  function toast(m){ toastEl.textContent=m; toastEl.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(function(){toastEl.classList.remove('on');},3000); }
 
-    <!-- EmailJS -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  function pickFile(file){
+    if(!file||!/^image\//.test(file.type)){ toast('that wasn’t an image 🤔'); return; }
+    chosen=file;
+    if(objURL) URL.revokeObjectURL(objURL);
+    objURL=URL.createObjectURL(file);
+    preview.src=objURL;
+    drop.style.display='none';
+    successBox.classList.remove('on');
+    stage.classList.add('on');
+    stage.scrollIntoView({behavior:'smooth',block:'start'});
+  }
 
-    <!-- Initialize EmailJS globally -->
-    <script>
-        // Initialize EmailJS globally
-        console.log("Initializing EmailJS globally...");
-        (function() {
-            // Initialize with defer to ensure it's fully loaded
-            emailjs.init("8c7vCsoyTAZuZfMap");
-            console.log("EmailJS initialized successfully");
-        })();
-        
-        // Global test function for EmailJS debugging
-        window.testEmailJS = async function() {
-            console.log("Testing EmailJS...");
-            try {
-                const serviceId = "service_hubj58x";
-                const templateId = "template_da4g2be";
-                
-                const testData = {
-                    subscriber_email: "michaellinaresfilms@gmail.com",
-                    event_name: "Test Event",
-                    book_edition: "Test Edition",
-                    confirmation_link: "https://456solutions.com/confirm?id=test123",
-                    // Use the corrected field name (single 'l')
-                    to_email: "michaellinaresfilms@gmail.com",
-                    to_name: "Test User",
-                    email: "michaellinaresfilms@gmail.com",
-                    from_name: "Book Order System",
-                    reply_to: "michaellinaresfilms@gmail.com"
-                };
-                
-                console.log(`Using service ID: "${serviceId}", template ID: "${templateId}", and data:`, testData);
-                
-                const testResult = await emailjs.send(
-                    serviceId,
-                    templateId,
-                    testData,
-                    "8c7vCsoyTAZuZfMap" // Pass the public key again for redundancy
-                );
-                console.log("EmailJS test successful:", testResult);
-                return testResult;
-            } catch (error) {
-                console.error("EmailJS test failed:", error);
-                throw error;
-            }
-        };
-        
-        // Add a global function to send emails that can be called from the module script
-        window.sendConfirmationEmail = function(emailData) {
-            console.log("%c SENDING EMAIL - DETAILED DEBUG LOG", "background: #ff0; color: #000; font-size: 14px; font-weight: bold;");
-            console.log("Global sendConfirmationEmail called with data:", emailData);
-            
-            if (!emailjs) {
-                console.error("ERROR: emailjs is not defined in the global scope!");
-                return Promise.reject(new Error("emailjs not found"));
-            }
-            
-            const serviceId = "service_hubj58x";
-            const templateId = "template_da4g2be";
-            
-            console.log("EmailJS is available:", typeof emailjs);
-            console.log("EmailJS.send is:", typeof emailjs.send);
-            console.log("Using service ID:", serviceId);
-            console.log("Using template ID:", templateId);
-            
-            try {
-                console.log("Attempting to send email...");
-                const sendPromise = emailjs.send(
-                    serviceId,
-                    templateId,
-                    emailData,
-                    "8c7vCsoyTAZuZfMap"
-                );
-                
-                console.log("Email send initiated, waiting for response...");
-                
-                // Add handlers directly on the promise
-                sendPromise.then(function(response) {
-                    console.log("%c EMAIL SENT SUCCESSFULLY", "background: #0f0; color: #000; font-size: 14px; font-weight: bold;");
-                    console.log("Response:", response);
-                }).catch(function(error) {
-                    console.error("%c EMAIL SEND FAILED", "background: #f00; color: #fff; font-size: 14px; font-weight: bold;");
-                    console.error("Error details:", error);
-                });
-                
-                return sendPromise;
-            } catch (error) {
-                console.error("Exception when trying to send email:", error);
-                return Promise.reject(error);
-            }
-        };
-        
-        // Add a function to test email sending with form values
-        window.testEmailWithFormValues = function() {
-            console.log("Testing email with form values...");
-            const fullName = document.getElementById('full-name').value || "Test User";
-            const email = document.getElementById('email').value || "michaellinaresfilms@gmail.com";
-            const eventName = document.getElementById('form-event-name-hidden').value || "Test Event";
-            const bookEditionReserved = document.getElementById('book-choice').value || "Test Edition";
-            
-            const testData = {
-                subscriber_email: email,
-                event_name: eventName,
-                book_edition: bookEditionReserved,
-                confirmation_link: "https://456solutions.com/confirm?id=test",
-                to_email: email,
-                to_name: fullName,
-                email: email,
-                from_name: "THEY SAID YOU CAN'T - Book Reservation TEST",
-                reply_to: "books@456solutions.com"
-            };
-            
-            console.log("Sending test email with form values:", testData);
-            
-            return window.sendConfirmationEmail(testData)
-                .then(function(result) {
-                    console.log("Test email sent successfully with form values:", result);
-                    alert("Test email sent to " + email);
-                    return result;
-                })
-                .catch(function(error) {
-                    console.error("Test email with form values failed:", error);
-                    alert("Test email failed: " + (error.message || JSON.stringify(error)));
-                    throw error;
-                });
-        };
-    </script>
+  function reset(){
+    chosen=null; if(objURL){URL.revokeObjectURL(objURL); objURL=null;}
+    fileInput.value=''; preview.removeAttribute('src');
+    stage.classList.remove('on'); successBox.classList.remove('on'); drop.style.display='';
+    submitBtn.disabled=false; submitBtn.textContent='🖼 Add to the gallery';
+    window.scrollTo({top:document.querySelector('.card').offsetTop-80,behavior:'smooth'});
+  }
 
-    <!-- Add EmailJS template inspector -->
-    <script>
-        // This function will help diagnose template parameter issues
-        window.inspectEmailJSTemplate = async function() {
-            console.log("Checking EmailJS template...");
-            try {
-                const serviceId = "service_hubj58x";
-                const templateId = "template_da4g2be";
-                
-                // Log the service and template IDs
-                console.log(`Using Service ID: ${serviceId}`);
-                console.log(`Using Template ID: ${templateId}`);
-                
-                console.log("To fix the 'recipients address is empty' error:");
-                console.log("1. Go to your EmailJS dashboard");
-                console.log("2. Open the template 'template_da4g2be'");
-                console.log("3. Check the '_to' field - this is where the recipient email must go");
-                console.log("4. Verify which parameter name is used for the '_to' field");
-                console.log("5. Use exactly that parameter name in your code");
-                
-                return "See console for template inspection instructions";
-            } catch (error) {
-                console.error("Error inspecting template:", error);
-                return error;
-            }
-        };
-    </script>
+  function uploadToGallery(file, handle){
+    var cfg=window.MSG_GALLERY||{};
+    if(!cfg.cloudName||!cfg.uploadPreset) return Promise.reject({notConfigured:true});
+    var fd=new FormData();
+    fd.append('file',file);
+    fd.append('upload_preset',cfg.uploadPreset);
+    fd.append('tags', cfg.moderated ? cfg.pendingTag : cfg.galleryTag);
+    if(handle) fd.append('context','caption='+handle.replace(/\|/g,' '));
+    return fetch('https://api.cloudinary.com/v1_1/'+cfg.cloudName+'/image/upload',{method:'POST',body:fd})
+      .then(function(r){ return r.json().then(function(j){ if(!r.ok) throw j; return j; }); });
+  }
 
-    <!-- Firebase Modular v9 SDK -->
-    <script type="module">
-        // Import Firebase modules
-        import { 
-            getFirestore, 
-            collection, 
-            addDoc, 
-            serverTimestamp,
-            doc,
-            getDoc,
-            updateDoc,
-            setDoc 
-        } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
-        
-        import { 
-            getApp 
-        } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+  submitBtn.addEventListener('click',function(){
+    if(!chosen) return;
+    var cfg=window.MSG_GALLERY||{};
+    var moderated = cfg.moderated !== false;
+    submitBtn.disabled=true; submitBtn.textContent='Uploading…';
+    uploadToGallery(chosen, (handleEl.value||'').trim()).then(function(){
+      stage.classList.remove('on');
+      document.getElementById('successTitle').textContent = moderated ? "Submitted! 🙌" : "You're on the wall! 🙌";
+      document.getElementById('successMsg').textContent = moderated
+        ? "Thanks! It'll show up in the gallery once it's approved."
+        : "Thanks! It's live in the gallery now.";
+      successBox.classList.add('on');
+      successBox.scrollIntoView({behavior:'smooth',block:'center'});
+    }).catch(function(err){
+      submitBtn.disabled=false; submitBtn.textContent='🖼 Add to the gallery';
+      if(err&&err.notConfigured){ toast('gallery isn’t hooked up yet — see setup'); }
+      else { toast('upload failed, try again'); }
+    });
+  });
 
-        // Wait for Firebase to be ready
-        window.addEventListener('firebase-ready', async () => {
-            console.log('Firebase ready event received');
-            try {
-                // Get Firebase app and initialize Firestore
-                const app = getApp();
-                const db = getFirestore(app);
-                console.log('Firestore initialized');
+  fileInput.addEventListener('change',function(e){ if(e.target.files[0]) pickFile(e.target.files[0]); });
+  document.getElementById('redo').addEventListener('click',reset);
+  ['dragenter','dragover'].forEach(function(ev){ drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.add('drag');}); });
+  ['dragleave','drop'].forEach(function(ev){ drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.remove('drag');}); });
+  drop.addEventListener('drop',function(e){ if(e.dataTransfer.files&&e.dataTransfer.files[0]) pickFile(e.dataTransfer.files[0]); });
 
-                // View counter logic
-                const viewsRef = doc(db, 'stats', 'pageViews');
-                console.log('Attempting to access view counter document');
-                
-                try {
-                    // Get current views
-                    const viewsDoc = await getDoc(viewsRef);
-                    let currentViews = 0;
-                    
-                    if (viewsDoc.exists()) {
-                        console.log('View counter document exists');
-                        currentViews = viewsDoc.data().count || 0;
-                        // Increment views
-                        await updateDoc(viewsRef, {
-                            count: currentViews + 1,
-                            lastUpdated: serverTimestamp()
-                        });
-                        console.log('View count updated to:', currentViews + 1);
-                    } else {
-                        console.log('Creating initial view counter document');
-                        // Create initial document
-                        await setDoc(viewsRef, {
-                            count: 1,
-                            lastUpdated: serverTimestamp()
-                        });
-                        currentViews = 1;
-                    }
-
-                    // Update the counter display
-                    const viewCounter = document.getElementById('view-counter');
-                    if (viewCounter) {
-                        viewCounter.textContent = currentViews.toLocaleString();
-                        console.log('Counter display updated');
-                        
-                        // Add animation class after setting the initial value
-                        setTimeout(() => {
-                            viewCounter.classList.add('view-counter-visible');
-                            console.log('Counter animation added');
-                        }, 500);
-                    } else {
-                        console.error('View counter element not found in DOM');
-                    }
-                    
-                } catch (error) {
-                    console.error('Error updating view count:', error);
-                }
-            } catch (error) {
-                console.error('Error in Firebase ready handler:', error);
-            }
-        });
-    </script>
-
-    <!-- View Counter -->
-    <div class="view-counter" id="view-counter">0</div>
-
-    <style>
-        .view-counter {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: var(--pixel-black);
-            color: var(--pixel-white);
-            padding: 8px 15px;
-            border: var(--border-thickness) solid var(--pixel-white);
-            font-family: var(--font-pixel);
-            font-size: 0.9em;
-            border-radius: 4px;
-            z-index: 1000;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            display: block !important; /* Force display */
-        }
-
-        .view-counter::before {
-            content: '👁 ';
-            margin-right: 5px;
-        }
-
-        .view-counter-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        @media (max-width: 768px) {
-            .view-counter {
-                bottom: 10px;
-                right: 10px;
-                font-size: 0.8em;
-                padding: 6px 12px;
-            }
-        }
-    </style>
+  var honk=document.getElementById('honkAudio');
+  document.getElementById('honkAv').addEventListener('click',function(){ try{honk.currentTime=0;honk.play();}catch(_){}
+    this.animate([{transform:'scale(1)'},{transform:'scale(1.2) rotate(-8deg)'},{transform:'scale(1)'}],{duration:280,easing:'ease-out'}); });
+})();
+</script>
 </body>
 </html>
