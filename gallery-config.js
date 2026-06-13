@@ -22,8 +22,8 @@
        upload preset off to stop all uploads instantly.
    ============================================================ */
 window.MSG_GALLERY = {
-  cloudName:    "dhya7wsfy", // Cloudinary cloud name ✓
-  uploadPreset: "",          // <-- still need the unsigned upload preset name
+  cloudName:    "dhya7wsfy",   // Cloudinary cloud name ✓
+  uploadPreset: "msg_uploads", // unsigned upload preset ✓
   pendingTag:   "pending",   // (only used if moderated:true)
   galleryTag:   "approved",  // gallery shows photos with this tag
   moderated:    false        // false = instant publish (current). true = approve-first.

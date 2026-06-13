@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#006BB6">
-<title>The Gallery — photos from MSG</title>
+<meta name="theme-color" content="#FF6A00">
+<title>The Gallery — BIG BODY BRUNSON</title>
 
-<meta property="og:title" content="The MSG Gallery">
-<meta property="og:description" content="Everyone's photos with the head at the Garden.">
+<meta property="og:title" content="The BIG BODY BRUNSON Gallery">
+<meta property="og:description" content="Everyone's clips and pics with Big Body Brunson.">
 <meta property="og:image" content="https://www.456solutions.com/assets/bignose-avatar.jpg">
 <meta property="og:url" content="https://www.456solutions.com/gallery.html">
 <meta property="og:type" content="website">
@@ -16,42 +16,42 @@
 <link rel="apple-touch-icon" href="favicon160x160.png">
 
 <style>
-  :root{ --blue:#006BB6; --orange:#F58426; --ink:#0a0a0a; --paper:#fbfaf7; --card:#fff; --muted:#6b6b6b; font-size:16px; }
+  :root{ --orange:#FF6A00; --ink:#0a0a0a; --card:#fff; --muted:#7a7a7a; font-size:16px; }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   html{-webkit-text-size-adjust:100%;}
-  body{font-family:"Helvetica Neue",Arial,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--paper);color:var(--ink);line-height:1.45;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
-  body::before{content:"";position:fixed;inset:0;z-index:-1;opacity:.05;pointer-events:none;background:repeating-linear-gradient(45deg,var(--blue) 0 24px,transparent 24px 48px);}
-  img{max-width:100%;display:block;}
-  .wrap{width:100%;max-width:900px;margin:0 auto;padding:0 16px;}
+  body{font-family:"Helvetica Neue",Arial,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--orange);color:var(--ink);line-height:1.4;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.06;background:repeating-linear-gradient(45deg,#000 0 26px,transparent 26px 52px);}
+  img,video{max-width:100%;display:block;}
+  .wrap{width:100%;max-width:980px;margin:0 auto;padding:0 14px;}
 
-  header.bar{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:3px solid var(--ink);}
-  .bar-inner{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:10px;}
-  .bar .back{font-weight:800;text-decoration:none;color:var(--ink);font-size:.9rem;display:inline-flex;align-items:center;gap:6px;}
-  .bar .title{font-weight:900;font-size:1.05rem;letter-spacing:-.02em;}
+  header.bar{position:sticky;top:0;z-index:50;background:var(--ink);}
+  .bar-inner{max-width:980px;margin:0 auto;padding:11px 16px;display:flex;align-items:center;gap:10px;}
+  .bar .back{font-weight:900;text-decoration:none;color:#fff;font-size:.9rem;display:inline-flex;align-items:center;gap:6px;text-transform:uppercase;}
+  .bar .title{font-weight:900;font-size:1rem;letter-spacing:-.02em;color:var(--orange);text-transform:uppercase;}
   .bar .spacer{flex:1;}
-  .bar .add{display:inline-flex;align-items:center;gap:6px;background:var(--orange);color:var(--ink);text-decoration:none;border:2.5px solid var(--ink);border-radius:999px;padding:8px 14px;font-weight:800;font-size:.8rem;white-space:nowrap;box-shadow:0 3px 0 var(--ink);}
-  .bar .add:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink);}
+  .bar .add{display:inline-flex;align-items:center;gap:6px;background:var(--orange);color:var(--ink);text-decoration:none;border:3px solid #fff;border-radius:999px;padding:8px 15px;font-weight:900;font-size:.82rem;white-space:nowrap;text-transform:uppercase;}
+  .bar .add:active{transform:translateY(2px);}
 
-  .head{text-align:center;padding:22px 0 8px;}
-  .head h1{font-size:clamp(2rem,9vw,3rem);font-weight:900;text-transform:uppercase;letter-spacing:-.03em;line-height:.95;}
-  .head h1 .o{color:var(--orange);}
-  .head p{font-weight:600;color:#333;margin-top:8px;}
-  #count{font-weight:800;color:var(--blue);}
+  .head{text-align:center;padding:24px 0 8px;}
+  .head h1{font-size:clamp(2.6rem,12vw,4rem);font-weight:900;text-transform:uppercase;letter-spacing:-.04em;line-height:.85;text-shadow:3px 3px 0 #fff,6px 6px 0 rgba(0,0,0,.18);}
+  .head p{font-weight:800;color:var(--ink);margin-top:12px;}
+  #count{font-weight:900;}
 
   .grid{column-count:2;column-gap:12px;padding:18px 0 60px;}
   @media (min-width:620px){ .grid{column-count:3;} }
-  @media (min-width:860px){ .grid{column-count:4;} }
-  .tile{break-inside:avoid;margin:0 0 12px;border:3px solid var(--ink);border-radius:12px;overflow:hidden;background:#111;box-shadow:0 5px 0 var(--ink);position:relative;}
-  .tile img{width:100%;height:auto;display:block;}
-  .tile .cap{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.75));color:#fff;font-weight:800;font-size:.78rem;padding:18px 8px 6px;}
+  @media (min-width:900px){ .grid{column-count:4;} }
+  .tile{break-inside:avoid;margin:0 0 12px;border:4px solid var(--ink);border-radius:12px;overflow:hidden;background:#111;box-shadow:5px 5px 0 var(--ink);position:relative;}
+  .tile img,.tile video{width:100%;height:auto;display:block;}
+  .tile .cap{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.8));color:#fff;font-weight:900;font-size:.8rem;padding:20px 8px 7px;pointer-events:none;}
+  .tile .vbadge{position:absolute;top:8px;right:8px;background:var(--ink);color:#fff;font-weight:900;font-size:.7rem;padding:4px 8px;border-radius:999px;border:2px solid #fff;}
 
   .state{text-align:center;padding:60px 20px;}
-  .state .ico{font-size:3rem;}
-  .state h2{font-weight:900;text-transform:uppercase;margin-top:10px;font-size:1.3rem;}
-  .state p{color:var(--muted);font-weight:600;margin-top:8px;max-width:34ch;margin-left:auto;margin-right:auto;}
-  .state a.add{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:var(--orange);color:var(--ink);text-decoration:none;border:3px solid var(--ink);border-radius:12px;padding:13px 20px;font-weight:900;box-shadow:0 5px 0 var(--ink);}
-  .state code{background:#f0f0ee;border:1px solid #ddd;border-radius:6px;padding:1px 6px;font-size:.85em;}
-  .spinner{width:42px;height:42px;border:5px solid #d8d8d8;border-top-color:var(--blue);border-radius:50%;margin:0 auto;animation:spin 1s linear infinite;}
+  .state .ico{font-size:3.2rem;}
+  .state h2{font-weight:900;text-transform:uppercase;margin-top:10px;font-size:1.4rem;}
+  .state p{color:var(--ink);font-weight:800;margin-top:8px;max-width:34ch;margin-left:auto;margin-right:auto;}
+  .state a.add{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:var(--ink);color:#fff;text-decoration:none;border:3px solid var(--ink);border-radius:12px;padding:14px 22px;font-weight:900;box-shadow:5px 5px 0 rgba(0,0,0,.3);text-transform:uppercase;}
+  .state code{background:rgba(0,0,0,.12);border-radius:6px;padding:1px 6px;font-size:.85em;}
+  .spinner{width:46px;height:46px;border:6px solid rgba(0,0,0,.2);border-top-color:var(--ink);border-radius:50%;margin:0 auto;animation:spin 1s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg);}}
 </style>
 </head>
@@ -68,8 +68,8 @@
 
 <div class="wrap">
   <div class="head">
-    <h1>PHOTOS FROM <span class="o">MSG</span></h1>
-    <p>Everyone who met the head at the Garden. <span id="count"></span></p>
+    <h1>The Gallery</h1>
+    <p>Everyone's clips &amp; pics with Big Body Brunson. <span id="count"></span></p>
   </div>
 
   <div id="state" class="state"><div class="spinner"></div><p style="margin-top:16px">loading the gallery…</p></div>
@@ -84,6 +84,7 @@
   var stateEl=document.getElementById('state');
   var gridEl=document.getElementById('grid');
   var countEl=document.getElementById('count');
+  var tag=cfg.galleryTag||'approved';
 
   function showState(html){ stateEl.innerHTML=html; stateEl.hidden=false; gridEl.hidden=true; }
 
@@ -94,25 +95,37 @@
     return;
   }
 
-  var url='https://res.cloudinary.com/'+cfg.cloudName+'/image/list/'+(cfg.galleryTag||'approved')+'.json';
+  function listURL(kind){ return 'https://res.cloudinary.com/'+cfg.cloudName+'/'+kind+'/list/'+tag+'.json?cb='+Date.now(); }
+  function grab(kind){
+    return fetch(listURL(kind),{cache:'no-store'}).then(function(r){ return r.ok ? r.json() : {resources:[]}; })
+      .then(function(j){ return (j.resources||[]).map(function(x){ x.__kind=kind; return x; }); })
+      .catch(function(){ return []; });
+  }
 
-  fetch(url,{cache:'no-store'}).then(function(r){
-    if(!r.ok) throw new Error('http '+r.status);
-    return r.json();
-  }).then(function(data){
-    var res=(data&&data.resources)||[];
+  // photos + videos both
+  Promise.all([grab('image'), grab('video')]).then(function(parts){
+    var res=parts[0].concat(parts[1]);
     if(!res.length){
-      showState('<div class="ico">📭</div><h2>No photos yet</h2><p>Be the first to add yours from the Garden.</p><a class="add" href="index.html">📸 Add your photo</a>');
+      showState('<div class="ico">📭</div><h2>No posts yet</h2><p>Be the first to drop a clip or pic.</p><a class="add" href="index.html">📸 Add yours</a>');
       return;
     }
-    // newest first
-    res.sort(function(a,b){ return (b.version||0)-(a.version||0); });
+    res.sort(function(a,b){ return (b.version||0)-(a.version||0); }); // newest first
     var frag=document.createDocumentFragment();
     res.forEach(function(it){
-      var src='https://res.cloudinary.com/'+cfg.cloudName+'/image/upload/c_limit,w_800,q_auto,f_auto/v'+it.version+'/'+it.public_id+'.'+it.format;
       var tile=document.createElement('div'); tile.className='tile';
-      var img=document.createElement('img'); img.loading='lazy'; img.alt='photo from MSG'; img.src=src;
-      tile.appendChild(img);
+      var base='https://res.cloudinary.com/'+cfg.cloudName;
+      if(it.__kind==='video'){
+        var v=document.createElement('video');
+        v.controls=true; v.playsInline=true; v.preload='metadata';
+        v.poster=base+'/video/upload/w_800,q_auto,so_0/'+it.public_id+'.jpg';
+        v.src=base+'/video/upload/w_800,q_auto/v'+it.version+'/'+it.public_id+'.'+it.format;
+        tile.appendChild(v);
+        var b=document.createElement('div'); b.className='vbadge'; b.textContent='▶ VIDEO'; tile.appendChild(b);
+      } else {
+        var img=document.createElement('img'); img.loading='lazy'; img.alt='gallery post';
+        img.src=base+'/image/upload/c_limit,w_800,q_auto,f_auto/v'+it.version+'/'+it.public_id+'.'+it.format;
+        tile.appendChild(img);
+      }
       var cap=(it.context&&it.context.custom&&it.context.custom.caption)||'';
       if(cap){ var c=document.createElement('div'); c.className='cap'; c.textContent=cap; tile.appendChild(c); }
       frag.appendChild(tile);

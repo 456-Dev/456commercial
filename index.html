@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#006BB6">
-<title>Add your photo from MSG</title>
+<meta name="theme-color" content="#FF6A00">
+<title>Add your videos or photos with BIG BODY BRUNSON</title>
 
-<meta property="og:title" content="Add your photo from MSG">
-<meta property="og:description" content="Got a pic with the head at the Garden? Upload it and it joins the gallery.">
+<meta property="og:title" content="Add your videos or photos with BIG BODY BRUNSON">
+<meta property="og:description" content="Upload your clip or pic — it drops straight into the gallery for everyone to see.">
 <meta property="og:image" content="https://www.456solutions.com/assets/bignose-avatar.jpg">
 <meta property="og:url" content="https://www.456solutions.com/">
 <meta property="og:type" content="website">
@@ -18,133 +18,151 @@
 
 <style>
   :root{
-    --blue:#006BB6; --blue-dk:#004f87;
-    --orange:#F58426; --orange-dk:#e26d0c;
-    --ink:#0a0a0a; --paper:#fbfaf7; --card:#fff; --muted:#6b6b6b;
-    --radius:18px; font-size:16px;
+    --orange:#FF6A00;
+    --orange-deep:#E25C00;
+    --ink:#0a0a0a;
+    --card:#ffffff;
+    --red:#FF0000;
+    --muted:#7a7a7a;
+    --radius:16px;
+    font-size:16px;
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   html{-webkit-text-size-adjust:100%;}
-  body{font-family:"Helvetica Neue",Arial,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--paper);color:var(--ink);line-height:1.45;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
-  body::before{content:"";position:fixed;inset:0;z-index:-1;opacity:.05;pointer-events:none;background:repeating-linear-gradient(45deg,var(--blue) 0 24px,transparent 24px 48px);}
-  img{max-width:100%;display:block;}
+  body{
+    font-family:"Helvetica Neue",Arial,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    background:var(--orange);
+    color:var(--ink);
+    line-height:1.4;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* subtle black weave for texture on the bright orange */
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.06;
+    background:repeating-linear-gradient(45deg,#000 0 26px,transparent 26px 52px);}
+  img,video{max-width:100%;display:block;}
   .wrap{width:100%;max-width:540px;margin:0 auto;padding:0 16px;}
 
-  header.bar{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:3px solid var(--ink);}
-  .bar-inner{max-width:540px;margin:0 auto;padding:9px 16px;display:flex;align-items:center;gap:10px;}
-  .bar .av{width:38px;height:38px;border-radius:50%;border:2.5px solid var(--ink);object-fit:cover;flex:0 0 auto;cursor:pointer;}
-  .bar .name{font-weight:800;font-size:.96rem;letter-spacing:-.02em;line-height:1.05;}
-  .bar .name small{display:block;font-weight:600;color:var(--muted);font-size:.7rem;}
+  /* black header */
+  header.bar{position:sticky;top:0;z-index:50;background:var(--ink);}
+  .bar-inner{max-width:540px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:10px;}
+  .bar .av{width:38px;height:38px;border-radius:50%;border:2.5px solid #fff;object-fit:cover;flex:0 0 auto;cursor:pointer;}
+  .bar .name{font-weight:900;font-size:1rem;letter-spacing:-.02em;color:#fff;text-transform:uppercase;}
   .bar .spacer{flex:1;}
-  .bar .gallery-link{display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#fff;text-decoration:none;border:2.5px solid var(--ink);border-radius:999px;padding:8px 14px;font-weight:800;font-size:.8rem;white-space:nowrap;box-shadow:0 3px 0 var(--ink);transition:transform .08s,box-shadow .08s;}
-  .bar .gallery-link:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink);}
+  .bar .gallery-link{display:inline-flex;align-items:center;gap:6px;background:var(--orange);color:var(--ink);text-decoration:none;border:3px solid #fff;border-radius:999px;padding:8px 15px;font-weight:900;font-size:.82rem;white-space:nowrap;text-transform:uppercase;}
+  .bar .gallery-link:active{transform:translateY(2px);}
 
-  .hero{padding:24px 0 6px;text-align:center;}
-  .pill{display:inline-flex;align-items:center;gap:7px;background:var(--orange);color:var(--ink);font-weight:800;border:2.5px solid var(--ink);border-radius:999px;padding:6px 14px;font-size:.74rem;box-shadow:0 3px 0 var(--ink);margin-bottom:14px;}
-  h1.big{font-size:clamp(2.3rem,12vw,3.7rem);line-height:.9;font-weight:900;letter-spacing:-.03em;text-transform:uppercase;}
-  h1.big .blue{color:var(--blue);} h1.big .orange{color:var(--orange);}
-  .tagline{font-size:1.05rem;font-weight:600;color:#222;max-width:28ch;margin:12px auto 0;}
+  /* hero */
+  .hero{padding:26px 0 8px;text-align:center;}
+  .eyebrow{font-weight:900;text-transform:uppercase;letter-spacing:.02em;font-size:1rem;line-height:1.05;color:var(--ink);max-width:18ch;margin:0 auto 6px;}
+  h1.big{
+    font-size:clamp(3rem,17vw,5.2rem);line-height:.82;font-weight:900;letter-spacing:-.04em;
+    text-transform:uppercase;color:var(--ink);
+    text-shadow:4px 4px 0 #fff, 7px 7px 0 rgba(0,0,0,.18);
+  }
+  .tagline{font-size:1.08rem;font-weight:800;color:var(--ink);max-width:26ch;margin:18px auto 0;}
 
-  .card{background:var(--card);border:3px solid var(--ink);border-radius:var(--radius);box-shadow:0 10px 0 var(--ink);padding:16px;margin:18px 0 8px;}
+  /* big white card */
+  .card{background:var(--card);border:4px solid var(--ink);border-radius:var(--radius);box-shadow:8px 8px 0 var(--ink);padding:16px;margin:20px 0 10px;}
 
-  .drop{display:block;border:3px dashed var(--blue);border-radius:14px;background:#f2f7fc;padding:42px 18px;text-align:center;cursor:pointer;transition:background .15s,border-color .15s;}
-  .drop.drag{background:#e2eefb;border-color:var(--orange);}
-  .drop .ico{font-size:3rem;line-height:1;}
-  .drop b{display:block;font-size:1.15rem;margin-top:10px;}
-  .drop span{display:block;color:var(--muted);font-size:.86rem;margin-top:3px;}
+  .drop{display:block;border:4px dashed var(--ink);border-radius:13px;background:#fff5ec;padding:44px 18px;text-align:center;cursor:pointer;transition:background .15s;}
+  .drop.drag{background:#ffe2c9;}
+  .drop .ico{font-size:3.2rem;line-height:1;}
+  .drop b{display:block;font-size:1.2rem;margin-top:10px;font-weight:900;text-transform:uppercase;letter-spacing:-.01em;}
+  .drop span{display:block;color:var(--muted);font-size:.86rem;margin-top:4px;font-weight:700;}
   #file{display:none;}
 
   .stage{display:none;}
   .stage.on{display:block;}
-  .preview-hold{border:3px solid var(--ink);border-radius:12px;overflow:hidden;background:#111;line-height:0;}
-  #preview{width:100%;height:auto;display:block;max-height:62vh;object-fit:contain;}
+  .preview-hold{border:4px solid var(--ink);border-radius:11px;overflow:hidden;background:#111;line-height:0;}
+  #preview,#previewVid{width:100%;height:auto;display:block;max-height:60vh;object-fit:contain;background:#111;}
 
   .field{margin-top:14px;}
-  .field label{display:block;font-weight:800;font-size:.82rem;margin-bottom:5px;}
-  .field input[type=text]{width:100%;border:2.5px solid var(--ink);border-radius:11px;padding:12px;font-size:1rem;font-weight:600;font-family:inherit;}
-  .field .sub{color:var(--muted);font-size:.76rem;font-weight:600;margin-top:4px;}
+  .field label{display:block;font-weight:900;font-size:.82rem;margin-bottom:5px;text-transform:uppercase;}
+  .field input[type=text]{width:100%;border:3px solid var(--ink);border-radius:10px;padding:13px;font-size:1rem;font-weight:700;font-family:inherit;}
+  .field .sub{color:var(--muted);font-size:.76rem;font-weight:700;margin-top:4px;}
 
-  .consent{font-size:.76rem;color:var(--muted);font-weight:600;margin-top:14px;line-height:1.45;background:#f6f6f4;border-radius:10px;padding:10px 12px;}
+  .consent{font-size:.76rem;color:#444;font-weight:700;margin-top:14px;line-height:1.45;background:#f4f4f2;border:2px solid var(--ink);border-radius:10px;padding:10px 12px;}
 
   .actions{display:grid;grid-template-columns:1fr;gap:10px;margin-top:14px;}
-  .btn{border:3px solid var(--ink);border-radius:13px;padding:15px;font-weight:900;font-size:1.05rem;cursor:pointer;text-align:center;text-decoration:none;box-shadow:0 5px 0 var(--ink);transition:transform .08s,box-shadow .08s;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--ink);}
-  .btn:active{transform:translateY(5px);box-shadow:0 0 0 var(--ink);}
-  .btn[disabled]{opacity:.55;cursor:default;box-shadow:0 5px 0 var(--ink);}
-  .btn.submit{background:var(--orange);}
-  .btn.redo{background:#fff;box-shadow:0 4px 0 var(--ink);font-size:.85rem;padding:11px;}
+  .btn{border:4px solid var(--ink);border-radius:12px;padding:16px;font-weight:900;font-size:1.1rem;cursor:pointer;text-align:center;text-decoration:none;box-shadow:5px 5px 0 var(--ink);transition:transform .08s,box-shadow .08s;display:flex;align-items:center;justify-content:center;gap:8px;text-transform:uppercase;}
+  .btn:active{transform:translate(5px,5px);box-shadow:0 0 0 var(--ink);}
+  .btn[disabled]{opacity:.55;cursor:default;}
+  .btn.submit{background:var(--ink);color:#fff;}
+  .btn.redo{background:#fff;color:var(--ink);box-shadow:3px 3px 0 var(--ink);font-size:.85rem;padding:11px;}
 
-  .success{display:none;text-align:center;background:#eafbe7;border:3px solid var(--ink);border-radius:14px;padding:20px;}
+  .success{display:none;text-align:center;background:#0a0a0a;color:#fff;border:4px solid var(--ink);border-radius:13px;padding:22px;box-shadow:5px 5px 0 rgba(0,0,0,.25);}
   .success.on{display:block;}
-  .success .big-check{font-size:2.4rem;}
-  .success h3{font-size:1.3rem;font-weight:900;text-transform:uppercase;margin-top:6px;}
-  .success p{font-weight:600;font-size:.92rem;margin-top:6px;color:#246b1b;}
-  .success a.see{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:var(--blue);color:#fff;text-decoration:none;font-weight:800;border:3px solid var(--ink);border-radius:12px;padding:12px 18px;box-shadow:0 5px 0 var(--ink);}
+  .success .big-check{font-size:2.6rem;}
+  .success h3{font-size:1.5rem;font-weight:900;text-transform:uppercase;margin-top:6px;}
+  .success p{font-weight:700;font-size:.95rem;margin-top:6px;color:#ffd9bf;}
+  .success a.see{display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:var(--orange);color:var(--ink);text-decoration:none;font-weight:900;border:3px solid #fff;border-radius:11px;padding:13px 20px;text-transform:uppercase;}
 
   .browse{margin-top:18px;}
-  .browse a{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--blue);color:#fff;text-decoration:none;font-weight:900;font-size:1.1rem;border:3px solid var(--ink);border-radius:14px;padding:16px;box-shadow:0 7px 0 var(--ink);text-transform:uppercase;transition:transform .1s,box-shadow .1s;}
-  .browse a:active{transform:translateY(7px);box-shadow:0 0 0 var(--ink);}
+  .browse a{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--ink);color:#fff;text-decoration:none;font-weight:900;font-size:1.15rem;border:4px solid var(--ink);border-radius:13px;padding:18px;box-shadow:6px 6px 0 rgba(0,0,0,.3);text-transform:uppercase;transition:transform .1s,box-shadow .1s;}
+  .browse a:active{transform:translate(6px,6px);box-shadow:0 0 0;}
 
-  .ps{margin-top:26px;text-align:center;padding:16px;border:2.5px dashed var(--ink);border-radius:14px;background:#fff;}
-  .ps small{font-weight:700;color:#444;display:block;margin-bottom:10px;}
-  .ps a.yt{display:inline-flex;align-items:center;gap:8px;background:#ff0000;color:#fff;text-decoration:none;font-weight:800;border:2.5px solid var(--ink);border-radius:999px;padding:9px 16px;box-shadow:0 3px 0 var(--ink);font-size:.86rem;}
+  .ps{margin-top:26px;text-align:center;padding:16px;border:3px dashed var(--ink);border-radius:13px;background:#fff;}
+  .ps small{font-weight:800;color:var(--ink);display:block;margin-bottom:10px;}
+  .ps a.yt{display:inline-flex;align-items:center;gap:8px;background:var(--red);color:#fff;text-decoration:none;font-weight:900;border:3px solid var(--ink);border-radius:999px;padding:10px 17px;box-shadow:3px 3px 0 var(--ink);font-size:.86rem;text-transform:uppercase;}
   .ps a.yt svg{width:20px;height:20px;}
 
-  footer{text-align:center;padding:26px 0 50px;border-top:3px solid var(--ink);margin-top:26px;}
-  footer small{color:var(--muted);display:block;font-weight:600;}
-  footer a{color:var(--blue);font-weight:800;}
+  footer{text-align:center;padding:26px 0 50px;margin-top:24px;border-top:4px solid var(--ink);}
+  footer small{color:var(--ink);display:block;font-weight:800;}
+  footer a{color:var(--ink);font-weight:900;text-decoration:underline;}
 
-  .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(140%);background:var(--ink);color:#fff;font-weight:800;padding:12px 18px;border-radius:999px;z-index:99;transition:transform .3s;font-size:.9rem;max-width:90vw;text-align:center;}
+  .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(160%);background:var(--ink);color:#fff;font-weight:900;padding:13px 20px;border:3px solid #fff;border-radius:999px;z-index:99;transition:transform .3s;font-size:.9rem;max-width:90vw;text-align:center;}
   .toast.on{transform:translateX(-50%) translateY(0);}
 
-  @media (min-width:560px){ h1.big{font-size:3.9rem;} }
+  @media (min-width:560px){ h1.big{font-size:5rem;} }
 </style>
 </head>
 <body>
 
 <header class="bar">
   <div class="bar-inner">
-    <img class="av" id="honkAv" src="assets/bignose-avatar.jpg" alt="" title="honk">
-    <div class="name">Big Nose Michael<small>the head @ MSG</small></div>
+    <img class="av" id="honkAv" src="assets/bignose-avatar.jpg" alt="">
+    <div class="name">Big Body Brunson</div>
     <div class="spacer"></div>
     <a class="gallery-link" href="gallery.html">🖼 Gallery</a>
   </div>
 </header>
 
 <section class="hero wrap">
-  <span class="pill">📍 you met the head at the garden</span>
-  <h1 class="big"><span class="blue">ADD YOUR</span><br><span class="orange">PHOTO</span></h1>
-  <p class="tagline">Got a pic with the head at MSG? Upload it — it joins the gallery for everyone to scroll.</p>
+  <p class="eyebrow">Add your videos or photos with</p>
+  <h1 class="big">Big Body<br>Brunson</h1>
+  <p class="tagline">Upload your clip or pic — it drops straight into the gallery for everyone to see.</p>
 </section>
 
 <section class="wrap">
   <div class="card">
-    <!-- upload -->
     <label class="drop" id="drop" for="file">
-      <div class="ico">📸</div>
-      <b>Tap to add your photo</b>
-      <span>the one you took with the head</span>
+      <div class="ico">🎥</div>
+      <b>Tap to add your video or photo</b>
+      <span>the one with Big Body Brunson</span>
     </label>
-    <input type="file" id="file" accept="image/*">
+    <input type="file" id="file" accept="image/*,video/*">
 
-    <!-- preview + submit -->
     <div class="stage" id="stage">
-      <div class="preview-hold"><img id="preview" alt="Your photo"></div>
-
-      <div class="field">
-        <label for="handle">Your name or @handle <span style="font-weight:600;color:var(--muted)">(optional)</span></label>
-        <input type="text" id="handle" placeholder="@yourname" autocapitalize="off" autocomplete="off" maxlength="40">
-        <div class="sub">shown with your photo so people know whose it is</div>
+      <div class="preview-hold">
+        <img id="preview" alt="Your photo" hidden>
+        <video id="previewVid" controls playsinline hidden></video>
       </div>
 
-      <div class="consent">By submitting, you're OK with your photo appearing in the public gallery and being used in a video. Don't upload anything you wouldn't want public.</div>
+      <div class="field">
+        <label for="handle">Your name or @handle <span style="font-weight:700;color:var(--muted)">(optional)</span></label>
+        <input type="text" id="handle" placeholder="@yourname" autocapitalize="off" autocomplete="off" maxlength="40">
+        <div class="sub">shown with your post so people know whose it is</div>
+      </div>
+
+      <div class="consent">By submitting, you're OK with your video/photo appearing in the public gallery and being used in a video. Don't upload anything you wouldn't want public.</div>
 
       <div class="actions">
-        <button class="btn submit" id="submit">🖼 Add to the gallery</button>
-        <button class="btn redo" id="redo">↺ choose a different photo</button>
+        <button class="btn submit" id="submit">🚀 Add to the gallery</button>
+        <button class="btn redo" id="redo">↺ choose a different file</button>
       </div>
     </div>
 
-    <!-- success -->
     <div class="success" id="success">
       <div class="big-check">✅</div>
       <h3 id="successTitle">You're in!</h3>
@@ -153,13 +171,11 @@
     </div>
   </div>
 
-  <!-- browse everyone's photos -->
   <div class="browse">
-    <a href="gallery.html">🖼 See everyone's photos →</a>
+    <a href="gallery.html">🖼 See everyone's clips &amp; pics →</a>
   </div>
 </section>
 
-<!-- incidental footnote -->
 <section class="wrap">
   <div class="ps">
     <small>p.s. — the best ones end up in videos.</small>
@@ -171,7 +187,7 @@
 </section>
 
 <footer>
-  <div class="wrap"><small>📍 Madison Square Garden · <a href="gallery.html">the gallery</a> · <a href="book.html">the book</a></small></div>
+  <div class="wrap"><small><a href="gallery.html">the gallery</a> · <a href="book.html">the book</a></small></div>
 </footer>
 
 <div class="toast" id="toast"></div>
@@ -185,20 +201,22 @@
   var drop=document.getElementById('drop');
   var stage=document.getElementById('stage');
   var preview=document.getElementById('preview');
+  var previewVid=document.getElementById('previewVid');
   var handleEl=document.getElementById('handle');
   var submitBtn=document.getElementById('submit');
   var successBox=document.getElementById('success');
   var toastEl=document.getElementById('toast');
-  var chosen=null, objURL=null;
+  var chosen=null, objURL=null, isVideo=false;
 
-  function toast(m){ toastEl.textContent=m; toastEl.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(function(){toastEl.classList.remove('on');},3000); }
+  function toast(m){ toastEl.textContent=m; toastEl.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(function(){toastEl.classList.remove('on');},3200); }
 
   function pickFile(file){
-    if(!file||!/^image\//.test(file.type)){ toast('that wasn’t an image 🤔'); return; }
-    chosen=file;
+    if(!file || !/^(image|video)\//.test(file.type)){ toast('that wasn’t a photo or video 🤔'); return; }
+    chosen=file; isVideo=/^video\//.test(file.type);
     if(objURL) URL.revokeObjectURL(objURL);
     objURL=URL.createObjectURL(file);
-    preview.src=objURL;
+    if(isVideo){ previewVid.src=objURL; previewVid.hidden=false; preview.hidden=true; preview.removeAttribute('src'); }
+    else { preview.src=objURL; preview.hidden=false; previewVid.hidden=true; previewVid.removeAttribute('src'); }
     drop.style.display='none';
     successBox.classList.remove('on');
     stage.classList.add('on');
@@ -206,22 +224,41 @@
   }
 
   function reset(){
-    chosen=null; if(objURL){URL.revokeObjectURL(objURL); objURL=null;}
-    fileInput.value=''; preview.removeAttribute('src');
+    chosen=null; isVideo=false; if(objURL){URL.revokeObjectURL(objURL); objURL=null;}
+    fileInput.value=''; preview.removeAttribute('src'); preview.hidden=true; previewVid.removeAttribute('src'); previewVid.hidden=true;
     stage.classList.remove('on'); successBox.classList.remove('on'); drop.style.display='';
-    submitBtn.disabled=false; submitBtn.textContent='🖼 Add to the gallery';
+    submitBtn.disabled=false; submitBtn.textContent='🚀 Add to the gallery';
     window.scrollTo({top:document.querySelector('.card').offsetTop-80,behavior:'smooth'});
+  }
+
+  // shrink big photos so they fit the size limit + upload fast (also bakes in rotation).
+  // videos are sent as-is. Falls back to original on any failure.
+  function prepareImage(file){
+    return new Promise(function(resolve){
+      if(/^video\//.test(file.type)) return resolve(file);
+      var MAXDIM=2048, MAXBYTES=9*1024*1024;
+      if(!window.createImageBitmap){ return resolve(file); }
+      createImageBitmap(file,{imageOrientation:'from-image'}).then(function(bmp){
+        var scale=Math.min(1, MAXDIM/Math.max(bmp.width,bmp.height));
+        if(scale>=1 && file.size<=MAXBYTES){ if(bmp.close) bmp.close(); return resolve(file); }
+        var cw=Math.max(1,Math.round(bmp.width*scale)), ch=Math.max(1,Math.round(bmp.height*scale));
+        var cv=document.createElement('canvas'); cv.width=cw; cv.height=ch;
+        cv.getContext('2d').drawImage(bmp,0,0,cw,ch); if(bmp.close) bmp.close();
+        cv.toBlob(function(b){ resolve(b && b.size>0 ? b : file); },'image/jpeg',0.85);
+      }).catch(function(){ resolve(file); });
+    });
   }
 
   function uploadToGallery(file, handle){
     var cfg=window.MSG_GALLERY||{};
     if(!cfg.cloudName||!cfg.uploadPreset) return Promise.reject({notConfigured:true});
     var fd=new FormData();
-    fd.append('file',file);
+    fd.append('file',file,(file.name||'upload'));
     fd.append('upload_preset',cfg.uploadPreset);
     fd.append('tags', cfg.moderated ? cfg.pendingTag : cfg.galleryTag);
     if(handle) fd.append('context','caption='+handle.replace(/\|/g,' '));
-    return fetch('https://api.cloudinary.com/v1_1/'+cfg.cloudName+'/image/upload',{method:'POST',body:fd})
+    // /auto/ handles both images AND videos
+    return fetch('https://api.cloudinary.com/v1_1/'+cfg.cloudName+'/auto/upload',{method:'POST',body:fd})
       .then(function(r){ return r.json().then(function(j){ if(!r.ok) throw j; return j; }); });
   }
 
@@ -229,8 +266,8 @@
     if(!chosen) return;
     var cfg=window.MSG_GALLERY||{};
     var moderated = cfg.moderated !== false;
-    submitBtn.disabled=true; submitBtn.textContent='Uploading…';
-    uploadToGallery(chosen, (handleEl.value||'').trim()).then(function(){
+    submitBtn.disabled=true; submitBtn.textContent= isVideo ? 'Uploading video…' : 'Uploading…';
+    prepareImage(chosen).then(function(ready){ return uploadToGallery(ready, (handleEl.value||'').trim()); }).then(function(){
       stage.classList.remove('on');
       document.getElementById('successTitle').textContent = moderated ? "Submitted! 🙌" : "You're on the wall! 🙌";
       document.getElementById('successMsg').textContent = moderated
@@ -239,8 +276,9 @@
       successBox.classList.add('on');
       successBox.scrollIntoView({behavior:'smooth',block:'center'});
     }).catch(function(err){
-      submitBtn.disabled=false; submitBtn.textContent='🖼 Add to the gallery';
+      submitBtn.disabled=false; submitBtn.textContent='🚀 Add to the gallery';
       if(err&&err.notConfigured){ toast('gallery isn’t hooked up yet — see setup'); }
+      else if(err&&err.error&&err.error.message){ toast(err.error.message); }
       else { toast('upload failed, try again'); }
     });
   });
